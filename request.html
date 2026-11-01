@@ -357,8 +357,21 @@ select.inp{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.
 
 /* footer */
 footer{text-align:center;padding:40px 18px calc(40px + env(safe-area-inset-bottom));color:var(--muted);font-size:.82rem}
-footer .ar{font-family:var(--fa);font-size:1.6rem;color:var(--text);direction:rtl;margin:0 0 4px}
-footer .tag{display:inline-block;margin-top:10px;padding:4px 12px;border-radius:99px;background:var(--track);font-size:.7rem;font-weight:700}
+footer .ar-wrap{display:inline-flex;align-items:center;justify-content:center;gap:12px;margin:0 0 6px}
+footer .ar{font-family:var(--fa);font-size:1.6rem;color:var(--text);direction:rtl;margin:0}
+.btn-audio-ring{position:relative;display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;min-width:34px;min-height:34px;border-radius:50%;border:none;background:transparent;cursor:pointer;padding:0;flex-shrink:0;vertical-align:middle;transition:transform .2s ease}
+.btn-audio-ring:hover{transform:scale(1.1)}
+.btn-audio-ring:focus-visible{outline:2px solid var(--rose);outline-offset:3px}
+.audio-ring-svg{position:absolute;inset:0;width:100%;height:100%;transform:rotate(-90deg);pointer-events:none}
+.audio-ring-bg{fill:none;stroke:var(--border);stroke-width:3}
+.audio-ring-fill{fill:none;stroke:var(--rose);stroke-width:3;stroke-linecap:round;stroke-dasharray:113.097;stroke-dashoffset:113.097;transition:stroke-dashoffset .15s linear,stroke .25s ease}
+.btn-audio-ring.is-playing .audio-ring-fill,.btn-audio-ring.playing .audio-ring-fill{stroke:var(--leaf)}
+.audio-ring-icon{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;color:var(--rose);transition:color .25s ease}
+.btn-audio-ring.is-playing .audio-ring-icon,.btn-audio-ring.playing .audio-ring-icon{color:var(--leaf)}
+.audio-ring-icon .icon-play{display:block}
+.audio-ring-icon .icon-pause{display:none}
+.btn-audio-ring.is-playing .audio-ring-icon .icon-play,.btn-audio-ring.playing .audio-ring-icon .icon-play{display:none}
+.btn-audio-ring.is-playing .audio-ring-icon .icon-pause,.btn-audio-ring.playing .audio-ring-icon .icon-pause{display:block}
 
 /* toast + success */
 .toast{position:fixed;left:50%;bottom:calc(92px + env(safe-area-inset-bottom));z-index:95;display:flex;align-items:center;gap:12px;max-width:calc(100vw - 28px);padding:12px 18px;border-radius:999px;background:var(--text);color:var(--bg);font-weight:700;font-size:.86rem;box-shadow:0 14px 34px -10px rgba(0,0,0,.4);opacity:0;transform:translate(-50%,30px);transition:.4s cubic-bezier(.3,1.4,.5,1);pointer-events:none}
@@ -1128,17 +1141,34 @@ footer .tag{display:inline-block;margin-top:10px;padding:4px 12px;border-radius:
       <details class="reveal"><summary>When will I hear back?<span class="pm">+</span></summary><p>Once the team has reviewed your request, you’ll be contacted on the phone or WhatsApp number you provided, with an approval or alternate options.</p></details>
       <details class="reveal"><summary>Can the lecture be recorded?<span class="pm">+</span></summary><p>Only with the Ustaza’s prior permission. Choose your preference in the Sound & Tech step and the team will confirm it with you.</p></details>
       <details class="reveal"><summary>Is my information saved if I close the page?<span class="pm">+</span></summary><p>Yes. Your draft is saved privately in this browser on this device, so you can come back and finish later.</p></details>
-      <details class="reveal"><summary>What if my plans change?<span class="pm">+</span></summary><p>Contact the team as soon as possible and quote your request reference number. You’ll get it after you submit.</p></details>
+      <details class="reveal"><summary>What if my plans change or I need more info?<span class="pm">+</span></summary><p>Contact the team directly at <a href="tel:+4799106785" style="color:var(--rose);font-weight:700">+47 991 06 785</a> and quote your request reference number. You’ll get it after you submit.</p></details>
     </div>
   </section>
 </main>
 
 <footer>
-  <p class="ar" lang="ar">أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ</p>
+  <div class="ar-wrap">
+    <p class="ar" lang="ar">أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ</p>
+    <button type="button" class="btn-audio-ring" data-audio="https://everyayah.com/data/Alafasy_128kbps/013028.mp3" aria-label="Listen to Ayah (Mishary Rashid Alafasy)" title="Listen · Sheikh Mishary Rashid Alafasy" aria-pressed="false">
+      <svg class="audio-ring-svg" viewBox="0 0 46 46" aria-hidden="true">
+        <circle class="audio-ring-bg" cx="23" cy="23" r="18" />
+        <circle class="audio-ring-fill" cx="23" cy="23" r="18" />
+      </svg>
+      <span class="audio-ring-icon" aria-hidden="true">
+        <svg class="icon-play" viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+          <polygon points="7 4 21 12 7 20 7 4" />
+        </svg>
+        <svg class="icon-pause" viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+          <rect x="5" y="4" width="4" height="16" rx="1" />
+          <rect x="15" y="4" width="4" height="16" rx="1" />
+        </svg>
+      </span>
+    </button>
+  </div>
   <p><i>“Verily, in the remembrance of Allah do hearts find rest.”</i> — Ar-Ra’d 13:28</p>
+  <p style="margin:8px 0 4px">For more info, call <a href="tel:+4799106785" style="color:var(--rose);font-weight:700;text-decoration:none">+47 991 06 785</a></p>
   <p>© <span id="yr"></span> NurulQuran · Lecture Requests</p>
-  <span class="tag">🌱 Phase 1 · Front-end preview</span>
-  <p id="appVersion" style="margin:8px 0 0;font-size:.72rem;opacity:.75">v1.0.4 (updated 2026-11-01 22:20)</p>
+  <p id="appVersion" style="margin:8px 0 0;font-size:.72rem;opacity:.75">v1.0.5 (updated 2026-11-01 22:45)</p>
 </footer>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -1556,6 +1586,62 @@ function resetAll(){
   garden.innerHTML='';maxReached=0;lastP=0;
   go(0,{force:true,noScroll:true,noSave:true});refreshAll();
 }
+
+/* Audio Recitation Player (Circular Progress Ring) */
+let activeAudio=null,activeBtn=null,activeRing=null;
+const CIRCUMFERENCE=113.097;
+
+function resetAudioBtn(){
+  if(activeBtn){
+    activeBtn.classList.remove('playing','is-playing');
+    activeBtn.setAttribute('aria-pressed','false');
+  }
+  if(activeRing)activeRing.style.strokeDashoffset=CIRCUMFERENCE;
+}
+
+document.addEventListener('click',e=>{
+  const btn=e.target.closest('.btn-audio-ring');
+  if(!btn)return;
+  const url=btn.getAttribute('data-audio');
+  if(!url)return;
+  if(activeBtn===btn&&activeAudio){
+    if(!activeAudio.paused){
+      activeAudio.pause();
+      btn.classList.remove('playing','is-playing');
+      btn.setAttribute('aria-pressed','false');
+    }else{
+      activeAudio.play().then(()=>{
+        btn.classList.add('playing','is-playing');
+        btn.setAttribute('aria-pressed','true');
+      }).catch(()=>{});
+    }
+    return;
+  }
+  if(activeAudio){
+    activeAudio.pause();
+    resetAudioBtn();
+  }
+  activeBtn=btn;
+  activeRing=btn.querySelector('.audio-ring-fill');
+  activeAudio=new Audio(url);
+  btn.classList.add('playing','is-playing');
+  btn.setAttribute('aria-pressed','true');
+  activeAudio.play().catch(err=>{
+    resetAudioBtn();
+    activeAudio=null;activeBtn=null;activeRing=null;
+    console.warn('Audio playback error:',err);
+  });
+  activeAudio.addEventListener('timeupdate',()=>{
+    if(activeAudio&&activeAudio.duration&&activeRing){
+      const pct=Math.min(1,Math.max(0,activeAudio.currentTime/activeAudio.duration));
+      activeRing.style.strokeDashoffset=String(CIRCUMFERENCE*(1-pct));
+    }
+  });
+  activeAudio.addEventListener('ended',()=>{
+    resetAudioBtn();
+    activeAudio=null;activeBtn=null;activeRing=null;
+  });
+});
 
 /* init */
 if(!loadDraft()){refreshAll();go(0,{force:true,noScroll:true,noSave:true});}
