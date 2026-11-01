@@ -26,7 +26,14 @@ export async function getAdminPassword(env) {
 
 export async function requireAdmin(context) {
   const expected = await getAdminPassword(context.env);
-  const sent = context.request.headers.get('x-admin-password') || '';
+  const authHeader = context.request.headers.get('authorization') || '';
+  const bearerToken = authHeader.toLowerCase().startsWith('bearer ') ? authHeader.slice(7).trim() : '';
+  const sent = (
+    context.request.headers.get('x-admin-password') ||
+    context.request.headers.get('x-admin-key') ||
+    bearerToken ||
+    ''
+  ).trim();
   if (!sent || sent !== expected) {
     return json({ error: 'Invalid admin password' }, 401);
   }

@@ -14,7 +14,7 @@ export async function onRequestGet(context) {
 
   if (ref) {
     const row = await db
-      .prepare('SELECT id, status, submitted_at, updated_at, decided_at, readiness, host_name, city, venue_type, occasion, preferred_date, start_time, duration, guests, assigned_teacher FROM lecture_requests WHERE id = ?')
+      .prepare('SELECT id, status, submitted_at, updated_at, decided_at, readiness, host_name, city, venue_type, occasion, preferred_date, start_time, duration, guests, assigned_teacher FROM lecture_requests WHERE UPPER(id) = UPPER(?)')
       .bind(ref)
       .first();
     if (!row) return json({ error: 'Request not found' }, 404);
@@ -89,8 +89,8 @@ export async function onRequestPost(context) {
   const data = (body.data && typeof body.data === 'object') ? body.data : {};
   const sections = Array.isArray(body.sections) ? body.sections : [];
 
-  const hostName = String(data.hostName || body.hostName || '').trim();
-  const phone = String(data.phone || body.phone || '').trim();
+  const hostName = String(data.hostName || body.hostName || data.host_name || body.host_name || '').trim();
+  const phone = String(data.phone || body.phone || data.hostPhone || body.hostPhone || data.phone_number || body.phone_number || '').trim();
   const city = String(data.city || body.city || '').trim();
 
   if (!hostName || !phone || !city) {
@@ -107,15 +107,15 @@ export async function onRequestPost(context) {
     : now;
 
   const readiness = Math.max(0, Math.min(100, Math.round(Number(body.readiness ?? 0) || 0)));
-  const email = String(data.email || '').trim().slice(0, 160) || null;
-  const venueType = String(data.venueType || '').trim().slice(0, 60) || null;
-  const occasion = String(data.occasion || '').trim().slice(0, 160) || null;
-  const preferredDate = String(data.date || '').trim().slice(0, 30) || null;
-  const altDate = String(data.altDate || '').trim().slice(0, 30) || null;
-  const startTime = String(data.time || '').trim().slice(0, 20) || null;
-  const duration = Math.max(15, Math.min(600, Math.round(Number(data.duration || 60) || 60)));
-  const guests = Math.max(1, Math.min(10000, Math.round(Number(data.guests || 0) || 0)));
-  const lang = String(data.lang || '').trim().slice(0, 40) || null;
+  const email = String(data.email || body.email || '').trim().slice(0, 160) || null;
+  const venueType = String(data.venueType || body.venueType || data.venue_type || body.venue_type || '').trim().slice(0, 60) || null;
+  const occasion = String(data.occasion || body.occasion || '').trim().slice(0, 160) || null;
+  const preferredDate = String(data.date || body.date || data.preferredDate || body.preferredDate || data.preferred_date || body.preferred_date || '').trim().slice(0, 30) || null;
+  const altDate = String(data.altDate || body.altDate || data.alt_date || body.alt_date || '').trim().slice(0, 30) || null;
+  const startTime = String(data.time || body.time || data.startTime || body.startTime || data.start_time || body.start_time || '').trim().slice(0, 20) || null;
+  const duration = Math.max(15, Math.min(600, Math.round(Number(data.duration || body.duration || 60) || 60)));
+  const guests = Math.max(0, Math.min(10000, Math.round(Number(data.guests || body.guests || 0) || 0)));
+  const lang = String(data.lang || body.lang || '').trim().slice(0, 40) || null;
 
   await db
     .prepare(`INSERT OR REPLACE INTO lecture_requests (

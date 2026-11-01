@@ -117,7 +117,7 @@ footer .ar{font-family:var(--fa);font-size:1.4rem;color:var(--text);margin:0 0 4
 <footer>
   <p class="ar" lang="ar">أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ</p>
   <p>© <span id="yr"></span> NurulQuran · Lecture Requests</p>
-  <p id="appVersion" style="margin:6px 0 0;font-size:.72rem;opacity:.75">v1.0.3 (updated 2026-11-01 22:15)</p>
+  <p id="appVersion" style="margin:6px 0 0;font-size:.72rem;opacity:.75">v1.0.4 (updated 2026-11-01 22:20)</p>
 </footer>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -145,24 +145,29 @@ $('#themeBtn').addEventListener('click',()=>{
 
 function makeGoogleCalUrl(req){
   const title=encodeURIComponent(`NurulQuran Lecture: ${req.occasion||'Dars'}`);
-  const d=(req.preferredDate||'').replace(/-/g,'');
-  const t=(req.startTime||'18:00').replace(/:/g,'')+'00';
-  const start=`${d}T${t}`;
+  const d=(req.preferredDate||new Date().toISOString().slice(0,10)).replace(/-/g,'');
+  const tStr=req.startTime&&/^\d{1,2}:\d{2}$/.test(req.startTime)?req.startTime:'18:00';
+  const t=tStr.replace(/:/g,'')+'00';
   const dur=Number(req.duration||60);
-  const [h,m]=(req.startTime||'18:00').split(':').map(Number);
+  let [h,m]=tStr.split(':').map(Number);
+  if(Number.isNaN(h))h=18;
+  if(Number.isNaN(m))m=0;
   const endMin=((h*60+m+dur)%1440);
   const endT=String(Math.floor(endMin/60)).padStart(2,'0')+String(endMin%60).padStart(2,'0')+'00';
   const end=`${d}T${endT}`;
   const loc=encodeURIComponent(req.city||'');
   const details=encodeURIComponent(`NurulQuran Lecture Request\nReference: ${req.id}\nHost: ${req.hostName}\nTeacher: ${req.assignedTeacher||'NurulQuran Ustaza'}`);
-  return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${start}/${end}&location=${loc}&details=${details}`;
+  return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${d}T${t}/${end}&location=${loc}&details=${details}`;
 }
 
 function downloadIcs(req){
-  const d=(req.preferredDate||'').replace(/-/g,'');
-  const t=(req.startTime||'18:00').replace(/:/g,'')+'00';
+  const d=(req.preferredDate||new Date().toISOString().slice(0,10)).replace(/-/g,'');
+  const tStr=req.startTime&&/^\d{1,2}:\d{2}$/.test(req.startTime)?req.startTime:'18:00';
+  const t=tStr.replace(/:/g,'')+'00';
   const dur=Number(req.duration||60);
-  const [h,m]=(req.startTime||'18:00').split(':').map(Number);
+  let [h,m]=tStr.split(':').map(Number);
+  if(Number.isNaN(h))h=18;
+  if(Number.isNaN(m))m=0;
   const endMin=((h*60+m+dur)%1440);
   const endT=String(Math.floor(endMin/60)).padStart(2,'0')+String(endMin%60).padStart(2,'0')+'00';
   const ics=`BEGIN:VCALENDAR

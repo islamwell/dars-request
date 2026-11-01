@@ -8,8 +8,8 @@ export async function onRequestGet(context) {
   if (!db) return json({ error: 'Database binding DB is not configured' }, 500);
   await ensureSchema(db);
 
-  const id = context.params.id;
-  const row = await db.prepare('SELECT * FROM lecture_requests WHERE id = ?').bind(id).first();
+  const id = String(context.params.id || '').trim();
+  const row = await db.prepare('SELECT * FROM lecture_requests WHERE UPPER(id) = UPPER(?)').bind(id).first();
   if (!row) return json({ error: 'Lecture request not found' }, 404);
   return json({ ok: true, request: mapRequestRow(row) });
 }
@@ -22,8 +22,8 @@ async function handleUpdate(context) {
   if (!db) return json({ error: 'Database binding DB is not configured' }, 500);
   await ensureSchema(db);
 
-  const id = context.params.id;
-  const existing = await db.prepare('SELECT * FROM lecture_requests WHERE id = ?').bind(id).first();
+  const id = String(context.params.id || '').trim();
+  const existing = await db.prepare('SELECT * FROM lecture_requests WHERE UPPER(id) = UPPER(?)').bind(id).first();
   if (!existing) return json({ error: 'Lecture request not found' }, 404);
 
   const body = await context.request.json().catch(() => ({}));
@@ -48,11 +48,11 @@ async function handleUpdate(context) {
   await db
     .prepare(`UPDATE lecture_requests
       SET status = ?, updated_at = ?, decided_at = ?, assigned_teacher = ?, admin_notes = ?
-      WHERE id = ?`)
+      WHERE UPPER(id) = UPPER(?)`)
     .bind(nextStatus, now, decidedAt, assignedTeacher || null, adminNotes || null, id)
     .run();
 
-  const updated = await db.prepare('SELECT * FROM lecture_requests WHERE id = ?').bind(id).first();
+  const updated = await db.prepare('SELECT * FROM lecture_requests WHERE UPPER(id) = UPPER(?)').bind(id).first();
   return json({ ok: true, request: mapRequestRow(updated) });
 }
 
@@ -72,7 +72,7 @@ export async function onRequestDelete(context) {
   if (!db) return json({ error: 'Database binding DB is not configured' }, 500);
   await ensureSchema(db);
 
-  const id = context.params.id;
-  await db.prepare('DELETE FROM lecture_requests WHERE id = ?').bind(id).run();
+  const id = String(context.params.id || '').trim();
+  await db.prepare('DELETE FROM lecture_requests WHERE UPPER(id) = UPPER(?)').bind(id).run();
   return json({ ok: true, id });
 }

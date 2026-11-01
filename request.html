@@ -1138,7 +1138,7 @@ footer .tag{display:inline-block;margin-top:10px;padding:4px 12px;border-radius:
   <p><i>“Verily, in the remembrance of Allah do hearts find rest.”</i> — Ar-Ra’d 13:28</p>
   <p>© <span id="yr"></span> NurulQuran · Lecture Requests</p>
   <span class="tag">🌱 Phase 1 · Front-end preview</span>
-  <p id="appVersion" style="margin:8px 0 0;font-size:.72rem;opacity:.75">v1.0.3 (updated 2026-11-01 22:15)</p>
+  <p id="appVersion" style="margin:8px 0 0;font-size:.72rem;opacity:.75">v1.0.4 (updated 2026-11-01 22:20)</p>
 </footer>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -1524,10 +1524,13 @@ function showSuccess(p){
   $('#sWa').href='https://wa.me/?text='+encodeURIComponent(short);
   if($('#sTrack'))$('#sTrack').href='/status.html?ref='+encodeURIComponent(p.id);
   if($('#sCal')){
-    const calD=(d.date||'').replace(/-/g,'');
-    const calT=(d.time||'18:00').replace(/:/g,'')+'00';
+    const calD=(d.date||new Date().toISOString().slice(0,10)).replace(/-/g,'');
+    const calTimeStr=d.time&&/^\d{1,2}:\d{2}$/.test(d.time)?d.time:'18:00';
+    const calT=calTimeStr.replace(/:/g,'')+'00';
     const dur=Number(d.duration||60);
-    const[ch,cm]=(d.time||'18:00').split(':').map(Number);
+    let[ch,cm]=calTimeStr.split(':').map(Number);
+    if(Number.isNaN(ch))ch=18;
+    if(Number.isNaN(cm))cm=0;
     const eMin=((ch*60+cm+dur)%1440);
     const calEnd=calD+'T'+String(Math.floor(eMin/60)).padStart(2,'0')+String(eMin%60).padStart(2,'0')+'00';
     const calTitle=encodeURIComponent(`NurulQuran Lecture: ${d.occasion||'Gathering'}`);
