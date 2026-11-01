@@ -1,7 +1,7 @@
 import { json, requireAdmin, ensureSchema, mapRequestRow } from '../../_lib.js';
 
 export async function onRequestGet(context) {
-  const guard = requireAdmin(context);
+  const guard = await requireAdmin(context);
   if (guard) return guard;
 
   const db = context.env.DB;
@@ -15,7 +15,7 @@ export async function onRequestGet(context) {
 }
 
 async function handleUpdate(context) {
-  const guard = requireAdmin(context);
+  const guard = await requireAdmin(context);
   if (guard) return guard;
 
   const db = context.env.DB;
@@ -65,7 +65,7 @@ export async function onRequestPatch(context) {
 }
 
 export async function onRequestDelete(context) {
-  const guard = requireAdmin(context);
+  const guard = await requireAdmin(context);
   if (guard) return guard;
 
   const db = context.env.DB;

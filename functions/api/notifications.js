@@ -2,7 +2,7 @@ import { json, requireAdmin, ensureSchema } from '../_lib.js';
 import { getNotificationSettings, saveNotificationSettings, dispatchNotifications } from '../_notify.js';
 
 export async function onRequestGet(context) {
-  const guard = requireAdmin(context);
+  const guard = await requireAdmin(context);
   if (guard) return guard;
 
   const db = context.env.DB;
@@ -14,7 +14,7 @@ export async function onRequestGet(context) {
 }
 
 export async function onRequestPost(context) {
-  const guard = requireAdmin(context);
+  const guard = await requireAdmin(context);
   if (guard) return guard;
 
   const db = context.env.DB;

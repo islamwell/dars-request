@@ -465,7 +465,7 @@ footer .tag{display:inline-block;margin-top:10px;padding:4px 12px;border-radius:
     <span><b>NurulQuran</b><small>Lecture Requests</small></span>
   </a>
   <nav class="nav" aria-label="Main">
-    <a href="#how">How it works</a><a href="#planner">Planner</a><a href="#faq">FAQ</a>
+    <a href="#how">How it works</a><a href="#planner">Planner</a><a href="#faq">FAQ</a><a href="/status.html">Track request</a>
   </nav>
   <button class="tt" id="themeBtn" type="button" aria-label="Toggle day and night garden" aria-pressed="false">
     <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -1138,7 +1138,7 @@ footer .tag{display:inline-block;margin-top:10px;padding:4px 12px;border-radius:
   <p><i>“Verily, in the remembrance of Allah do hearts find rest.”</i> — Ar-Ra’d 13:28</p>
   <p>© <span id="yr"></span> NurulQuran · Lecture Requests</p>
   <span class="tag">🌱 Phase 1 · Front-end preview</span>
-  <p id="appVersion" style="margin:8px 0 0;font-size:.72rem;opacity:.75">v1.0.2 (updated 2026-11-01 20:45)</p>
+  <p id="appVersion" style="margin:8px 0 0;font-size:.72rem;opacity:.75">v1.0.3 (updated 2026-11-01 22:15)</p>
 </footer>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -1156,6 +1156,10 @@ footer .tag{display:inline-block;margin-top:10px;padding:4px 12px;border-radius:
       <div class="row2">
         <a class="btn btn-g" id="sWa" target="_blank" rel="noopener">💬 Share</a>
         <button class="btn btn-g" type="button" id="sDl">⬇️ Summary</button>
+      </div>
+      <div class="row2">
+        <a class="btn btn-g" id="sCal" target="_blank" rel="noopener">📅 Calendar</a>
+        <a class="btn btn-g" id="sTrack">🔍 Track live</a>
       </div>
       <button class="btn btn-p" type="button" id="sNew"><span class="bt">Plan another gathering</span><span class="arr">🌱</span></button>
     </div>
@@ -1518,6 +1522,19 @@ function showSuccess(p){
   $('#sMeta').innerHTML=[d.date&&`📅 ${esc(fmtDate(d.date,true))}`,d.time&&`⏰ ${esc(fmtTime(d.time))}`,vt.value&&`📍 ${esc(textOf(vt))}`,d.guests&&`🌸 ${esc(d.guests)} guests`].filter(Boolean).map(x=>`<span>${x}</span>`).join('');
   const short=`Assalamu alaikum 🌸\nI've sent a lecture request to NurulQuran.\nRef: ${p.id}\nDate: ${fmtDate(d.date)} at ${fmtTime(d.time)}\nVenue: ${d.city||''}\nGuests: ~${d.guests}`;
   $('#sWa').href='https://wa.me/?text='+encodeURIComponent(short);
+  if($('#sTrack'))$('#sTrack').href='/status.html?ref='+encodeURIComponent(p.id);
+  if($('#sCal')){
+    const calD=(d.date||'').replace(/-/g,'');
+    const calT=(d.time||'18:00').replace(/:/g,'')+'00';
+    const dur=Number(d.duration||60);
+    const[ch,cm]=(d.time||'18:00').split(':').map(Number);
+    const eMin=((ch*60+cm+dur)%1440);
+    const calEnd=calD+'T'+String(Math.floor(eMin/60)).padStart(2,'0')+String(eMin%60).padStart(2,'0')+'00';
+    const calTitle=encodeURIComponent(`NurulQuran Lecture: ${d.occasion||'Gathering'}`);
+    const calLoc=encodeURIComponent(d.city||'');
+    const calDet=encodeURIComponent(`NurulQuran Lecture Request\nReference: ${p.id}\nHost: ${d.hostName||''}`);
+    $('#sCal').href=`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${calTitle}&dates=${calD}T${calT}/${calEnd}&location=${calLoc}&details=${calDet}`;
+  }
   success.classList.remove('show');void success.offsetWidth;success.classList.add('show');
   $$('.bp').forEach(b=>{b.classList.add('on');b.classList.remove('cur');});
   const cx=innerWidth/2,cy=innerHeight/2-80;

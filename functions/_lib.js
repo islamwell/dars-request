@@ -8,12 +8,24 @@ export function json(data, status = 200) {
   });
 }
 
-export function getAdminPassword(env) {
+export async function getAdminPassword(env) {
+  if (env && env.DB) {
+    try {
+      const row = await env.DB
+        .prepare('SELECT value_json FROM admin_settings WHERE key = ?')
+        .bind('admin_password')
+        .first();
+      if (row && row.value_json) {
+        const parsed = JSON.parse(row.value_json);
+        if (parsed && parsed.password) return String(parsed.password);
+      }
+    } catch (_) {}
+  }
   return (env && env.ADMIN_PASSWORD) ? String(env.ADMIN_PASSWORD) : 'nurulquran2026';
 }
 
-export function requireAdmin(context) {
-  const expected = getAdminPassword(context.env);
+export async function requireAdmin(context) {
+  const expected = await getAdminPassword(context.env);
   const sent = context.request.headers.get('x-admin-password') || '';
   if (!sent || sent !== expected) {
     return json({ error: 'Invalid admin password' }, 401);

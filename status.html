@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Track Request · NurulQuran Lecture Requests</title>
+<meta name="description" content="Check the live status of your NurulQuran lecture invitation.">
+<meta name="theme-color" content="#fff8f3">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌸</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500;1,9..144,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script>
+(function(){var d=document.documentElement;d.classList.add('js');try{var t=localStorage.getItem('nq_theme');if(!t)t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';d.setAttribute('data-theme',t);}catch(e){}})();
+</script>
+<style>
+:root{
+  --bg:#fff8f3; --text:#2c2233; --muted:#75687c;
+  --surface:rgba(255,255,255,.7); --surface-solid:#fff; --glass:rgba(255,248,243,.85);
+  --border:rgba(232,87,122,.16);
+  --input-bg:#fffdfb; --input-border:#f1dfe5; --tile-on:#fff0f4; --track:#f1e4e8;
+  --rose:#e8577a; --rose-2:#ff8fab; --peach:#ff9f7a; --leaf:#3f9f6a; --lav:#9b7bd4;
+  --grad:linear-gradient(120deg,#e8577a,#ff8a6b 40%,#f2b84b 70%,#e8577a);
+  --grad-soft:linear-gradient(135deg,#fff0f4,#fff6e9 55%,#eefaf1);
+  --shadow:0 18px 40px -18px rgba(150,50,90,.3),0 2px 8px rgba(150,50,90,.06);
+  --ring:0 0 0 4px rgba(232,87,122,.18);
+  --fd:'Fraunces',Georgia,serif; --fb:'Plus Jakarta Sans',system-ui,sans-serif; --fa:'Amiri',serif;
+  --st-pending-bg:#fff6e0; --st-pending-fg:#9a6406; --st-pending-bd:#f3d078;
+  --st-approved-bg:#e8f8ee; --st-approved-fg:#1f7a46; --st-approved-bd:#9adbb4;
+  --st-declined-bg:#ffeef2; --st-declined-fg:#b8284b; --st-declined-bd:#f5adbe;
+  color-scheme:light;
+}
+[data-theme=dark]{
+  --bg:#0b1120; --text:#f3eef8; --muted:#a9a1bd;
+  --surface:rgba(22,27,52,.7); --surface-solid:#161b33; --glass:rgba(11,17,32,.85);
+  --border:rgba(255,143,171,.16);
+  --input-bg:rgba(255,255,255,.05); --input-border:rgba(255,255,255,.14); --tile-on:rgba(255,127,163,.14); --track:rgba(255,255,255,.12);
+  --rose:#ff7fa3; --rose-2:#ffb3c7; --peach:#ffb08f; --leaf:#5fcf98; --lav:#b8a0ff;
+  --grad:linear-gradient(120deg,#ff7fa3,#c59bff 40%,#7cc4e4 70%,#ff7fa3);
+  --grad-soft:linear-gradient(135deg,rgba(255,127,163,.12),rgba(184,160,255,.1) 55%,rgba(111,211,160,.08));
+  --shadow:0 20px 50px -20px rgba(0,0,0,.7),0 2px 10px rgba(0,0,0,.3);
+  --ring:0 0 0 4px rgba(255,127,163,.22);
+  --st-pending-bg:rgba(255,210,122,.14); --st-pending-fg:#ffd27a; --st-pending-bd:rgba(255,210,122,.35);
+  --st-approved-bg:rgba(95,207,152,.14); --st-approved-fg:#6ee2a8; --st-approved-bd:rgba(95,207,152,.35);
+  --st-declined-bg:rgba(255,127,163,.14); --st-declined-fg:#ff9bb8; --st-declined-bd:rgba(255,127,163,.35);
+  color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;font-family:var(--fb);color:var(--text);background:var(--bg);line-height:1.55;min-height:100dvh;display:flex;flex-direction:column;-webkit-font-smoothing:antialiased}
+.hdr{position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:12px;padding:12px 20px;background:var(--glass);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit;margin-right:auto}
+.brand svg{width:36px;height:36px}
+.brand b{font-family:var(--fd);font-weight:600;font-size:1.15rem;display:block;line-height:1.1}
+.brand small{display:block;font-size:.62rem;color:var(--muted);letter-spacing:.16em;text-transform:uppercase;font-weight:700}
+.tt{width:40px;height:40px;border-radius:50%;border:1px solid var(--border);background:var(--surface-solid);color:#e9a020;display:grid;place-items:center;cursor:pointer}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:11px 18px;border-radius:999px;border:0;font:700 .9rem var(--fb);cursor:pointer;text-decoration:none;transition:transform .15s,box-shadow .2s}
+.btn:active{transform:scale(.97)}
+.btn-p{background:var(--grad);background-size:200% 100%;color:#fff;box-shadow:0 8px 20px -10px var(--rose)}
+.btn-g{background:var(--surface-solid);color:var(--text);border:1.5px solid var(--input-border)}
+.btn-s{padding:7px 14px;font-size:.8rem}
+.inp{width:100%;font:600 1rem var(--fb);color:var(--text);background:var(--input-bg);border:1.5px solid var(--input-border);border-radius:15px;padding:13px 16px;transition:border-color .2s,box-shadow .2s}
+.inp:focus{outline:none;border-color:var(--rose);box-shadow:var(--ring)}
+main{flex:1;max-width:680px;width:100%;margin:0 auto;padding:36px 18px 48px}
+.card{border-radius:28px;background:var(--surface);border:1px solid var(--border);box-shadow:var(--shadow);backdrop-filter:blur(16px);padding:28px 22px;margin-bottom:20px;text-align:center}
+.card h1{font-family:var(--fd);font-size:clamp(1.75rem,5vw,2.3rem);margin:8px 0 6px}
+.card p{color:var(--muted);margin:0 0 20px;font-size:.92rem}
+.badge{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:999px;font-size:.8rem;font-weight:800;letter-spacing:.03em;text-transform:capitalize;border:1px solid transparent}
+.badge.pending{background:var(--st-pending-bg);color:var(--st-pending-fg);border-color:var(--st-pending-bd)}
+.badge.approved{background:var(--st-approved-bg);color:var(--st-approved-fg);border-color:var(--st-approved-bd)}
+.badge.declined{background:var(--st-declined-bg);color:var(--st-declined-fg);border-color:var(--st-declined-bd)}
+.res-card{border-radius:24px;background:var(--surface-solid);border:1.5px solid var(--border);padding:22px 18px;text-align:left;display:grid;gap:14px;margin-top:20px}
+.res-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+.res-ref{font-family:ui-monospace,Menlo,monospace;font-size:1.1rem;font-weight:800;color:var(--rose)}
+.res-grid{display:grid;grid-template-columns:1fr;gap:10px}
+@media(min-width:540px){.res-grid{grid-template-columns:1fr 1fr}}
+.res-item dt{font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.res-item dd{margin:2px 0 0;font-size:.92rem;font-weight:700}
+.banner{padding:14px 16px;border-radius:16px;font-size:.88rem;line-height:1.45;border:1.5px solid}
+.banner.pending{background:var(--st-pending-bg);color:var(--st-pending-fg);border-color:var(--st-pending-bd)}
+.banner.approved{background:var(--st-approved-bg);color:var(--st-approved-fg);border-color:var(--st-approved-bd)}
+.banner.declined{background:var(--st-declined-bg);color:var(--st-declined-fg);border-color:var(--st-declined-bd)}
+.acts{display:flex;flex-wrap:wrap;gap:8px;padding-top:8px}
+footer{text-align:center;padding:28px 18px;color:var(--muted);font-size:.8rem;border-top:1px solid var(--border)}
+footer .ar{font-family:var(--fa);font-size:1.4rem;color:var(--text);margin:0 0 4px}
+.toast{position:fixed;left:50%;bottom:24px;z-index:100;transform:translate(-50%,24px);opacity:0;pointer-events:none;background:var(--text);color:var(--bg);padding:11px 18px;border-radius:999px;font-weight:700;font-size:.85rem;transition:.3s}
+.toast.show{transform:translate(-50%,0);opacity:1}
+</style>
+</head>
+<body>
+<header class="hdr">
+  <a class="brand" href="/request.html">
+    <svg viewBox="0 0 100 100" aria-hidden="true">
+      <circle cx="50" cy="50" r="44" fill="#ffd0de"/>
+      <circle cx="50" cy="50" r="16" fill="#f7c948"/>
+    </svg>
+    <span><b>NurulQuran</b><small>Lecture Requests</small></span>
+  </a>
+  <a class="btn btn-g btn-s" href="/request.html">🌸 New Request</a>
+  <button class="tt" id="themeBtn" type="button" aria-label="Toggle theme">🌓</button>
+</header>
+
+<main>
+  <div class="card">
+    <span style="font-size:2.2rem">🔍</span>
+    <h1>Track Your Lecture Request</h1>
+    <p>Enter the reference code you received upon submitting your lecture planner form.</p>
+
+    <form id="trackForm" style="display:grid;gap:12px;max-width:440px;margin:0 auto">
+      <input class="inp" id="refInput" type="text" placeholder="e.g. NQ-261101-ABCD" required style="text-align:center;letter-spacing:.08em;text-transform:uppercase">
+      <button class="btn btn-p" type="submit" id="trackSubmitBtn">Check Status →</button>
+    </form>
+
+    <div id="resultBox" hidden></div>
+  </div>
+</main>
+
+<footer>
+  <p class="ar" lang="ar">أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ</p>
+  <p>© <span id="yr"></span> NurulQuran · Lecture Requests</p>
+  <p id="appVersion" style="margin:6px 0 0;font-size:.72rem;opacity:.75">v1.0.3 (updated 2026-11-01 22:15)</p>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(()=>{
+'use strict';
+const $=(s,c=document)=>c.querySelector(s);
+const root=document.documentElement;
+$('#yr').textContent=new Date().getFullYear();
+
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmtDate=v=>{if(!v)return'—';const d=new Date(v.includes('T')?v:v+'T00:00:00');return Number.isNaN(d.getTime())?v:d.toLocaleDateString([],{weekday:'short',day:'numeric',month:'short',year:'numeric'});};
+const fmtTime=v=>{if(!v)return'';const[h,m]=String(v).split(':').map(Number);return Number.isNaN(h)?v:new Date(2000,0,1,h,m||0).toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});};
+
+function toast(msg){
+  const t=$('#toast');t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3000);
+}
+
+$('#themeBtn').addEventListener('click',()=>{
+  const next=root.dataset.theme==='dark'?'light':'dark';
+  root.dataset.theme=next;try{localStorage.setItem('nq_theme',next);}catch(_){}
+});
+
+function makeGoogleCalUrl(req){
+  const title=encodeURIComponent(`NurulQuran Lecture: ${req.occasion||'Dars'}`);
+  const d=(req.preferredDate||'').replace(/-/g,'');
+  const t=(req.startTime||'18:00').replace(/:/g,'')+'00';
+  const start=`${d}T${t}`;
+  const dur=Number(req.duration||60);
+  const [h,m]=(req.startTime||'18:00').split(':').map(Number);
+  const endMin=((h*60+m+dur)%1440);
+  const endT=String(Math.floor(endMin/60)).padStart(2,'0')+String(endMin%60).padStart(2,'0')+'00';
+  const end=`${d}T${endT}`;
+  const loc=encodeURIComponent(req.city||'');
+  const details=encodeURIComponent(`NurulQuran Lecture Request\nReference: ${req.id}\nHost: ${req.hostName}\nTeacher: ${req.assignedTeacher||'NurulQuran Ustaza'}`);
+  return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${start}/${end}&location=${loc}&details=${details}`;
+}
+
+function downloadIcs(req){
+  const d=(req.preferredDate||'').replace(/-/g,'');
+  const t=(req.startTime||'18:00').replace(/:/g,'')+'00';
+  const dur=Number(req.duration||60);
+  const [h,m]=(req.startTime||'18:00').split(':').map(Number);
+  const endMin=((h*60+m+dur)%1440);
+  const endT=String(Math.floor(endMin/60)).padStart(2,'0')+String(endMin%60).padStart(2,'0')+'00';
+  const ics=`BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//NurulQuran//Lecture Requests//EN
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+SUMMARY:NurulQuran Lecture: ${req.occasion||'Dars'}
+DTSTART:${d}T${t}
+DTEND:${d}T${endT}
+LOCATION:${req.city||''}
+DESCRIPTION:Ref: ${req.id}\\nHost: ${req.hostName}\\nTeacher: ${req.assignedTeacher||'NurulQuran Ustaza'}
+STATUS:CONFIRMED
+END:VEVENT
+END:VCALENDAR`;
+  const blob=new Blob([ics],{type:'text/calendar;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`${req.id}.ics`;
+  document.body.append(a);a.click();a.remove();
+}
+
+async function checkRef(rawRef){
+  const ref=(rawRef||'').trim().toUpperCase();
+  if(!ref)return;
+  $('#refInput').value=ref;
+  const btn=$('#trackSubmitBtn');
+  btn.disabled=true;btn.textContent='Checking…';
+  const box=$('#resultBox');
+  try{
+    const r=await fetch(`/api/lecture-requests?ref=${encodeURIComponent(ref)}`);
+    const d=await r.json();
+    if(r.ok&&d.id){
+      const gcal=makeGoogleCalUrl(d);
+      box.hidden=false;
+      box.innerHTML=`
+        <div class="res-card">
+          <div class="res-head">
+            <span class="res-ref">${esc(d.id)}</span>
+            <span class="badge ${esc(d.status)}">${esc(d.status)}</span>
+          </div>
+
+          <div class="banner ${esc(d.status)}">
+            ${d.status==='approved'
+              ? '<b>Alhamdulillah! Your lecture request is APPROVED. 🌸</b><br>The Ustaza and team are scheduled. Please ensure all venue and audio arrangements are prepared.'
+              : (d.status==='declined'
+                ? '<b>Update on your request:</b><br>Unfortunately, our schedule cannot accommodate this date. Please contact the office or submit an alternate date.'
+                : '<b>Your request is currently UNDER REVIEW ⏳</b><br>The NurulQuran office is coordinating the Ustaza’s calendar and will contact you via WhatsApp / phone shortly, in shā’ Allāh.')
+            }
+          </div>
+
+          <dl class="res-grid" style="margin:0">
+            <div class="res-item"><dt>Host Name</dt><dd>${esc(d.hostName)}</dd></div>
+            <div class="res-item"><dt>City & Venue</dt><dd>${esc(d.city)} (${esc(d.venueType||'—')})</dd></div>
+            <div class="res-item"><dt>Event Date</dt><dd>📅 ${esc(fmtDate(d.preferredDate))}</dd></div>
+            <div class="res-item"><dt>Start Time</dt><dd>⏰ ${esc(fmtTime(d.startTime))} (${esc(d.duration||60)} min)</dd></div>
+            <div class="res-item"><dt>Occasion</dt><dd>${esc(d.occasion||'General dars')}</dd></div>
+            <div class="res-item"><dt>Expected Guests</dt><dd>~${esc(d.guests||0)} guests</dd></div>
+            ${d.assignedTeacher?`<div class="res-item" style="grid-column:1/-1"><dt>Assigned Ustaza / Teacher</dt><dd style="color:var(--rose)">🌸 ${esc(d.assignedTeacher)}</dd></div>`:''}
+          </dl>
+
+          <div class="acts">
+            ${d.status==='approved'?`
+              <a class="btn btn-p btn-s" href="${esc(gcal)}" target="_blank" rel="noopener">📅 Add to Google Calendar</a>
+              <button class="btn btn-g btn-s" type="button" id="icsBtn">📥 Download .ics</button>
+            `:''}
+            <a class="btn btn-g btn-s" href="/request.html">🌸 Plan another gathering</a>
+          </div>
+        </div>
+      `;
+      const icsBtn=$('#icsBtn');
+      if(icsBtn)icsBtn.onclick=()=>downloadIcs(d);
+    }else{
+      box.hidden=false;
+      box.innerHTML=`<div class="banner declined" style="margin-top:20px;text-align:center">🌱 Request <b>${esc(ref)}</b> was not found. Please double check your reference code.</div>`;
+    }
+  }catch(_){
+    toast('Network error — please try again');
+  }finally{
+    btn.disabled=false;btn.textContent='Check Status →';
+  }
+}
+
+$('#trackForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  checkRef($('#refInput').value);
+});
+
+// Auto-check if URL contains ?ref=...
+const q=new URLSearchParams(location.search);
+if(q.get('ref'))checkRef(q.get('ref'));
+})();
+</script>
+</body>
+</html>

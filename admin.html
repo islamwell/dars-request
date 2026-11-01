@@ -239,8 +239,8 @@ tbody tr:hover th{
 .empty-state .emo{font-size:2.6rem;display:block;margin-bottom:8px}
 
 /* DIALOG MODAL (Modern Web Guidance light-dismiss dialog) */
-dialog#detailDialog,dialog#notifyDialog{
-  width:min(840px,calc(100vw - 24px));
+dialog#detailDialog,dialog#notifyDialog,dialog#itineraryDialog,dialog#passwordDialog{
+  width:min(860px,calc(100vw - 24px));
   max-height:90dvh;
   margin:auto;
   padding:0;
@@ -251,14 +251,89 @@ dialog#detailDialog,dialog#notifyDialog{
   box-shadow:0 30px 80px -20px rgba(0,0,0,.55);
   overflow:hidden;
 }
-dialog#detailDialog[open],dialog#notifyDialog[open]{
+dialog#detailDialog[open],dialog#notifyDialog[open],dialog#itineraryDialog[open],dialog#passwordDialog[open]{
   display:flex;
   flex-direction:column;
 }
-dialog#detailDialog::backdrop,dialog#notifyDialog::backdrop{
+dialog#detailDialog::backdrop,dialog#notifyDialog::backdrop,dialog#itineraryDialog::backdrop,dialog#passwordDialog::backdrop{
   background-color:rgba(20,10,28,.52);
   backdrop-filter:blur(6px);
   -webkit-backdrop-filter:blur(6px);
+}
+.conflict-pill{
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+  background:#fff0f3;
+  color:#c02648;
+  border:1px solid #fecdd3;
+  padding:2px 8px;
+  border-radius:99px;
+  font-size:.72rem;
+  font-weight:800;
+  margin-top:3px;
+}
+[data-theme=dark] .conflict-pill{
+  background:rgba(244,63,94,.15);
+  color:#fda4af;
+  border-color:rgba(244,63,94,.35);
+}
+.itinerary-sheet{
+  background:var(--surface-solid);
+  border:1.5px solid var(--border);
+  border-radius:20px;
+  padding:20px;
+  display:grid;
+  gap:14px;
+  font-size:.88rem;
+}
+.it-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  flex-wrap:wrap;
+  gap:10px;
+  padding-bottom:12px;
+  border-bottom:2px solid var(--border);
+}
+.it-grid{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:10px;
+}
+@media(min-width:620px){.it-grid{grid-template-columns:1fr 1fr}}
+.it-sec{
+  padding:12px 14px;
+  border-radius:14px;
+  background:var(--input-bg);
+  border:1px solid var(--border);
+}
+.it-sec h4{
+  margin:0 0 6px;
+  font-size:.78rem;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:.05em;
+  color:var(--rose);
+}
+.it-sec p{margin:0;line-height:1.45}
+@media print{
+  body * { visibility: hidden !important; }
+  #itineraryDialog, #itineraryDialog * { visibility: visible !important; }
+  #itineraryDialog {
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100vw !important;
+    max-width: 100vw !important;
+    max-height: 100vh !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    background: #fff !important;
+    color: #000 !important;
+  }
+  .no-print { display: none !important; }
 }
 .notify-grid{display:grid;grid-template-columns:1fr;gap:14px}
 @media(min-width:700px){.notify-grid{grid-template-columns:1fr 1fr}}
@@ -329,6 +404,7 @@ footer .ar{font-family:var(--fa);font-size:1.35rem;color:var(--text);margin:0 0 
   </a>
   <a class="btn btn-g btn-s" href="/request.html" target="_blank" rel="noopener">🌸 Open Request Form ↗</a>
   <button class="btn btn-g btn-s" id="notifyBtn" type="button" hidden>🔔 Notifications <span id="notifyActiveBadge" class="badge approved" style="padding:1px 6px;font-size:.68rem" hidden>ON</span></button>
+  <button class="btn btn-g btn-s" id="changePwdBtn" type="button" hidden>🔑 Password</button>
   <button class="btn btn-g btn-s" id="syncLocalBtn" type="button" hidden title="Import requests saved in this browser">📥 Sync Browser Requests</button>
   <button class="btn btn-g btn-s" id="exportCsvBtn" type="button" hidden>⬇️ Export CSV</button>
   <button class="btn btn-g btn-s" id="logoutBtn" type="button" hidden>Log out</button>
@@ -379,6 +455,7 @@ footer .ar{font-family:var(--fa);font-size:1.35rem;color:var(--text);margin:0 0 
         <button type="button" class="fpill" data-status="pending">⏳ Pending <span class="cnt" id="cntPending">0</span></button>
         <button type="button" class="fpill" data-status="approved">✅ Approved <span class="cnt" id="cntApproved">0</span></button>
         <button type="button" class="fpill" data-status="declined">✕ Declined <span class="cnt" id="cntDeclined">0</span></button>
+        <button type="button" class="fpill" data-status="conflicts">⚠️ Conflicts <span class="cnt" id="cntConflicts">0</span></button>
       </div>
 
       <div class="toolbar">
@@ -448,6 +525,8 @@ footer .ar{font-family:var(--fa);font-size:1.35rem;color:var(--text);margin:0 0 
   </div>
 
   <div class="dlg-body">
+    <div id="dlgConflictBanner" class="banner declined" hidden style="margin-bottom:8px;padding:12px 14px;border-radius:14px;font-weight:700;font-size:.85rem;background:var(--st-declined-bg);color:var(--st-declined-fg);border:1.5px solid var(--st-declined-bd)"></div>
+
     <!-- Admin Decision & Assignment Card -->
     <div class="decision-box">
       <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
@@ -473,7 +552,10 @@ footer .ar{font-family:var(--fa);font-size:1.35rem;color:var(--text);margin:0 0 
           <button type="button" class="btn btn-g btn-s" id="dlgSaveNotesBtn">💾 Save Notes</button>
         </div>
         <div style="display:flex;flex-wrap:wrap;gap:8px">
-          <a class="btn btn-g btn-s" id="dlgWaBtn" target="_blank" rel="noopener">💬 WhatsApp Host</a>
+          <button type="button" class="btn btn-p btn-s" id="dlgBriefBtn">📋 Teacher Brief</button>
+          <a class="btn btn-g btn-s" id="dlgGcalBtn" target="_blank" rel="noopener">📅 Cal</a>
+          <button class="btn btn-g btn-s" id="dlgIcsBtn" type="button">📥 .ics</button>
+          <a class="btn btn-g btn-s" id="dlgWaBtn" target="_blank" rel="noopener">💬 WhatsApp</a>
           <button type="button" class="btn btn-g btn-s" id="dlgDeleteBtn" style="color:#d93860">🗑️ Delete</button>
         </div>
       </div>
@@ -676,10 +758,59 @@ footer .ar{font-family:var(--fa);font-size:1.35rem;color:var(--text);margin:0 0 
   </div>
 </dialog>
 
+<!-- ITINERARY BRIEF DIALOG (Teacher & Driver) -->
+<dialog id="itineraryDialog" closedby="any" aria-labelledby="itineraryDlgTitle">
+  <div class="dlg-head no-print">
+    <div>
+      <span class="ref-code">GATHERING LOGISTICS</span>
+      <h2 id="itineraryDlgTitle">📋 Ustaza & Driver Itinerary Brief</h2>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center">
+      <button type="button" class="btn btn-p btn-s" id="itineraryPrintBtn">🖨️ Print / PDF</button>
+      <button type="button" class="btn btn-g btn-s" id="itineraryCopyBtn">📋 Copy WhatsApp</button>
+      <button type="button" class="dlg-close" id="itineraryCloseBtn" aria-label="Close brief">✕</button>
+    </div>
+  </div>
+  <div class="dlg-body" style="padding:22px">
+    <div id="itinerarySheet" class="itinerary-sheet"></div>
+    <div class="decision-actions no-print" style="margin-top:12px">
+      <button type="button" class="btn btn-p" id="itineraryPrintBtn2">🖨️ Print / Save as PDF</button>
+      <button type="button" class="btn btn-g" id="itineraryCopyBtn2">📋 Copy WhatsApp Text</button>
+      <button type="button" class="btn btn-g" id="itineraryDoneBtn">Done</button>
+    </div>
+  </div>
+</dialog>
+
+<!-- CHANGE ADMIN PASSWORD DIALOG -->
+<dialog id="passwordDialog" closedby="any" aria-labelledby="pwdDlgTitle">
+  <div class="dlg-head">
+    <div>
+      <span class="ref-code">SECURITY SETTINGS</span>
+      <h2 id="pwdDlgTitle">🔑 Change Admin Password</h2>
+    </div>
+    <button type="button" class="dlg-close" id="pwdCloseBtn" aria-label="Close password dialog">✕</button>
+  </div>
+  <form id="passwordForm" class="dlg-body" style="gap:14px;padding:24px">
+    <p style="margin:0;color:var(--muted);font-size:.86rem">Enter a new secure password for the NurulQuran Admin Portal. This will update the password stored in your Cloudflare D1 database.</p>
+    <div>
+      <label for="newAdminPwd" style="font-size:.78rem;font-weight:700;display:block;margin-bottom:4px">New Password (at least 6 characters)</label>
+      <input class="inp" id="newAdminPwd" type="password" required minlength="6" placeholder="Enter new password…">
+    </div>
+    <div>
+      <label for="confirmAdminPwd" style="font-size:.78rem;font-weight:700;display:block;margin-bottom:4px">Confirm New Password</label>
+      <input class="inp" id="confirmAdminPwd" type="password" required minlength="6" placeholder="Re-type new password…">
+    </div>
+    <div class="decision-actions" style="margin-top:8px">
+      <button type="button" class="btn btn-g" id="pwdCancelBtn">Cancel</button>
+      <button type="submit" class="btn btn-p" id="pwdSaveBtn">💾 Update Password</button>
+    </div>
+  </form>
+</dialog>
+
 <footer>
   <p class="ar" lang="ar">أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ</p>
   <p>© <span id="yr"></span> NurulQuran · Lecture Requests Admin Portal</p>
-  <p id="appVersion" style="margin:6px 0 0;font-size:.72rem;opacity:.75">v1.0.2 (updated 2026-11-01 20:45)</p>
+  <p id="appVersion" style="margin:6px 0 0;font-size:.72rem;opacity:.75">v1.0.3 (updated 2026-11-01 22:15)</p>
 </footer>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -727,8 +858,10 @@ $('#themeBtn').addEventListener('click',()=>{
 /* Light-dismiss fallback for browsers without HTMLDialogElement.prototype.closedBy */
 const dialog=$('#detailDialog');
 const notifyDialog=$('#notifyDialog');
+const itineraryDialog=$('#itineraryDialog');
+const passwordDialog=$('#passwordDialog');
 if(!('closedBy' in HTMLDialogElement.prototype)){
-  [dialog,notifyDialog].forEach(dlg=>{
+  [dialog,notifyDialog,itineraryDialog,passwordDialog].forEach(dlg=>{
     if(!dlg)return;
     dlg.addEventListener('click',event=>{
       if(event.target!==dlg)return;
@@ -747,6 +880,10 @@ if(!('closedBy' in HTMLDialogElement.prototype)){
 $('#dlgCloseBtn').addEventListener('click',()=>dialog.close());
 $('#notifyCloseBtn').addEventListener('click',()=>notifyDialog.close());
 $('#notifyCancelBtn').addEventListener('click',()=>notifyDialog.close());
+$('#itineraryCloseBtn').addEventListener('click',()=>itineraryDialog.close());
+$('#itineraryDoneBtn').addEventListener('click',()=>itineraryDialog.close());
+$('#pwdCloseBtn').addEventListener('click',()=>passwordDialog.close());
+$('#pwdCancelBtn').addEventListener('click',()=>passwordDialog.close());
 
 /* State */
 let adminPwd=sessionStorage.getItem(PWD_KEY)||'';
@@ -803,6 +940,7 @@ function doLogout(){
   $('#logoutBtn').hidden=true;
   $('#exportCsvBtn').hidden=true;
   $('#notifyBtn').hidden=true;
+  $('#changePwdBtn').hidden=true;
   $('#syncLocalBtn').hidden=true;
   $('#loginView').hidden=false;
 }
@@ -842,6 +980,7 @@ function showDashboard(){
   $('#logoutBtn').hidden=false;
   $('#exportCsvBtn').hidden=false;
   $('#notifyBtn').hidden=false;
+  $('#changePwdBtn').hidden=false;
   checkLocalUnsynced();
   loadRequests();
   loadNotificationSettings();
@@ -1049,11 +1188,23 @@ async function loadRequests(){
   }
 }
 
+function getConflictsMap(){
+  const m=new Map();
+  allRequests.forEach(r=>{
+    if(!r.preferredDate)return;
+    if(!m.has(r.preferredDate))m.set(r.preferredDate,[]);
+    m.get(r.preferredDate).push(r);
+  });
+  return m;
+}
+
 function updateStats(){
   const total=allRequests.length;
   const pending=allRequests.filter(x=>x.status==='pending').length;
   const approved=allRequests.filter(x=>x.status==='approved').length;
   const declined=allRequests.filter(x=>x.status==='declined').length;
+  const cMap=getConflictsMap();
+  const conflictCount=allRequests.filter(x=>x.preferredDate&&(cMap.get(x.preferredDate)||[]).length>1).length;
   $('#stTotal').textContent=total;
   $('#stPending').textContent=pending;
   $('#stApproved').textContent=approved;
@@ -1062,6 +1213,7 @@ function updateStats(){
   $('#cntPending').textContent=pending;
   $('#cntApproved').textContent=approved;
   $('#cntDeclined').textContent=declined;
+  $('#cntConflicts').textContent=conflictCount;
 }
 
 const VENUE_LABELS={home:'🏡 Home',hall:'🏛️ Hall',masjid:'🕌 Masjid',school:'🎓 School',other:'🌳 Other'};
@@ -1072,9 +1224,12 @@ function getFilteredRequests(){
   const vf=$('#venueFilter').value;
   const lf=$('#langFilter').value;
   const sort=$('#sortSelect').value;
+  const cMap=getConflictsMap();
 
   const list=allRequests.filter(r=>{
-    if(activeStatus!=='all'&&r.status!==activeStatus)return false;
+    if(activeStatus==='conflicts'){
+      if(!r.preferredDate||(cMap.get(r.preferredDate)||[]).length<=1)return false;
+    }else if(activeStatus!=='all'&&r.status!==activeStatus)return false;
     if(vf&&r.venueType!==vf)return false;
     if(lf&&r.lang!==lf)return false;
     if(q){
@@ -1095,6 +1250,47 @@ function getFilteredRequests(){
     return String(b.submittedAt||'').localeCompare(String(a.submittedAt||''));
   });
   return list;
+}
+
+function makeGoogleCalUrl(req){
+  const title=encodeURIComponent(`NurulQuran Lecture: ${req.occasion||'Dars'} (${req.hostName})`);
+  const d=(req.preferredDate||'').replace(/-/g,'');
+  const t=(req.startTime||'18:00').replace(/:/g,'')+'00';
+  const start=`${d}T${t}`;
+  const dur=Number(req.duration||60);
+  const [h,m]=(req.startTime||'18:00').split(':').map(Number);
+  const endMin=((h*60+m+dur)%1440);
+  const endT=String(Math.floor(endMin/60)).padStart(2,'0')+String(endMin%60).padStart(2,'0')+'00';
+  const end=`${d}T${endT}`;
+  const loc=encodeURIComponent(`${req.data?.venueName||''} ${req.data?.address||''} ${req.city||''}`.trim());
+  const details=encodeURIComponent(`NurulQuran Lecture Request\nReference: ${req.id}\nHost: ${req.hostName} (${req.phone})\nAssigned Ustaza: ${req.assignedTeacher||'Unassigned'}\nStatus: ${req.status}`);
+  return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${start}/${end}&location=${loc}&details=${details}`;
+}
+
+function downloadIcs(req){
+  const d=(req.preferredDate||'').replace(/-/g,'');
+  const t=(req.startTime||'18:00').replace(/:/g,'')+'00';
+  const dur=Number(req.duration||60);
+  const [h,m]=(req.startTime||'18:00').split(':').map(Number);
+  const endMin=((h*60+m+dur)%1440);
+  const endT=String(Math.floor(endMin/60)).padStart(2,'0')+String(endMin%60).padStart(2,'0')+'00';
+  const loc=`${req.data?.venueName||''} ${req.data?.address||''} ${req.city||''}`.trim();
+  const ics=`BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//NurulQuran//Lecture Requests//EN
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+SUMMARY:NurulQuran Lecture: ${req.occasion||'Dars'} (${req.hostName})
+DTSTART:${d}T${t}
+DTEND:${d}T${endT}
+LOCATION:${loc}
+DESCRIPTION:Reference: ${req.id}\\nHost: ${req.hostName} (${req.phone})\\nUstaza: ${req.assignedTeacher||'Unassigned'}\\nStatus: ${req.status}
+STATUS:CONFIRMED
+END:VEVENT
+END:VCALENDAR`;
+  const blob=new Blob([ics],{type:'text/calendar;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`${req.id}.ics`;
+  document.body.append(a);a.click();a.remove();
 }
 
 function buildWhatsAppLink(req,statusOverride){
@@ -1118,6 +1314,7 @@ function renderTable(){
   $('#showingCount').textContent=rows.length;
   const tbody=$('#reqTbody');
   const empty=$('#emptyState');
+  const cMap=getConflictsMap();
 
   if(!rows.length){
     tbody.innerHTML='';
@@ -1131,6 +1328,14 @@ function renderTable(){
     const vBadge=VENUE_LABELS[r.venueType]||r.venueType||'Venue';
     const lBadge=LANG_LABELS[r.lang]||r.lang||'';
     const waHref=buildWhatsAppLink(r);
+
+    const conflicts=r.preferredDate?(cMap.get(r.preferredDate)||[]).filter(x=>x.id!==r.id):[];
+    let confPill='';
+    if(conflicts.length){
+      const hasAppr=conflicts.some(x=>x.status==='approved');
+      confPill=`<br><span class="conflict-pill" title="${conflicts.length} other request(s) on ${r.preferredDate}">${hasAppr?'⚠️ Conflict with Approved':'⚠️ '+conflicts.length+' other on date'}</span>`;
+    }
+
     return `<tr data-id="${esc(r.id)}">
       <th scope="row">
         <div>
@@ -1150,6 +1355,7 @@ function renderTable(){
           <span class="cell-main">📅 ${esc(fmtDate(r.preferredDate))}</span>
           <span class="cell-sub">⏰ ${esc(fmtTime(r.startTime)||'—')} (${esc(r.duration||60)}m) · ${esc(lBadge)}</span>
           <span class="cell-sub">${esc(r.occasion||'General dars')}</span>
+          ${confPill}
         </div>
       </td>
       <td>
@@ -1237,6 +1443,23 @@ function openDetailModal(req,keepOpen){
   $('#dlgNotes').value=req.adminNotes||'';
   $('#dlgWaBtn').href=buildWhatsAppLink(req);
 
+  // Calendar & Brief links
+  $('#dlgGcalBtn').href=makeGoogleCalUrl(req);
+  $('#dlgIcsBtn').onclick=()=>downloadIcs(req);
+  $('#dlgBriefBtn').onclick=()=>openItineraryBrief(req);
+
+  // Conflict banner in detail modal
+  const cMap=getConflictsMap();
+  const cList=req.preferredDate?(cMap.get(req.preferredDate)||[]).filter(x=>x.id!==req.id):[];
+  const cBan=$('#dlgConflictBanner');
+  if(cList.length){
+    cBan.hidden=false;
+    const txt=cList.map(c=>`${c.id} (${c.hostName}, ${c.city}, ${c.status.toUpperCase()})`).join(' · ');
+    cBan.innerHTML=`⚠️ <b>Schedule Conflict Notice:</b> ${cList.length} other request(s) on <b>${fmtDate(req.preferredDate)}</b>: ${esc(txt)}`;
+  }else{
+    cBan.hidden=true;
+  }
+
   const sections=Array.isArray(req.sections)&&req.sections.length?req.sections:buildFallbackSections(req);
   $('#dlgSections').innerHTML=sections.map(s=>`
     <div class="sec-card">
@@ -1260,6 +1483,165 @@ function openDetailModal(req,keepOpen){
     dialog.showModal();
   }
 }
+
+/* Teacher & Driver Itinerary Brief */
+function buildItineraryWhatsAppText(req){
+  const d=req.data||{};
+  return [
+    `🌸 *NURULQURAN LECTURE ITINERARY BRIEF*`,
+    `Ref: ${req.id} | Status: ${req.status.toUpperCase()}`,
+    `Assigned Ustaza: ${req.assignedTeacher||'NurulQuran Team'}`,
+    ``,
+    `📅 *DATE & TIMINGS*`,
+    `• Date: ${fmtDate(req.preferredDate)}`,
+    `• Start Time: ${fmtTime(req.startTime)} (${req.duration||60} min)`,
+    `• Suggested Pickup: ${d.pickupTime?fmtTime(d.pickupTime):'30-45 min before'} (~${d.travel||30} min travel)`,
+    ``,
+    `🚘 *PICKUP & DRIVER*`,
+    `• Arrangement: ${d.pickup||'Self / Direct'}`,
+    d.driverName?`• Driver: ${d.driverName} (${d.driverPhone||''})`:null,
+    d.vehicle?`• Vehicle: ${d.vehicle}`:null,
+    d.dropBack==='yes'?`• Return Trip: Yes, same driver will drop back`:null,
+    ``,
+    `📍 *VENUE & CONTACT*`,
+    `• Host: ${req.hostName} (${req.phone})`,
+    d.contactName?`• Day Contact: ${d.contactName} (${d.contactPhone||''})`:null,
+    d.venueName?`• Venue: ${d.venueName}`:null,
+    `• Address: ${d.address||req.city}`,
+    d.landmark?`• Landmark: ${d.landmark}`:null,
+    d.access?`• Room Access: ${d.access}${d.floorNo?' ('+d.floorNo+')':''}`:null,
+    d.parking?`• Parking: ${d.parking}`:null,
+    d.mapLink?`• Google Maps: ${d.mapLink}`:null,
+    ``,
+    `🪑 *AUDIENCE & SETUP*`,
+    `• Expected Attendance: ~${req.guests||0} (${d.audience||'Gathering'})`,
+    `• Guest Seating: ${d.seating||'Floor / Mixed'} | Ustaza Seat: ${d.teacherSeat||'Chair + table'}`,
+    `• Sound: ${d.pa||'Standard'} | Mic: ${d.mic||'Collar'}`,
+    d.soundName?`• Sound Manager: ${d.soundName} (${d.soundPhone||''})`:null,
+    `• Recording: ${d.recording==='audio'?'Audio only':(d.recording==='stream'?'Video/Live stream':'No recording')}`,
+    ``,
+    `🍃 *HOSPITALITY*`,
+    `• Drinking water, quiet resting room & prayer space confirmed.`,
+    d.notes?`• Host Notes: "${d.notes}"`:null,
+    req.adminNotes?`• Admin Notes: "${req.adminNotes}"`:null
+  ].filter(Boolean).join('\n');
+}
+
+function openItineraryBrief(req){
+  const d=req.data||{};
+  const sheet=$('#itinerarySheet');
+  sheet.innerHTML=`
+    <div class="it-head">
+      <div>
+        <span class="ref-code">${esc(req.id)}</span>
+        <h3 style="font-family:var(--fd);font-size:1.35rem;margin:3px 0">${esc(req.occasion||'Lecture')} · ${esc(req.city)}</h3>
+        <span style="font-weight:700;color:var(--rose)">Assigned Ustaza: ${esc(req.assignedTeacher||'NurulQuran Team')}</span>
+      </div>
+      <div style="text-align:right">
+        <span class="badge ${esc(req.status)}">${esc(req.status)}</span>
+        <div style="font-size:.78rem;color:var(--muted);margin-top:4px">📅 ${esc(fmtDate(req.preferredDate))} · ⏰ ${esc(fmtTime(req.startTime))}</div>
+      </div>
+    </div>
+
+    <div class="it-grid">
+      <div class="it-sec">
+        <h4>🚘 Pickup & Travel</h4>
+        <p><b>Arrangement:</b> ${esc(d.pickup||'Self / Direct')}</p>
+        ${d.pickupTime?`<p><b>Pickup Time:</b> ⏰ ${esc(fmtTime(d.pickupTime))} (~${esc(d.travel||30)}m travel)</p>`:''}
+        ${d.driverName?`<p><b>Driver:</b> ${esc(d.driverName)} (📞 ${esc(d.driverPhone||'—')})</p>`:''}
+        ${d.vehicle?`<p><b>Vehicle:</b> ${esc(d.vehicle)}</p>`:''}
+        <p><b>Drop-off:</b> ${d.dropBack==='yes'?'Same driver will drop back':'Direct'}</p>
+      </div>
+
+      <div class="it-sec">
+        <h4>📍 Venue & Location</h4>
+        ${d.venueName?`<p><b>Venue:</b> ${esc(d.venueName)}</p>`:''}
+        <p><b>Address:</b> ${esc(d.address||req.city)}</p>
+        ${d.landmark?`<p><b>Landmark:</b> ${esc(d.landmark)}</p>`:''}
+        <p><b>Access:</b> ${esc(d.access||'Ground')}${d.floorNo?` (${esc(d.floorNo)})`:''} · 🅿️ ${esc(d.parking||'Standard')}</p>
+        ${d.mapLink?`<p><a href="${esc(d.mapLink)}" target="_blank" rel="noopener">🗺️ Google Maps Location ↗</a></p>`:''}
+      </div>
+
+      <div class="it-sec">
+        <h4>📞 Day Contacts</h4>
+        <p><b>Host:</b> ${esc(req.hostName)} (📞 ${esc(req.phone)})</p>
+        ${d.contactName?`<p><b>Day POC:</b> ${esc(d.contactName)} (📞 ${esc(d.contactPhone||'—')})</p>`:''}
+        <p><b>Greeting:</b> ${d.receive==='yes'?'Someone will meet her at entrance':'Direct entry'}</p>
+      </div>
+
+      <div class="it-sec">
+        <h4>🪑 Seating & Sound</h4>
+        <p><b>Audience:</b> ~${esc(req.guests||0)} guests (${esc(d.audience||'Gathering')})</p>
+        <p><b>Ustaza Seat:</b> ${esc(d.teacherSeat||'Chair + table')} · <b>Guests:</b> ${esc(d.seating||'Floor')}</p>
+        <p><b>Sound:</b> ${esc(d.pa||'Standard')} · <b>Mic:</b> ${esc(d.mic||'Collar')}</p>
+        ${d.soundName?`<p><b>Sound POC:</b> ${esc(d.soundName)} (📞 ${esc(d.soundPhone||'')})</p>`:''}
+        <p><b>Recording:</b> ${d.recording==='audio'?'Audio only':(d.recording==='stream'?'Video/Live stream':'No recording')}</p>
+      </div>
+    </div>
+
+    ${d.notes||req.adminNotes?`
+      <div class="it-sec">
+        <h4>📝 Special Notes</h4>
+        ${d.notes?`<p><b>Host Note:</b> ${esc(d.notes)}</p>`:''}
+        ${req.adminNotes?`<p><b>Admin Note:</b> ${esc(req.adminNotes)}</p>`:''}
+      </div>
+    `:''}
+  `;
+  itineraryDialog.showModal();
+}
+
+function copyItineraryText(){
+  if(!currentReq)return;
+  const text=buildItineraryWhatsAppText(currentReq);
+  navigator.clipboard.writeText(text).then(()=>toast('Itinerary copied for WhatsApp 📋')).catch(()=>toast('Copied to clipboard'));
+}
+
+$('#itineraryPrintBtn').addEventListener('click',()=>window.print());
+$('#itineraryPrintBtn2').addEventListener('click',()=>window.print());
+$('#itineraryCopyBtn').addEventListener('click',copyItineraryText);
+$('#itineraryCopyBtn2').addEventListener('click',copyItineraryText);
+
+/* Password change handlers */
+$('#changePwdBtn').addEventListener('click',()=>{
+  $('#passwordForm').reset();
+  passwordDialog.showModal();
+});
+$('#passwordForm').addEventListener('submit',async e=>{
+  e.preventDefault();
+  const p1=$('#newAdminPwd').value.trim();
+  const p2=$('#confirmAdminPwd').value.trim();
+  if(p1.length<6){
+    toast('Password must be at least 6 characters');
+    return;
+  }
+  if(p1!==p2){
+    toast('Passwords do not match');
+    return;
+  }
+  const btn=$('#pwdSaveBtn');
+  btn.disabled=true;
+  btn.textContent='Updating…';
+  try{
+    const r=await api('/api/password',{
+      method:'POST',
+      body:JSON.stringify({newPassword:p1})
+    });
+    const d=await r.json();
+    if(r.ok){
+      adminPwd=p1;
+      sessionStorage.setItem(PWD_KEY,p1);
+      toast('Admin password updated successfully! 🌸');
+      passwordDialog.close();
+    }else{
+      toast(d.error||'Failed to update password');
+    }
+  }catch(_){
+    toast('Error updating password');
+  }finally{
+    btn.disabled=false;
+    btn.textContent='💾 Update Password';
+  }
+});
 
 function buildFallbackSections(req){
   const d=req.data||{};

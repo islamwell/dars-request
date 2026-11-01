@@ -37,7 +37,7 @@ export async function onRequestGet(context) {
     });
   }
 
-  const guard = requireAdmin(context);
+  const guard = await requireAdmin(context);
   if (guard) return guard;
 
   const statusFilter = (url.searchParams.get('status') || '').trim().toLowerCase();
