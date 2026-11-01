@@ -26,3 +26,9 @@ CREATE TABLE IF NOT EXISTS lecture_requests (
 CREATE INDEX IF NOT EXISTS idx_requests_status ON lecture_requests(status);
 CREATE INDEX IF NOT EXISTS idx_requests_submitted_at ON lecture_requests(submitted_at DESC);
 CREATE INDEX IF NOT EXISTS idx_requests_date ON lecture_requests(preferred_date);
+
+CREATE TABLE IF NOT EXISTS admin_settings (
+  key TEXT PRIMARY KEY,
+  value_json TEXT NOT NULL,
+  updated_at TEXT NOT NULL
+);

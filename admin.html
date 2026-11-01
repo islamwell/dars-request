@@ -239,8 +239,8 @@ tbody tr:hover th{
 .empty-state .emo{font-size:2.6rem;display:block;margin-bottom:8px}
 
 /* DIALOG MODAL (Modern Web Guidance light-dismiss dialog) */
-dialog#detailDialog{
-  width:min(820px,calc(100vw - 24px));
+dialog#detailDialog,dialog#notifyDialog{
+  width:min(840px,calc(100vw - 24px));
   max-height:90dvh;
   margin:auto;
   padding:0;
@@ -251,15 +251,28 @@ dialog#detailDialog{
   box-shadow:0 30px 80px -20px rgba(0,0,0,.55);
   overflow:hidden;
 }
-dialog#detailDialog[open]{
+dialog#detailDialog[open],dialog#notifyDialog[open]{
   display:flex;
   flex-direction:column;
 }
-dialog#detailDialog::backdrop{
+dialog#detailDialog::backdrop,dialog#notifyDialog::backdrop{
   background-color:rgba(20,10,28,.52);
   backdrop-filter:blur(6px);
   -webkit-backdrop-filter:blur(6px);
 }
+.notify-grid{display:grid;grid-template-columns:1fr;gap:14px}
+@media(min-width:700px){.notify-grid{grid-template-columns:1fr 1fr}}
+.n-card{padding:16px;border-radius:20px;background:var(--group-bg);border:1.5px solid var(--border);display:flex;flex-direction:column;gap:10px}
+.n-card.on{border-color:var(--leaf);background:var(--grad-soft)}
+.n-head{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.n-title{display:flex;align-items:center;gap:8px;font-weight:800;font-size:.98rem}
+.n-sw{display:inline-flex;align-items:center;gap:8px;cursor:pointer;font-size:.78rem;font-weight:700}
+.n-sw input{width:18px;height:18px;accent-color:var(--leaf);cursor:pointer}
+.n-fields{display:grid;gap:8px}
+.n-fields label{font-size:.74rem;font-weight:700;color:var(--muted);display:block;margin-bottom:3px}
+.n-fields .inp{padding:8px 11px;font-size:.84rem;border-radius:10px}
+.n-hint{font-size:.73rem;color:var(--muted);line-height:1.4;background:var(--input-bg);padding:8px 10px;border-radius:10px;border:1px dashed var(--border)}
+.n-foot{margin-top:auto;padding-top:8px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;gap:8px}
 .dlg-head{
   display:flex;
   align-items:center;
@@ -315,6 +328,7 @@ footer .ar{font-family:var(--fa);font-size:1.35rem;color:var(--text);margin:0 0 
     <span><b>NurulQuran Admin</b><small>Lecture Requests Portal</small></span>
   </a>
   <a class="btn btn-g btn-s" href="/request.html" target="_blank" rel="noopener">🌸 Open Request Form ↗</a>
+  <button class="btn btn-g btn-s" id="notifyBtn" type="button" hidden>🔔 Notifications <span id="notifyActiveBadge" class="badge approved" style="padding:1px 6px;font-size:.68rem" hidden>ON</span></button>
   <button class="btn btn-g btn-s" id="syncLocalBtn" type="button" hidden title="Import requests saved in this browser">📥 Sync Browser Requests</button>
   <button class="btn btn-g btn-s" id="exportCsvBtn" type="button" hidden>⬇️ Export CSV</button>
   <button class="btn btn-g btn-s" id="logoutBtn" type="button" hidden>Log out</button>
@@ -470,10 +484,202 @@ footer .ar{font-family:var(--fa);font-size:1.35rem;color:var(--text);margin:0 0 
   </div>
 </dialog>
 
+<!-- NOTIFICATIONS SETTINGS DIALOG -->
+<dialog id="notifyDialog" closedby="any" aria-labelledby="notifyDlgTitle">
+  <div class="dlg-head">
+    <div>
+      <span class="ref-code">INSTANT ADMIN ALERTS</span>
+      <h2 id="notifyDlgTitle">🔔 New Request Notifications (Email, WhatsApp, SMS & Telegram)</h2>
+    </div>
+    <button type="button" class="dlg-close" id="notifyCloseBtn" aria-label="Close notifications dialog">✕</button>
+  </div>
+  <div class="dlg-body">
+    <p style="margin:0;font-size:.86rem;color:var(--muted)">Toggle any channel below to receive an instant alert whenever a host submits a new lecture request. Click <b>Test</b> on any card to verify delivery immediately.</p>
+
+    <div class="notify-grid">
+      <!-- 1. EMAIL -->
+      <div class="n-card" id="ncard-email">
+        <div class="n-head">
+          <span class="n-title">📧 Email Alert</span>
+          <label class="n-sw"><input type="checkbox" id="nf_email_enabled"> Enabled</label>
+        </div>
+        <div class="n-fields">
+          <div>
+            <label for="nf_email_provider">Provider</label>
+            <select class="inp" id="nf_email_provider">
+              <option value="resend">Resend API (Recommended · Free 3k/mo)</option>
+              <option value="webhook">Custom Email Webhook (Make / Zapier / Brevo)</option>
+            </select>
+          </div>
+          <div>
+            <label for="nf_email_to">Admin Recipient Email(s)</label>
+            <input class="inp" id="nf_email_to" type="email" placeholder="admin@nurulquran.com">
+          </div>
+          <div id="nf_email_resend_box" style="display:grid;gap:8px">
+            <div>
+              <label for="nf_email_from">From Email</label>
+              <input class="inp" id="nf_email_from" type="text" placeholder="NurulQuran Requests <onboarding@resend.dev>">
+            </div>
+            <div>
+              <label for="nf_email_key">Resend API Key</label>
+              <input class="inp" id="nf_email_key" type="password" placeholder="re_xxxxxxxxx">
+            </div>
+          </div>
+          <div id="nf_email_webhook_box" hidden>
+            <label for="nf_email_webhook">Email Webhook URL</label>
+            <input class="inp" id="nf_email_webhook" type="url" placeholder="https://hook.eu1.make.com/...">
+          </div>
+        </div>
+        <div class="n-hint">Sends a full HTML summary of the lecture request with a direct link to approve or decline.</div>
+        <div class="n-foot">
+          <small id="nstat-email" style="color:var(--muted);font-weight:700"></small>
+          <button type="button" class="btn btn-g btn-s" data-test-channel="email">🔔 Send Test Email</button>
+        </div>
+      </div>
+
+      <!-- 2. WHATSAPP -->
+      <div class="n-card" id="ncard-whatsapp">
+        <div class="n-head">
+          <span class="n-title">💬 WhatsApp Alert</span>
+          <label class="n-sw"><input type="checkbox" id="nf_wa_enabled"> Enabled</label>
+        </div>
+        <div class="n-fields">
+          <div>
+            <label for="nf_wa_provider">WhatsApp Provider</label>
+            <select class="inp" id="nf_wa_provider">
+              <option value="callmebot">CallMeBot (Free personal WhatsApp alert)</option>
+              <option value="meta">Meta WhatsApp Cloud API</option>
+              <option value="twilio">Twilio WhatsApp API</option>
+            </select>
+          </div>
+          <div>
+            <label for="nf_wa_phone">Admin WhatsApp Number (with +country code)</label>
+            <input class="inp" id="nf_wa_phone" type="tel" placeholder="+4790000000">
+          </div>
+          <div id="nf_wa_callmebot_box">
+            <label for="nf_wa_callmebot_key">CallMeBot API Key</label>
+            <input class="inp" id="nf_wa_callmebot_key" type="password" placeholder="e.g. 1234567">
+            <div class="n-hint" style="margin-top:6px">Free setup: Send <code>I allow callmebot to send me messages</code> on WhatsApp to <b>+34 644 51 95 23</b> to receive your API key.</div>
+          </div>
+          <div id="nf_wa_meta_box" hidden style="display:grid;gap:8px">
+            <div>
+              <label for="nf_wa_meta_id">Meta Phone Number ID</label>
+              <input class="inp" id="nf_wa_meta_id" type="text" placeholder="1029384756...">
+            </div>
+            <div>
+              <label for="nf_wa_meta_token">Meta Permanent Access Token</label>
+              <input class="inp" id="nf_wa_meta_token" type="password" placeholder="EAAG...">
+            </div>
+          </div>
+          <div id="nf_wa_twilio_box" hidden style="display:grid;gap:8px">
+            <div>
+              <label for="nf_wa_tw_sid">Twilio Account SID</label>
+              <input class="inp" id="nf_wa_tw_sid" type="text" placeholder="ACxxxxxxxx">
+            </div>
+            <div>
+              <label for="nf_wa_tw_token">Twilio Auth Token</label>
+              <input class="inp" id="nf_wa_tw_token" type="password" placeholder="Auth token">
+            </div>
+            <div>
+              <label for="nf_wa_tw_from">Twilio WhatsApp Sender</label>
+              <input class="inp" id="nf_wa_tw_from" type="text" placeholder="whatsapp:+14155238886">
+            </div>
+          </div>
+        </div>
+        <div class="n-foot">
+          <small id="nstat-whatsapp" style="color:var(--muted);font-weight:700"></small>
+          <button type="button" class="btn btn-g btn-s" data-test-channel="whatsapp">🔔 Send Test WhatsApp</button>
+        </div>
+      </div>
+
+      <!-- 3. SMS -->
+      <div class="n-card" id="ncard-sms">
+        <div class="n-head">
+          <span class="n-title">📱 SMS Alert</span>
+          <label class="n-sw"><input type="checkbox" id="nf_sms_enabled"> Enabled</label>
+        </div>
+        <div class="n-fields">
+          <div>
+            <label for="nf_sms_provider">SMS Provider</label>
+            <select class="inp" id="nf_sms_provider">
+              <option value="twilio">Twilio SMS</option>
+              <option value="webhook">Custom SMS Gateway Webhook (46elks / GatewayAPI)</option>
+            </select>
+          </div>
+          <div>
+            <label for="nf_sms_to">Admin Mobile Number (with +country code)</label>
+            <input class="inp" id="nf_sms_to" type="tel" placeholder="+4790000000">
+          </div>
+          <div id="nf_sms_twilio_box" style="display:grid;gap:8px">
+            <div>
+              <label for="nf_sms_from">Twilio From Number / Sender ID</label>
+              <input class="inp" id="nf_sms_from" type="text" placeholder="+15005550006 or NurulQuran">
+            </div>
+            <div>
+              <label for="nf_sms_sid">Twilio Account SID</label>
+              <input class="inp" id="nf_sms_sid" type="text" placeholder="ACxxxxxxxx">
+            </div>
+            <div>
+              <label for="nf_sms_token">Twilio Auth Token</label>
+              <input class="inp" id="nf_sms_token" type="password" placeholder="Auth token">
+            </div>
+          </div>
+          <div id="nf_sms_webhook_box" hidden style="display:grid;gap:8px">
+            <div>
+              <label for="nf_sms_webhook">SMS Webhook URL</label>
+              <input class="inp" id="nf_sms_webhook" type="url" placeholder="https://...">
+            </div>
+            <div>
+              <label for="nf_sms_wtoken">Bearer Token (optional)</label>
+              <input class="inp" id="nf_sms_wtoken" type="password" placeholder="Optional API token">
+            </div>
+          </div>
+        </div>
+        <div class="n-hint">Sends an instant SMS text alert with reference ID, host name, date, city, and admin link.</div>
+        <div class="n-foot">
+          <small id="nstat-sms" style="color:var(--muted);font-weight:700"></small>
+          <button type="button" class="btn btn-g btn-s" data-test-channel="sms">🔔 Send Test SMS</button>
+        </div>
+      </div>
+
+      <!-- 4. TELEGRAM -->
+      <div class="n-card" id="ncard-telegram">
+        <div class="n-head">
+          <span class="n-title">✈️ Telegram Bot Alert</span>
+          <label class="n-sw"><input type="checkbox" id="nf_tg_enabled"> Enabled</label>
+        </div>
+        <div class="n-fields">
+          <div>
+            <label for="nf_tg_token">Telegram Bot Token (@BotFather)</label>
+            <input class="inp" id="nf_tg_token" type="password" placeholder="123456789:AAH...">
+          </div>
+          <div>
+            <label for="nf_tg_chat">Admin Chat ID (or Group Chat ID)</label>
+            <input class="inp" id="nf_tg_chat" type="text" placeholder="e.g. 5357724358">
+          </div>
+        </div>
+        <div class="n-hint">100% free & instant push notification to your phone or team group with clickable WhatsApp & Admin Panel links.</div>
+        <div class="n-foot">
+          <small id="nstat-telegram" style="color:var(--muted);font-weight:700"></small>
+          <button type="button" class="btn btn-g btn-s" data-test-channel="telegram">🔔 Send Test Telegram</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="decision-actions" style="padding-top:12px">
+      <button type="button" class="btn btn-g" id="notifyTestAllBtn">🔔 Test All Enabled Channels</button>
+      <div style="display:flex;gap:8px">
+        <button type="button" class="btn btn-g" id="notifyCancelBtn">Cancel</button>
+        <button type="button" class="btn btn-p" id="notifySaveBtn">💾 Save Notification Settings</button>
+      </div>
+    </div>
+  </div>
+</dialog>
+
 <footer>
   <p class="ar" lang="ar">أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ</p>
   <p>© <span id="yr"></span> NurulQuran · Lecture Requests Admin Portal</p>
-  <p id="appVersion" style="margin:6px 0 0;font-size:.72rem;opacity:.75">v1.0.1 (updated 2026-11-01 20:06)</p>
+  <p id="appVersion" style="margin:6px 0 0;font-size:.72rem;opacity:.75">v1.0.2 (updated 2026-11-01 20:45)</p>
 </footer>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -520,21 +726,27 @@ $('#themeBtn').addEventListener('click',()=>{
 
 /* Light-dismiss fallback for browsers without HTMLDialogElement.prototype.closedBy */
 const dialog=$('#detailDialog');
+const notifyDialog=$('#notifyDialog');
 if(!('closedBy' in HTMLDialogElement.prototype)){
-  dialog.addEventListener('click',event=>{
-    if(event.target!==dialog)return;
-    const rect=dialog.getBoundingClientRect();
-    const isDialogContent=(
-      rect.top<=event.clientY&&
-      event.clientY<=rect.top+rect.height&&
-      rect.left<=event.clientX&&
-      event.clientX<=rect.left+rect.width
-    );
-    if(isDialogContent)return;
-    dialog.close();
+  [dialog,notifyDialog].forEach(dlg=>{
+    if(!dlg)return;
+    dlg.addEventListener('click',event=>{
+      if(event.target!==dlg)return;
+      const rect=dlg.getBoundingClientRect();
+      const isDialogContent=(
+        rect.top<=event.clientY&&
+        event.clientY<=rect.top+rect.height&&
+        rect.left<=event.clientX&&
+        event.clientX<=rect.left+rect.width
+      );
+      if(isDialogContent)return;
+      dlg.close();
+    });
   });
 }
 $('#dlgCloseBtn').addEventListener('click',()=>dialog.close());
+$('#notifyCloseBtn').addEventListener('click',()=>notifyDialog.close());
+$('#notifyCancelBtn').addEventListener('click',()=>notifyDialog.close());
 
 /* State */
 let adminPwd=sessionStorage.getItem(PWD_KEY)||'';
@@ -590,6 +802,7 @@ function doLogout(){
   $('#dashView').hidden=true;
   $('#logoutBtn').hidden=true;
   $('#exportCsvBtn').hidden=true;
+  $('#notifyBtn').hidden=true;
   $('#syncLocalBtn').hidden=true;
   $('#loginView').hidden=false;
 }
@@ -628,9 +841,196 @@ function showDashboard(){
   $('#dashView').hidden=false;
   $('#logoutBtn').hidden=false;
   $('#exportCsvBtn').hidden=false;
+  $('#notifyBtn').hidden=false;
   checkLocalUnsynced();
   loadRequests();
+  loadNotificationSettings();
 }
+
+/* Notifications Settings */
+function syncNotifyUI(){
+  const ep=$('#nf_email_provider').value;
+  $('#nf_email_resend_box').hidden=ep!=='resend';
+  $('#nf_email_webhook_box').hidden=ep!=='webhook';
+
+  const wp=$('#nf_wa_provider').value;
+  $('#nf_wa_callmebot_box').hidden=wp!=='callmebot';
+  $('#nf_wa_meta_box').hidden=wp!=='meta';
+  $('#nf_wa_twilio_box').hidden=wp!=='twilio';
+
+  const sp=$('#nf_sms_provider').value;
+  $('#nf_sms_twilio_box').hidden=sp!=='twilio';
+  $('#nf_sms_webhook_box').hidden=sp!=='webhook';
+
+  $('#ncard-email').classList.toggle('on',$('#nf_email_enabled').checked);
+  $('#ncard-whatsapp').classList.toggle('on',$('#nf_wa_enabled').checked);
+  $('#ncard-sms').classList.toggle('on',$('#nf_sms_enabled').checked);
+  $('#ncard-telegram').classList.toggle('on',$('#nf_tg_enabled').checked);
+
+  const activeCount=['nf_email_enabled','nf_wa_enabled','nf_sms_enabled','nf_tg_enabled'].filter(id=>$('#'+id).checked).length;
+  const badge=$('#notifyActiveBadge');
+  badge.hidden=activeCount===0;
+  badge.textContent=`${activeCount} ON`;
+}
+
+['nf_email_provider','nf_wa_provider','nf_sms_provider','nf_email_enabled','nf_wa_enabled','nf_sms_enabled','nf_tg_enabled'].forEach(id=>{
+  $('#'+id).addEventListener('change',syncNotifyUI);
+});
+
+function collectNotifyForm(){
+  return {
+    email:{
+      enabled:$('#nf_email_enabled').checked,
+      provider:$('#nf_email_provider').value,
+      toEmail:$('#nf_email_to').value.trim(),
+      fromEmail:$('#nf_email_from').value.trim()||'NurulQuran Requests <onboarding@resend.dev>',
+      resendApiKey:$('#nf_email_key').value.trim(),
+      webhookUrl:$('#nf_email_webhook').value.trim()
+    },
+    whatsapp:{
+      enabled:$('#nf_wa_enabled').checked,
+      provider:$('#nf_wa_provider').value,
+      adminPhone:$('#nf_wa_phone').value.trim(),
+      callmebotApiKey:$('#nf_wa_callmebot_key').value.trim(),
+      metaPhoneNumberId:$('#nf_wa_meta_id').value.trim(),
+      metaAccessToken:$('#nf_wa_meta_token').value.trim(),
+      twilioAccountSid:$('#nf_wa_tw_sid').value.trim(),
+      twilioAuthToken:$('#nf_wa_tw_token').value.trim(),
+      twilioFromWhatsApp:$('#nf_wa_tw_from').value.trim()||'whatsapp:+14155238886'
+    },
+    sms:{
+      enabled:$('#nf_sms_enabled').checked,
+      provider:$('#nf_sms_provider').value,
+      toPhone:$('#nf_sms_to').value.trim(),
+      fromPhone:$('#nf_sms_from').value.trim(),
+      twilioAccountSid:$('#nf_sms_sid').value.trim(),
+      twilioAuthToken:$('#nf_sms_token').value.trim(),
+      webhookUrl:$('#nf_sms_webhook').value.trim(),
+      webhookToken:$('#nf_sms_wtoken').value.trim()
+    },
+    telegram:{
+      enabled:$('#nf_tg_enabled').checked,
+      botToken:$('#nf_tg_token').value.trim(),
+      chatId:$('#nf_tg_chat').value.trim()
+    }
+  };
+}
+
+function populateNotifyForm(s){
+  if(!s)return;
+  if(s.email){
+    $('#nf_email_enabled').checked=!!s.email.enabled;
+    $('#nf_email_provider').value=s.email.provider||'resend';
+    $('#nf_email_to').value=s.email.toEmail||'';
+    $('#nf_email_from').value=s.email.fromEmail||'NurulQuran Requests <onboarding@resend.dev>';
+    $('#nf_email_key').value=s.email.resendApiKey||'';
+    $('#nf_email_webhook').value=s.email.webhookUrl||'';
+  }
+  if(s.whatsapp){
+    $('#nf_wa_enabled').checked=!!s.whatsapp.enabled;
+    $('#nf_wa_provider').value=s.whatsapp.provider||'callmebot';
+    $('#nf_wa_phone').value=s.whatsapp.adminPhone||'';
+    $('#nf_wa_callmebot_key').value=s.whatsapp.callmebotApiKey||'';
+    $('#nf_wa_meta_id').value=s.whatsapp.metaPhoneNumberId||'';
+    $('#nf_wa_meta_token').value=s.whatsapp.metaAccessToken||'';
+    $('#nf_wa_tw_sid').value=s.whatsapp.twilioAccountSid||'';
+    $('#nf_wa_tw_token').value=s.whatsapp.twilioAuthToken||'';
+    $('#nf_wa_tw_from').value=s.whatsapp.twilioFromWhatsApp||'whatsapp:+14155238886';
+  }
+  if(s.sms){
+    $('#nf_sms_enabled').checked=!!s.sms.enabled;
+    $('#nf_sms_provider').value=s.sms.provider||'twilio';
+    $('#nf_sms_to').value=s.sms.toPhone||'';
+    $('#nf_sms_from').value=s.sms.fromPhone||'';
+    $('#nf_sms_sid').value=s.sms.twilioAccountSid||'';
+    $('#nf_sms_token').value=s.sms.twilioAuthToken||'';
+    $('#nf_sms_webhook').value=s.sms.webhookUrl||'';
+    $('#nf_sms_wtoken').value=s.sms.webhookToken||'';
+  }
+  if(s.telegram){
+    $('#nf_tg_enabled').checked=!!s.telegram.enabled;
+    $('#nf_tg_token').value=s.telegram.botToken||'';
+    $('#nf_tg_chat').value=s.telegram.chatId||'';
+  }
+  syncNotifyUI();
+}
+
+async function loadNotificationSettings(){
+  try{
+    const r=await api('/api/notifications');
+    const d=await r.json();
+    if(r.ok&&d.settings)populateNotifyForm(d.settings);
+  }catch(_){}
+}
+
+$('#notifyBtn').addEventListener('click',()=>{
+  notifyDialog.showModal();
+});
+
+$('#notifySaveBtn').addEventListener('click',async e=>{
+  const btn=e.currentTarget;
+  btn.disabled=true;
+  try{
+    const r=await api('/api/notifications',{
+      method:'POST',
+      body:JSON.stringify({action:'save',settings:collectNotifyForm()})
+    });
+    const d=await r.json();
+    if(r.ok){
+      populateNotifyForm(d.settings);
+      toast('Notification settings saved 🌸');
+      notifyDialog.close();
+    }else{
+      toast(d.error||'Failed to save settings');
+    }
+  }catch(_){
+    toast('Error saving notification settings');
+  }finally{
+    btn.disabled=false;
+  }
+});
+
+async function runChannelTest(channel,btn){
+  if(btn)btn.disabled=true;
+  const statEl=$('#nstat-'+channel);
+  if(statEl){statEl.textContent='Sending…';statEl.style.color='var(--muted)';}
+  try{
+    const r=await api('/api/notifications',{
+      method:'POST',
+      body:JSON.stringify({action:'test',channel,settings:collectNotifyForm()})
+    });
+    const d=await r.json();
+    const res=d.results||{};
+    if(channel==='all'){
+      const entries=Object.entries(res);
+      const okCnt=entries.filter(([,v])=>v&&v.ok).length;
+      toast(`Tested ${entries.length} channel(s): ${okCnt} succeeded 🌸`);
+      entries.forEach(([ch,v])=>{
+        const el=$('#nstat-'+ch);
+        if(el){
+          el.textContent=v.ok?'✓ Sent!':('✕ '+(v.error||'Failed'));
+          el.style.color=v.ok?'var(--st-approved-fg)':'var(--st-declined-fg)';
+        }
+      });
+    }else{
+      const chRes=res[channel]||{ok:false,error:'No response'};
+      if(statEl){
+        statEl.textContent=chRes.ok?'✓ Test sent!':('✕ '+(chRes.error||'Failed'));
+        statEl.style.color=chRes.ok?'var(--st-approved-fg)':'var(--st-declined-fg)';
+      }
+      toast(chRes.ok?`Test ${channel.toUpperCase()} alert sent! 🌸`:`${channel.toUpperCase()} error: ${chRes.error}`);
+    }
+  }catch(_){
+    toast('Failed to run notification test');
+  }finally{
+    if(btn)btn.disabled=false;
+  }
+}
+
+$$('[data-test-channel]').forEach(btn=>{
+  btn.addEventListener('click',()=>runChannelTest(btn.dataset.testChannel,btn));
+});
+$('#notifyTestAllBtn').addEventListener('click',e=>runChannelTest('all',e.currentTarget));
 
 /* Load & Render Requests */
 async function loadRequests(){

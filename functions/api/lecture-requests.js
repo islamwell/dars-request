@@ -1,4 +1,5 @@
 import { json, requireAdmin, ensureSchema, makeRefId, mapRequestRow } from '../_lib.js';
+import { notifyAdminNewRequest } from '../_notify.js';
 
 // GET /api/lecture-requests
 // - Public lookup if ?ref=NQ-XXXXXX-XXXX is provided
@@ -144,6 +145,33 @@ export async function onRequestPost(context) {
       JSON.stringify(sections)
     )
     .run();
+
+  const origin = new URL(context.request.url).origin;
+  const reqObj = {
+    id,
+    status: 'pending',
+    submittedAt,
+    readiness,
+    hostName,
+    phone,
+    email,
+    city,
+    venueType,
+    occasion,
+    preferredDate,
+    altDate,
+    startTime,
+    duration,
+    guests,
+    lang,
+    data,
+    sections,
+  };
+  if (typeof context.waitUntil === 'function') {
+    context.waitUntil(notifyAdminNewRequest(context.env, reqObj, origin));
+  } else {
+    await notifyAdminNewRequest(context.env, reqObj, origin);
+  }
 
   return json({
     ok: true,
