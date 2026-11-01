@@ -1,0 +1,1545 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Invite a Teacher · NurulQuran Lecture Requests</title>
+<meta name="description" content="Request a NurulQuran teacher for a lecture at your home, hall, masjid or school.">
+<meta name="theme-color" content="#fff8f3">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌸</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500;1,9..144,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script>
+(function(){var d=document.documentElement;d.classList.add('js');try{var t=localStorage.getItem('nq_theme');if(!t)t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';d.setAttribute('data-theme',t);}catch(e){}})();
+</script>
+<style>
+/* =========================================================
+   DESIGN TOKENS — Day Garden (light) & Night Garden (dark)
+   ========================================================= */
+:root{
+  --bg:#fff8f3; --text:#2c2233; --muted:#75687c;
+  --surface:rgba(255,255,255,.66); --surface-solid:#fff; --glass:rgba(255,248,243,.8);
+  --border:rgba(232,87,122,.16);
+  --input-bg:#fffdfb; --input-border:#f1dfe5; --tile-on:#fff0f4; --track:#f1e4e8; --group-bg:rgba(255,255,255,.55);
+  --hint-bg:#f2fbf4; --hint-border:#a9d9b4; --warn-bg:#fff7e8; --warn-border:#efc46a;
+  --rose:#e8577a; --rose-2:#ff8fab; --peach:#ff9f7a; --leaf:#3f9f6a; --lav:#9b7bd4; --gold:#e9b44c;
+  --grad:linear-gradient(120deg,#e8577a,#ff8a6b 40%,#f2b84b 70%,#e8577a);
+  --grad-soft:linear-gradient(135deg,#fff0f4,#fff6e9 55%,#eefaf1);
+  --blob-1:rgba(255,183,201,.55); --blob-2:rgba(170,226,186,.45); --blob-3:rgba(255,214,165,.5);
+  --aura-1:#fff4c7; --aura-2:#ffc3d4; --water-1:rgba(124,196,228,.5); --ripple:rgba(64,150,200,.45);
+  --ray:rgba(255,210,140,.3); --spark:#f0b429;
+  --shadow:0 18px 40px -18px rgba(150,50,90,.35),0 2px 8px rgba(150,50,90,.06);
+  --ring:0 0 0 4px rgba(232,87,122,.18);
+  --fd:'Fraunces',Georgia,serif; --fb:'Plus Jakarta Sans',system-ui,-apple-system,'Segoe UI',sans-serif; --fa:'Amiri','Traditional Arabic',serif;
+  color-scheme:light;
+}
+[data-theme=dark]{
+  --bg:#0b1120; --text:#f3eef8; --muted:#a9a1bd;
+  --surface:rgba(22,27,52,.62); --surface-solid:#161b33; --glass:rgba(11,17,32,.78);
+  --border:rgba(255,143,171,.16);
+  --input-bg:rgba(255,255,255,.04); --input-border:rgba(255,255,255,.12); --tile-on:rgba(255,127,163,.13); --track:rgba(255,255,255,.14); --group-bg:rgba(255,255,255,.03);
+  --hint-bg:rgba(111,211,160,.08); --hint-border:rgba(111,211,160,.38); --warn-bg:rgba(255,210,122,.08); --warn-border:rgba(255,210,122,.42);
+  --rose:#ff7fa3; --rose-2:#ffb3c7; --peach:#ffb08f; --leaf:#5fcf98; --lav:#b8a0ff; --gold:#ffd27a;
+  --grad:linear-gradient(120deg,#ff7fa3,#c59bff 40%,#7cc4e4 70%,#ff7fa3);
+  --grad-soft:linear-gradient(135deg,rgba(255,127,163,.12),rgba(184,160,255,.1) 55%,rgba(111,211,160,.08));
+  --blob-1:rgba(118,92,210,.35); --blob-2:rgba(32,120,110,.28); --blob-3:rgba(255,127,163,.16);
+  --aura-1:#f1eeff; --aura-2:#6b5bd0; --water-1:rgba(108,92,207,.4); --ripple:rgba(200,190,255,.42);
+  --ray:rgba(200,190,255,.07); --spark:#fff7d6;
+  --shadow:0 20px 50px -20px rgba(0,0,0,.7),0 2px 10px rgba(0,0,0,.3);
+  --ring:0 0 0 4px rgba(255,127,163,.22);
+  color-scheme:dark;
+}
+
+/* ========================= BASE ========================= */
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;font-family:var(--fb);color:var(--text);background:var(--bg);line-height:1.55;overflow-x:hidden;overflow-x:clip;-webkit-font-smoothing:antialiased;transition:background-color .6s,color .6s}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(900px 520px at 105% -5%,var(--blob-1),transparent 62%),
+             radial-gradient(760px 560px at -15% 35%,var(--blob-2),transparent 62%),
+             radial-gradient(800px 480px at 50% 112%,var(--blob-3),transparent 62%);transition:background .8s}
+body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:0;transition:opacity .8s;
+  background-image:radial-gradient(1.3px 1.3px at 8% 12%,#fff 50%,transparent 52%),radial-gradient(1px 1px at 22% 6%,#fff 50%,transparent 52%),radial-gradient(1.4px 1.4px at 37% 18%,#fff 50%,transparent 52%),radial-gradient(1px 1px at 52% 9%,#fff 50%,transparent 52%),radial-gradient(1.2px 1.2px at 66% 22%,#fff 50%,transparent 52%),radial-gradient(1px 1px at 81% 7%,#fff 50%,transparent 52%),radial-gradient(1.5px 1.5px at 93% 16%,#fff 50%,transparent 52%),radial-gradient(1px 1px at 14% 34%,#fff 50%,transparent 52%),radial-gradient(1.2px 1.2px at 74% 38%,#fff 50%,transparent 52%),radial-gradient(1px 1px at 45% 30%,#fff 50%,transparent 52%)}
+[data-theme=dark] body::after{opacity:.75;animation:twinkle 4s ease-in-out infinite alternate}
+canvas.fxc{position:fixed;inset:0;width:100vw;height:100vh;pointer-events:none}
+#bgfx{z-index:0} #fx{z-index:90}
+main,footer,.hdr{position:relative;z-index:1}
+section[id]{scroll-margin-top:76px}
+a{color:var(--rose)}
+:focus-visible{outline:3px solid var(--rose);outline-offset:3px;border-radius:10px}
+.muted{color:var(--muted)}
+.sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+/* ========================= HEADER ========================= */
+.hdr{position:sticky;top:0;z-index:40;display:flex;align-items:center;gap:10px;padding:10px 16px;padding-top:max(10px,env(safe-area-inset-top));background:var(--glass);backdrop-filter:blur(16px) saturate(1.4);-webkit-backdrop-filter:blur(16px) saturate(1.4);border-bottom:1px solid var(--border);transition:background .6s}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit;margin-right:auto}
+.brand svg{width:38px;height:38px;animation:spin 40s linear infinite;filter:drop-shadow(0 4px 8px rgba(232,87,122,.35))}
+.brand b{font-family:var(--fd);font-weight:600;font-size:1.18rem;letter-spacing:-.01em;display:block;line-height:1.1}
+.brand small{display:block;font-size:.62rem;color:var(--muted);letter-spacing:.18em;text-transform:uppercase;font-weight:700}
+.nav{display:none;gap:4px}
+.nav a{color:var(--text);text-decoration:none;font-weight:600;font-size:.88rem;padding:8px 12px;border-radius:99px;transition:background .25s}
+.nav a:hover{background:var(--tile-on)}
+.tt{width:44px;height:44px;border-radius:50%;border:1px solid var(--border);background:var(--surface-solid);color:#e9a020;display:grid;place-items:center;cursor:pointer;transition:transform .4s cubic-bezier(.3,1.6,.5,1),background .6s;flex:none}
+.tt:hover{transform:rotate(-20deg) scale(1.06)}
+[data-theme=dark] .tt{color:#f5e6a8}
+.tt svg{width:22px;height:22px;overflow:visible}
+.sm-c,.sm-b,.sm-r{transform-box:view-box}
+.sm-c{transform-origin:12px 12px;transition:transform .55s cubic-bezier(.3,1.5,.5,1)}
+.sm-b{fill:var(--surface-solid);transform-origin:17px 7px;transform:scale(0);opacity:0;transition:transform .55s cubic-bezier(.3,1.5,.5,1),opacity .3s,fill .6s}
+.sm-r{transform-origin:12px 12px;transition:transform .55s,opacity .35s}
+[data-theme=dark] .sm-c{transform:scale(1.6)}
+[data-theme=dark] .sm-b{transform:scale(1);opacity:1}
+[data-theme=dark] .sm-r{transform:rotate(90deg) scale(.4);opacity:0}
+@media(min-width:860px){.nav{display:flex}.hdr{padding:12px 28px}}
+
+/* ========================= BUTTONS ========================= */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 22px;border-radius:999px;border:0;font:700 .95rem var(--fb);cursor:pointer;text-decoration:none;position:relative;overflow:hidden;transition:transform .2s,box-shadow .3s,background-position .6s;-webkit-tap-highlight-color:transparent;white-space:nowrap}
+.btn:active{transform:scale(.96)}
+.btn-p{background:var(--grad);background-size:220% 100%;color:#fff;box-shadow:0 12px 26px -12px var(--rose)}
+.btn-p:hover{background-position:100% 0;box-shadow:0 16px 32px -12px var(--rose);transform:translateY(-2px)}
+.btn-p::before{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 35%,rgba(255,255,255,.5) 50%,transparent 65%);transform:translateX(-120%);animation:sheen 4s ease-in-out infinite}
+.btn-g{background:var(--surface-solid);color:var(--text);border:1.5px solid var(--input-border)}
+.btn-g:hover{border-color:var(--rose-2);transform:translateY(-2px)}
+.btn-s{padding:8px 14px;font-size:.8rem}
+.btn-hdr{padding:10px 16px;font-size:.85rem}
+.btn .arr{transition:transform .3s}
+.btn:hover .arr{transform:translateX(4px)}
+.btn.loading .bt,.btn.loading .arr{opacity:0}
+.btn.loading::after{content:"";position:absolute;width:22px;height:22px;border-radius:50%;border:3px solid rgba(255,255,255,.4);border-top-color:#fff;animation:spin .8s linear infinite}
+
+/* ========================= HERO ========================= */
+.hero-wrap{position:relative}
+.branch{position:absolute;top:-4px;right:-70px;width:min(80vw,560px);z-index:-1;opacity:.55;pointer-events:none;transform-origin:100% 0;animation:sway 9s ease-in-out infinite}
+.bl{transform-box:fill-box;transform-origin:center;animation:twirl 4.5s ease-in-out infinite alternate}
+.bl:nth-of-type(2n){animation-duration:5.5s;animation-delay:-2s}
+.bl:nth-of-type(3n){animation-duration:6.5s;animation-delay:-1s}
+.hero{max-width:1180px;margin:0 auto;padding:18px 18px 34px;display:grid;gap:12px}
+.hero-art{order:-1;position:relative;display:block;width:min(76vw,320px);aspect-ratio:400/360;margin:0 auto;padding:0;border:0;background:none;cursor:pointer;border-radius:30px;-webkit-tap-highlight-color:transparent}
+.hero-art::before{content:"";position:absolute;inset:-14%;border-radius:50%;background:repeating-conic-gradient(from 0deg at 50% 50%,var(--ray) 0 5deg,transparent 5deg 16deg);-webkit-mask:radial-gradient(circle,#000 0 18%,transparent 64%);mask:radial-gradient(circle,#000 0 18%,transparent 64%);animation:spin 70s linear infinite;pointer-events:none}
+.lotus{position:relative;width:100%;height:100%;overflow:visible;display:block}
+.tap-hint{position:absolute;left:50%;bottom:-6px;transform:translateX(-50%);font-size:.72rem;font-weight:700;color:var(--muted);background:var(--surface-solid);padding:5px 12px;border-radius:99px;border:1px solid var(--border);box-shadow:var(--shadow);animation:float 3.5s ease-in-out infinite;white-space:nowrap}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:99px;background:var(--surface);border:1px solid var(--border);font-size:.74rem;font-weight:700;letter-spacing:.06em;color:var(--rose);backdrop-filter:blur(8px)}
+.hero h1{font-family:var(--fd);font-weight:600;font-size:clamp(2.15rem,8.4vw,4.3rem);line-height:1.04;letter-spacing:-.025em;margin:.45em 0 .35em}
+.grad-text{background:var(--grad);background-size:200% auto;-webkit-background-clip:text;background-clip:text;color:transparent;font-style:italic;animation:shimmer 6s linear infinite;padding-right:.06em}
+.lead{font-size:1.02rem;color:var(--muted);max-width:560px;margin:0 0 22px}
+.cta-row{display:flex;flex-wrap:wrap;gap:10px}
+.cta-row .btn{flex:1 1 auto}
+.pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.pill{padding:7px 13px;border-radius:99px;background:var(--surface);border:1px solid var(--border);font-size:.8rem;font-weight:600;backdrop-filter:blur(8px)}
+.mini-note{margin-top:14px;font-size:.8rem;color:var(--muted)}
+@media(min-width:900px){
+  .hero{grid-template-columns:1.05fr .95fr;align-items:center;padding:56px 28px 70px;gap:30px}
+  .hero-art{order:0;width:min(100%,480px)}
+  .branch{opacity:.95;right:-40px}
+  .cta-row .btn{flex:0 0 auto}
+}
+/* lotus internals */
+.pt{transform-box:view-box;transform-origin:200px 282px;transform:rotate(0deg) scale(.15);opacity:0}
+.lotus.play .pt{animation:bloom 1.9s cubic-bezier(.2,.85,.25,1) var(--d) forwards}
+.flower{transform-box:view-box;transform-origin:200px 282px;animation:breathe 7s ease-in-out 2.6s infinite}
+.stamen{opacity:0}.lotus.play .stamen{animation:fadeIn 1s .5s forwards}
+.aura{transform-box:fill-box;transform-origin:center;animation:auraP 7s ease-in-out infinite}
+.moon{opacity:0;transition:opacity .8s}
+[data-theme=dark] .moon{opacity:.95}
+.rp{fill:none;stroke:var(--ripple);stroke-width:1.4;transform-box:fill-box;transform-origin:center;animation:rip 5s ease-out infinite}
+.rp:nth-child(2){animation-delay:1.65s}.rp:nth-child(3){animation-delay:3.3s}
+.bud{transform-box:view-box;transform-origin:300px 316px;animation:budSway 5s ease-in-out infinite}
+.spk{fill:var(--spark);transform-box:fill-box;transform-origin:center;animation:sparkle 3.2s ease-in-out infinite}
+
+/* ========================= SECTIONS ========================= */
+.section{max-width:1180px;margin:0 auto;padding:44px 18px;position:relative}
+.sec-head{text-align:center;max-width:680px;margin:0 auto 28px}
+.kicker{display:inline-flex;align-items:center;gap:8px;font-size:.72rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--rose)}
+.sec-head h2{font-family:var(--fd);font-weight:600;font-size:clamp(1.75rem,5.4vw,2.7rem);line-height:1.12;letter-spacing:-.02em;margin:.3em 0 .3em}
+.sec-head p{color:var(--muted);margin:0}
+.verse{max-width:880px;margin:0 auto;padding:10px 18px 20px;text-align:center}
+.verse-card{position:relative;padding:28px 18px;border-radius:28px;background:var(--surface);border:1px solid var(--border);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:var(--shadow)}
+.verse .ar{font-family:var(--fa);font-size:clamp(1.5rem,6vw,2.35rem);line-height:2;direction:rtl;margin:0}
+.verse .tr{font-family:var(--fd);font-style:italic;color:var(--muted);margin:.4em 0 0;font-size:1.02rem}
+.verse .ref{display:inline-block;margin-top:10px;font-size:.72rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--leaf)}
+.leafline{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:6px}
+.leafline i{height:1px;width:60px;background:linear-gradient(90deg,transparent,var(--leaf))}
+.leafline i:last-child{transform:scaleX(-1)}
+.how-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(min-width:900px){.how-grid{grid-template-columns:repeat(4,1fr);gap:18px}}
+.how{position:relative;padding:18px 16px;border-radius:24px;background:var(--surface);border:1px solid var(--border);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:var(--shadow);overflow:hidden;transition:transform .25s ease-out}
+.how::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at var(--mx,50%) var(--my,0%),rgba(255,255,255,.35),transparent 55%);opacity:0;transition:opacity .3s;pointer-events:none}
+.how:hover::after{opacity:1}
+.how-n{position:relative;width:54px;height:54px;margin-bottom:10px}
+.how-n svg{width:100%;height:100%;animation:spin 24s linear infinite}
+.how-n b{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--fd);font-size:1.05rem;color:#7a2440}
+.how h3{font-family:var(--fd);font-weight:600;font-size:1.08rem;margin:0 0 4px;line-height:1.2}
+.how p{margin:0;color:var(--muted);font-size:.84rem;line-height:1.45}
+
+/* ========================= PLANNER CARD ========================= */
+.planner{position:relative;max-width:880px;margin:0 auto;border-radius:30px;background:var(--surface);border:1px solid var(--border);box-shadow:var(--shadow);backdrop-filter:blur(18px) saturate(1.3);-webkit-backdrop-filter:blur(18px) saturate(1.3)}
+.p-deco{position:absolute;inset:0;border-radius:inherit;overflow:hidden;pointer-events:none}
+.p-deco svg{position:absolute;width:220px;height:220px;right:-70px;top:-70px;opacity:.16;animation:spin 60s linear infinite}
+.p-deco svg+svg{left:-80px;bottom:-80px;top:auto;right:auto;width:200px;height:200px;animation-direction:reverse}
+.p-head{position:relative;display:flex;align-items:center;gap:14px;padding:18px 18px 6px}
+.bloom{width:66px;height:66px;flex:none;overflow:visible}
+.bloom-ring{fill:none;stroke:var(--border);stroke-width:1.5;stroke-dasharray:3 5}
+.bp{transform-box:view-box;transform-origin:60px 60px;transform:rotate(var(--a)) scale(.38);opacity:.22;transition:transform .8s cubic-bezier(.3,1.6,.5,1),opacity .5s}
+.bp.cur{transform:rotate(var(--a)) scale(.74);opacity:.95}
+.bp.on{transform:rotate(var(--a)) scale(1);opacity:1}
+.bloom-num{font:800 15px var(--fb);fill:#7a2440}
+.p-head h3{font-family:var(--fd);font-weight:600;font-size:1.25rem;margin:0;line-height:1.15}
+.p-head p{margin:2px 0 0;color:var(--muted);font-size:.82rem}
+.saved{position:absolute;top:14px;right:16px;display:flex;align-items:center;gap:6px;font-size:.7rem;font-weight:700;color:var(--leaf);opacity:0;transform:translateY(-4px);transition:.4s}
+.saved.show{opacity:1;transform:none}
+.steps-nav{position:relative;display:flex;gap:8px;overflow-x:auto;padding:10px 18px 12px;scrollbar-width:none;scroll-behavior:smooth}
+.steps-nav::-webkit-scrollbar{display:none}
+.sn{flex:none;display:flex;align-items:center;gap:6px;padding:8px 13px;border-radius:999px;border:1.5px solid var(--input-border);background:var(--surface-solid);color:var(--muted);font:700 .78rem var(--fb);cursor:pointer;transition:.3s}
+.sn:not(:disabled):hover{border-color:var(--rose-2)}
+.sn.done{color:var(--leaf);border-color:color-mix(in srgb,var(--leaf) 45%,transparent)}
+.sn.done span::after{content:" ✓"}
+.sn.cur{background:var(--grad);background-size:200% 100%;color:#fff;border-color:transparent;box-shadow:0 8px 18px -10px var(--rose)}
+.sn:disabled{opacity:.45;cursor:not-allowed}
+.pbar{height:4px;margin:0 18px;border-radius:9px;background:var(--track);overflow:hidden}
+.pbar i{display:block;height:100%;width:0;border-radius:inherit;background:var(--grad);transition:width .7s cubic-bezier(.3,1.2,.5,1)}
+.p-body{position:relative;padding:18px 18px 8px}
+
+/* steps */
+.step{display:none}
+.step.active{display:block}
+.step.in-r{animation:inR .55s cubic-bezier(.2,.8,.2,1)}
+.step.in-l{animation:inL .55s cubic-bezier(.2,.8,.2,1)}
+.step.active>*{animation:rise .55s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--i,0)*50ms)}
+.st-h{display:flex;gap:12px;align-items:flex-start;margin-bottom:18px}
+.st-e{font-size:2rem;line-height:1;animation:float 4s ease-in-out infinite}
+.st-h h3{font-family:var(--fd);font-weight:600;font-size:clamp(1.35rem,4.6vw,1.75rem);margin:0;line-height:1.15;letter-spacing:-.01em}
+.st-h p{margin:4px 0 0;color:var(--muted);font-size:.88rem}
+.group{padding:16px 14px;border-radius:22px;background:var(--group-bg);border:1px solid var(--border);margin-bottom:16px}
+.group>h4{display:flex;align-items:center;gap:8px;margin:0 0 14px;font-size:.98rem;font-weight:800}
+.group>h4 small{margin-left:auto;font-weight:600;color:var(--muted);font-size:.72rem}
+.row{display:grid;gap:0 14px}
+@media(min-width:640px){.row.c2{grid-template-columns:1fr 1fr}.group{padding:20px}.p-body{padding:22px 26px 8px}.p-head{padding:22px 26px 6px}.steps-nav{padding:10px 26px 12px}.pbar{margin:0 26px}}
+
+/* fields */
+.field{margin-bottom:16px;min-width:0}
+.lbl{display:flex;align-items:center;gap:6px;font-weight:700;font-size:.88rem;margin-bottom:8px}
+.req{color:var(--rose)}
+.opt{font-weight:600;font-size:.7rem;color:var(--muted);background:var(--track);padding:2px 8px;border-radius:99px}
+.inp{width:100%;font:500 16px var(--fb);color:var(--text);background:var(--input-bg);border:1.5px solid var(--input-border);border-radius:15px;padding:13px 14px;transition:border-color .2s,box-shadow .2s,background .3s;-webkit-appearance:none;appearance:none;min-height:50px}
+.inp::placeholder{color:var(--muted);opacity:.7}
+.inp:focus{outline:none;border-color:var(--rose);box-shadow:var(--ring)}
+textarea.inp{min-height:96px;resize:vertical;line-height:1.5}
+select.inp{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23e8577a' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;background-size:18px;padding-right:42px;cursor:pointer}
+.ico{position:relative}
+.ico>.i{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:1.05rem;pointer-events:none;transition:transform .35s cubic-bezier(.3,1.8,.5,1)}
+.ico .inp{padding-left:44px}
+.ico:focus-within>.i{transform:translateY(-50%) scale(1.2) rotate(-10deg)}
+.help{font-size:.76rem;color:var(--muted);margin-top:6px}
+.err{display:none;color:#e0446a;font-size:.78rem;font-weight:700;margin-top:7px}
+.field.invalid .err{display:block}
+.field.invalid .inp{border-color:#e0446a;background:rgba(224,68,106,.06)}
+.field.invalid .tb,.field.invalid .chip .t{border-color:rgba(224,68,106,.55)}
+.counter{text-align:right;font-size:.72rem;color:var(--muted);margin-top:4px}
+
+/* tiles */
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tiles.c3{grid-template-columns:repeat(3,1fr)}
+.tiles.c3 .tb{align-items:center;text-align:center;padding:14px 8px}
+@media(max-width:639px){.tiles:not(.c3)>:last-child:nth-child(odd){grid-column:1/-1}}
+@media(min-width:640px){.tiles{grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}}
+.tile{position:relative;display:block;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.tile input{position:absolute;opacity:0;pointer-events:none}
+.tb{display:flex;flex-direction:column;gap:4px;height:100%;padding:14px 12px;border-radius:18px;background:var(--input-bg);border:1.5px solid var(--input-border);transition:transform .25s,border-color .25s,background .3s,box-shadow .3s}
+.tb .e{font-size:1.6rem;line-height:1;margin-bottom:4px;transition:transform .45s cubic-bezier(.3,1.8,.5,1)}
+.tb .t{font-weight:800;font-size:.9rem;line-height:1.25}
+.tb .d{font-size:.75rem;color:var(--muted);line-height:1.35}
+.tile:hover .tb{transform:translateY(-2px);border-color:var(--rose-2)}
+.tile input:checked+.tb{border-color:var(--rose);background:var(--tile-on);box-shadow:0 10px 24px -14px var(--rose)}
+.tile input:checked+.tb .e{transform:scale(1.2) rotate(-8deg)}
+.tile input:focus-visible+.tb{box-shadow:var(--ring)}
+.tb::after{content:"✓";position:absolute;top:9px;right:9px;width:22px;height:22px;border-radius:50%;background:var(--grad);color:#fff;font-size:.72rem;font-weight:800;display:grid;place-items:center;transform:scale(0);transition:transform .4s cubic-bezier(.3,1.8,.5,1)}
+.tile input:checked+.tb::after{transform:scale(1)}
+
+/* chips */
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{position:relative;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.chip input{position:absolute;opacity:0;pointer-events:none}
+.chip .t{display:inline-flex;align-items:center;gap:6px;padding:9px 14px;border-radius:999px;border:1.5px solid var(--input-border);background:var(--input-bg);font-weight:700;font-size:.83rem;transition:.25s}
+.chip:hover .t{border-color:var(--rose-2)}
+.chip input:checked+.t{background:var(--grad);background-size:200% 100%;color:#fff;border-color:transparent;transform:scale(1.04);box-shadow:0 8px 18px -10px var(--rose)}
+.chip input:focus-visible+.t{box-shadow:var(--ring)}
+
+/* switches */
+.sw{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:15px;background:var(--input-bg);border:1.5px solid var(--input-border);cursor:pointer;position:relative;transition:border-color .25s,background .3s}
+.sw+.sw{margin-top:8px}
+.sw:hover{border-color:var(--rose-2)}
+.sw input{position:absolute;opacity:0;pointer-events:none}
+.sw .t{flex:1;font-weight:700;font-size:.88rem;line-height:1.3}
+.sw .t small{display:block;font-weight:500;color:var(--muted);font-size:.75rem;margin-top:2px}
+.sw .tr{width:48px;height:28px;border-radius:99px;background:var(--track);position:relative;flex:none;transition:background .3s}
+.sw .tr::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.22);transition:transform .4s cubic-bezier(.3,1.6,.5,1)}
+.sw input:checked~.tr{background:var(--leaf)}
+.sw input:checked~.tr::after{transform:translateX(20px)}
+.sw input:focus-visible~.tr{box-shadow:var(--ring)}
+
+/* hints */
+.hint{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;border-radius:16px;background:var(--hint-bg);border:1.5px dashed var(--hint-border);font-size:.85rem;line-height:1.45;margin:10px 0 0}
+.hint.warn{background:var(--warn-bg);border-color:var(--warn-border)}
+.hint .hi{font-size:1.25rem;line-height:1.2}
+.hint .hx{flex:1}
+.hint .btn{margin-top:8px}
+
+/* guests */
+.guest-top{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.g-big{font-family:var(--fd);font-weight:600;font-size:2.7rem;line-height:1;background:var(--grad);background-size:200% auto;-webkit-background-clip:text;background-clip:text;color:transparent;min-width:2ch}
+.g-lab{font-weight:800;font-size:.85rem;line-height:1.2}
+.g-lab small{display:block;color:var(--muted);font-weight:600;font-size:.72rem}
+.g-num{width:104px;margin-left:auto;text-align:center}
+.range{-webkit-appearance:none;appearance:none;width:100%;height:10px;border-radius:99px;outline:none;background:linear-gradient(90deg,var(--rose),var(--peach) var(--p,7%),var(--track) var(--p,7%));cursor:pointer;margin:6px 0}
+.range::-webkit-slider-thumb{-webkit-appearance:none;width:32px;height:32px;border-radius:50%;border:3px solid var(--rose);box-shadow:0 6px 16px -4px rgba(232,87,122,.6);cursor:grab;transition:transform .2s;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-10 -10 20 20'%3E%3Cg fill='%23f48fb1'%3E%3Ccircle cy='-5' r='4'/%3E%3Ccircle cx='4.75' cy='-1.55' r='4'/%3E%3Ccircle cx='2.94' cy='4.05' r='4'/%3E%3Ccircle cx='-2.94' cy='4.05' r='4'/%3E%3Ccircle cx='-4.75' cy='-1.55' r='4'/%3E%3C/g%3E%3Ccircle r='2.6' fill='%23f7c948'/%3E%3C/svg%3E") center/20px no-repeat}
+.range:active::-webkit-slider-thumb{transform:scale(1.15) rotate(30deg);cursor:grabbing}
+.range::-moz-range-thumb{width:28px;height:28px;border-radius:50%;border:3px solid var(--rose);cursor:grab;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-10 -10 20 20'%3E%3Cg fill='%23f48fb1'%3E%3Ccircle cy='-5' r='4'/%3E%3Ccircle cx='4.75' cy='-1.55' r='4'/%3E%3Ccircle cx='2.94' cy='4.05' r='4'/%3E%3Ccircle cx='-2.94' cy='4.05' r='4'/%3E%3Ccircle cx='-4.75' cy='-1.55' r='4'/%3E%3C/g%3E%3Ccircle r='2.6' fill='%23f7c948'/%3E%3C/svg%3E") center/18px no-repeat}
+.quick{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.quick button{padding:6px 12px;border-radius:99px;border:1.5px solid var(--input-border);background:var(--input-bg);color:var(--text);font:700 .76rem var(--fb);cursor:pointer;transition:.2s}
+.quick button:hover{border-color:var(--rose);color:var(--rose)}
+.garden{display:flex;flex-wrap:wrap;align-items:flex-end;gap:2px;min-height:48px;padding:10px;border-radius:16px;background:var(--grad-soft);margin-top:12px;border:1px solid var(--border)}
+.gf{width:var(--z,26px);height:var(--z,26px);animation:pop .55s cubic-bezier(.3,1.6,.5,1) both}
+.gf svg{width:100%;height:100%;display:block;animation:twirl 3.2s ease-in-out infinite alternate;animation-delay:var(--dl,0s)}
+.garden-note{font-size:.72rem;color:var(--muted);margin-top:6px}
+
+/* checklist */
+.ready{display:flex;align-items:center;gap:16px;padding:16px;border-radius:22px;background:var(--grad-soft);border:1px solid var(--border);margin-bottom:16px}
+.ring{width:104px;height:104px;flex:none;overflow:visible}
+.ring-bg{fill:none;stroke:var(--track);stroke-width:10}
+.ring-fg{fill:none;stroke:url(#ringG);stroke-width:10;stroke-linecap:round;stroke-dasharray:314.16;stroke-dashoffset:314.16;transition:stroke-dashoffset .9s cubic-bezier(.3,1.2,.5,1)}
+.rf{transform-box:view-box;transform-origin:60px 60px;transform:scale(.3);transition:transform .9s cubic-bezier(.3,1.6,.5,1)}
+.r-pct{font-family:var(--fd);font-weight:600;font-size:2.1rem;line-height:1}
+.r-stage{font-weight:800;margin:4px 0 2px}
+.r-msg{font-size:.82rem;color:var(--muted);margin:0}
+.ck-wrap{display:grid;gap:12px;margin-bottom:16px}
+@media(min-width:760px){.ck-wrap{grid-template-columns:1fr 1fr}}
+.ck-group{padding:12px;border-radius:20px;background:var(--group-bg);border:1px solid var(--border)}
+.ck-gh{display:flex;justify-content:space-between;align-items:center;padding:4px 6px 8px;font-weight:800;font-size:.9rem}
+.ck-count{font-size:.72rem;padding:3px 9px;border-radius:99px;background:var(--track);color:var(--muted)}
+.ck{display:flex;gap:12px;align-items:flex-start;padding:10px 8px;border-radius:14px;cursor:pointer;position:relative;transition:background .2s;-webkit-tap-highlight-color:transparent}
+.ck:hover{background:var(--input-bg)}
+.ck input{position:absolute;opacity:0;pointer-events:none}
+.box{width:24px;height:24px;border-radius:8px;border:2px solid var(--input-border);background:var(--input-bg);flex:none;display:grid;place-items:center;transition:.3s cubic-bezier(.3,1.6,.5,1)}
+.box svg{width:15px;height:15px;stroke:#fff;stroke-dasharray:24;stroke-dashoffset:24;transition:stroke-dashoffset .35s .1s}
+.ck input:checked+.box{background:var(--leaf);border-color:var(--leaf);transform:rotate(-8deg) scale(1.08)}
+.ck input:checked+.box svg{stroke-dashoffset:0}
+.ck input:focus-visible+.box{box-shadow:var(--ring)}
+.ck .t{font-size:.86rem;font-weight:600;line-height:1.4}
+.ck .t::after{content:" 🌸";opacity:0;display:inline-block;transform:scale(0);transition:.4s cubic-bezier(.3,1.8,.5,1)}
+.ck input:checked~.t::after{opacity:1;transform:scale(1)}
+.consent{background:var(--tile-on);border:1.5px solid var(--border)}
+.rv{border:1px solid var(--border);border-radius:18px;background:var(--input-bg);margin-bottom:10px;overflow:hidden}
+.rv summary{list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px;font-weight:800;cursor:pointer}
+.rv summary::-webkit-details-marker{display:none}
+.rv dl{display:grid;grid-template-columns:1fr;margin:0;padding:0 14px 14px}
+.rv dt{font-size:.7rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-top:10px}
+.rv dd{margin:2px 0 0;font-weight:600;font-size:.9rem;word-break:break-word}
+.rv .empty{padding:0 14px 14px;margin:0;color:var(--muted);font-size:.85rem}
+@media(min-width:640px){.rv dl{grid-template-columns:190px 1fr;gap:8px 14px}.rv dt{margin-top:2px}.rv dd{margin:0}}
+
+/* wizard nav */
+.wiz-nav{position:sticky;bottom:0;z-index:5;display:flex;align-items:center;gap:10px;padding:12px 18px;padding-bottom:max(12px,env(safe-area-inset-bottom));background:var(--glass);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-top:1px solid var(--border);border-radius:0 0 30px 30px}
+.wiz-nav .count{flex:1;font-size:.76rem;font-weight:700;color:var(--muted);text-align:center}
+.wiz-nav .btn{padding:13px 18px}
+@media(min-width:640px){.wiz-nav{padding:14px 26px}}
+
+/* FAQ */
+.faq{max-width:820px;margin:0 auto;display:grid;gap:10px}
+.faq details{border-radius:20px;background:var(--surface);border:1px solid var(--border);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:0 18px;transition:box-shadow .3s}
+.faq details[open]{box-shadow:var(--shadow)}
+.faq summary{list-style:none;cursor:pointer;padding:16px 0;font-weight:800;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.faq summary::-webkit-details-marker{display:none}
+.pm{width:30px;height:30px;border-radius:50%;background:var(--tile-on);color:var(--rose);display:grid;place-items:center;flex:none;font-size:1.2rem;transition:transform .4s cubic-bezier(.3,1.6,.5,1)}
+.faq details[open] .pm{transform:rotate(135deg)}
+.faq details p{margin:0 0 16px;color:var(--muted);font-size:.92rem}
+
+/* footer */
+footer{text-align:center;padding:40px 18px calc(40px + env(safe-area-inset-bottom));color:var(--muted);font-size:.82rem}
+footer .ar{font-family:var(--fa);font-size:1.6rem;color:var(--text);direction:rtl;margin:0 0 4px}
+footer .tag{display:inline-block;margin-top:10px;padding:4px 12px;border-radius:99px;background:var(--track);font-size:.7rem;font-weight:700}
+
+/* toast + success */
+.toast{position:fixed;left:50%;bottom:calc(92px + env(safe-area-inset-bottom));z-index:95;display:flex;align-items:center;gap:12px;max-width:calc(100vw - 28px);padding:12px 18px;border-radius:999px;background:var(--text);color:var(--bg);font-weight:700;font-size:.86rem;box-shadow:0 14px 34px -10px rgba(0,0,0,.4);opacity:0;transform:translate(-50%,30px);transition:.4s cubic-bezier(.3,1.4,.5,1);pointer-events:none}
+.toast.show{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+.toast button{background:none;border:0;color:var(--rose-2);font:800 .82rem var(--fb);cursor:pointer;white-space:nowrap}
+[data-theme=dark] .toast button{color:var(--rose)}
+.success{position:fixed;inset:0;z-index:80;display:grid;place-items:center;padding:18px;background:rgba(25,10,30,.45);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);opacity:0;visibility:hidden;transition:.45s}
+.success.show{opacity:1;visibility:visible}
+.s-card{position:relative;width:100%;max-width:440px;max-height:92vh;overflow:auto;text-align:center;padding:26px 20px 22px;border-radius:30px;background:var(--surface-solid);border:1px solid var(--border);box-shadow:0 30px 80px -20px rgba(0,0,0,.5);transform:translateY(40px) scale(.94);transition:transform .7s cubic-bezier(.2,1.4,.4,1)}
+.success.show .s-card{transform:none}
+.s-x{position:absolute;top:12px;right:12px;width:36px;height:36px;border-radius:50%;border:0;background:var(--track);color:var(--text);font-size:1.1rem;cursor:pointer}
+.s-flower{width:170px;height:170px;margin:-4px auto 4px;display:block;overflow:visible}
+.s-petals{transform-box:view-box;transform-origin:110px 110px;animation:spin 40s linear infinite}
+.sp{transform-box:view-box;transform-origin:110px 110px;transform:rotate(var(--a)) scale(0);opacity:0}
+.success.show .sp{animation:spB 1.1s cubic-bezier(.3,1.4,.5,1) var(--d) forwards}
+.s-core{transform-box:fill-box;transform-origin:center;transform:scale(0)}
+.success.show .s-core{animation:popC .6s 1s cubic-bezier(.3,1.8,.5,1) forwards}
+.s-card h3{font-family:var(--fd);font-weight:600;font-size:1.6rem;margin:0;line-height:1.15}
+.s-card p{color:var(--muted);margin:8px 0 14px;font-size:.9rem}
+.ref{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:14px;background:var(--grad-soft);border:1.5px dashed var(--rose-2);font:800 1.05rem var(--fb);letter-spacing:.06em;cursor:pointer}
+.s-meta{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin:14px 0 18px}
+.s-meta span{padding:6px 11px;border-radius:99px;background:var(--track);font-size:.76rem;font-weight:700}
+.s-actions{display:grid;gap:8px}
+.s-actions .row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+
+/* reveal */
+.js .reveal{opacity:0;transform:translateY(26px);transition:opacity .9s,transform .9s cubic-bezier(.2,.8,.2,1)}
+.js .reveal.in{opacity:1;transform:none}
+
+/* view transition (circular theme reveal) */
+::view-transition-old(root),::view-transition-new(root){animation:none;mix-blend-mode:normal}
+
+/* ========================= KEYFRAMES ========================= */
+@keyframes bloom{to{transform:rotate(var(--r)) scale(var(--s));opacity:1}}
+@keyframes breathe{0%,100%{transform:scale(1) rotate(0)}50%{transform:scale(1.025) rotate(.7deg)}}
+@keyframes auraP{0%,100%{transform:scale(1);opacity:.95}50%{transform:scale(1.07);opacity:1}}
+@keyframes rip{0%{transform:scale(.35);opacity:.9}100%{transform:scale(1.5);opacity:0}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes sway{0%,100%{transform:rotate(0)}50%{transform:rotate(2.4deg)}}
+@keyframes twirl{from{rotate:-7deg;scale:.95}to{rotate:7deg;scale:1.05}}
+@keyframes budSway{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3deg)}}
+@keyframes sparkle{0%,100%{transform:scale(.2);opacity:0}50%{transform:scale(1);opacity:1}}
+@keyframes shimmer{to{background-position:200% center}}
+@keyframes sheen{0%,55%{transform:translateX(-120%)}100%{transform:translateX(120%)}}
+@keyframes float{0%,100%{translate:0 0}50%{translate:0 -6px}}
+@keyframes inR{from{opacity:0;transform:translateX(28px)}}
+@keyframes inL{from{opacity:0;transform:translateX(-28px)}}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}}
+@keyframes pop{from{transform:scale(0) rotate(-120deg);opacity:0}}
+@keyframes popC{to{transform:scale(1)}}
+@keyframes spB{from{transform:rotate(calc(var(--a) - 140deg)) scale(0);opacity:0}to{transform:rotate(var(--a)) scale(var(--s));opacity:1}}
+@keyframes fadeIn{to{opacity:.95}}
+@keyframes twinkle{from{opacity:.45}to{opacity:.85}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+
+<!-- ============ SHARED SVG DEFS (flowers, leaves, gradients) ============ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <radialGradient id="skG" cx="0" cy="0" r="46" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#c9285c"/><stop offset=".22" stop-color="#ee7fa4"/><stop offset=".62" stop-color="#ffd0de"/><stop offset="1" stop-color="#fff7fa"/></radialGradient>
+    <radialGradient id="skG2" cx="0" cy="0" r="46" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#e0567f"/><stop offset=".25" stop-color="#f7b3c8"/><stop offset=".65" stop-color="#fff1f5"/><stop offset="1" stop-color="#ffffff"/></radialGradient>
+    <radialGradient id="skG3" cx="0" cy="0" r="46" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#e8673c"/><stop offset=".25" stop-color="#ffab85"/><stop offset=".65" stop-color="#ffe1d1"/><stop offset="1" stop-color="#fff8f3"/></radialGradient>
+    <radialGradient id="skG4" cx="0" cy="0" r="46" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#7e57c2"/><stop offset=".25" stop-color="#b79cf0"/><stop offset=".65" stop-color="#e9defc"/><stop offset="1" stop-color="#faf7ff"/></radialGradient>
+    <linearGradient id="lfG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#a8db8f"/><stop offset=".55" stop-color="#5aa565"/><stop offset="1" stop-color="#2d6b45"/></linearGradient>
+    <linearGradient id="barkG" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#5a3a2e"/><stop offset="1" stop-color="#8a5a44"/></linearGradient>
+    <linearGradient id="bp0" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#ffd0dc"/><stop offset="1" stop-color="#e8577a"/></linearGradient>
+    <linearGradient id="bp1" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#ffe0c2"/><stop offset="1" stop-color="#ff8a5c"/></linearGradient>
+    <linearGradient id="bp2" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#fff3b8"/><stop offset="1" stop-color="#e9b44c"/></linearGradient>
+    <linearGradient id="bp3" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#d3f3d3"/><stop offset="1" stop-color="#3f9f6a"/></linearGradient>
+    <linearGradient id="bp4" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#d2edff"/><stop offset="1" stop-color="#4aa3d8"/></linearGradient>
+    <linearGradient id="bp5" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#ece0ff"/><stop offset="1" stop-color="#8c6bd8"/></linearGradient>
+    <radialGradient id="coreG"><stop offset="0" stop-color="#fff6c2"/><stop offset="1" stop-color="#f0b429"/></radialGradient>
+    <linearGradient id="ringG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e8577a"/><stop offset=".5" stop-color="#ff9f7a"/><stop offset="1" stop-color="#3f9f6a"/></linearGradient>
+    <linearGradient id="spG" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#fff3f6"/><stop offset=".55" stop-color="#ffb3c8"/><stop offset="1" stop-color="#e24d7d"/></linearGradient>
+    <linearGradient id="spG2" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#fff8ec"/><stop offset=".55" stop-color="#ffd2a8"/><stop offset="1" stop-color="#f08a5d"/></linearGradient>
+
+    <!-- Realistic cherry blossom -->
+    <symbol id="sakura" viewBox="-50 -50 100 100" overflow="visible">
+      <g style="fill:var(--sk,url(#skG))" stroke="rgba(214,90,130,.35)" stroke-width=".6">
+        <path id="skp" d="M0 0C-16-8-22-30-10-42Q-5-46 0-39Q5-46 10-42C22-30 16-8 0 0Z"/>
+        <use href="#skp" transform="rotate(72)"/><use href="#skp" transform="rotate(144)"/><use href="#skp" transform="rotate(216)"/><use href="#skp" transform="rotate(288)"/>
+      </g>
+      <path d="M0 0L0-17M0 0L13-10M0 0L16 4M0 0L10 14M0 0L-10 14M0 0L-16 4M0 0L-13-10" stroke="#b0164a" stroke-width="1" stroke-linecap="round" opacity=".75"/>
+      <g fill="#ffd166"><circle cy="-17" r="2.2"/><circle cx="13" cy="-10" r="2.2"/><circle cx="16" cy="4" r="2.2"/><circle cx="10" cy="14" r="2.2"/><circle cx="-10" cy="14" r="2.2"/><circle cx="-16" cy="4" r="2.2"/><circle cx="-13" cy="-10" r="2.2"/></g>
+      <circle r="4" fill="#f7c948"/>
+    </symbol>
+    <!-- Leaf with veins -->
+    <symbol id="leaf" viewBox="0 -25 100 50" overflow="visible">
+      <path d="M0 0C25-24 70-26 100 0C70 26 25 24 0 0Z" fill="url(#lfG)"/>
+      <path d="M2 0C35-2 70-2 98 0M28-1L42-12M48-1L62-13M68-1L80-10M28 1L42 12M48 1L62 13M68 1L80 10" stroke="#eaf7df" stroke-opacity=".55" stroke-width="1.2" fill="none"/>
+    </symbol>
+  </defs>
+</svg>
+
+<canvas id="bgfx" class="fxc" aria-hidden="true"></canvas>
+<canvas id="fx" class="fxc" aria-hidden="true"></canvas>
+
+<!-- ============ HEADER ============ -->
+<header class="hdr">
+  <a class="brand" href="#top" aria-label="NurulQuran Lecture Requests home">
+    <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#sakura" width="100" height="100"/></svg>
+    <span><b>NurulQuran</b><small>Lecture Requests</small></span>
+  </a>
+  <nav class="nav" aria-label="Main">
+    <a href="#how">How it works</a><a href="#planner">Planner</a><a href="#faq">FAQ</a>
+  </nav>
+  <button class="tt" id="themeBtn" type="button" aria-label="Toggle day and night garden" aria-pressed="false">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <g class="sm-r" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 1.5v2.2M12 20.3v2.2M4.6 4.6l1.5 1.5M17.9 17.9l1.5 1.5M1.5 12h2.2M20.3 12h2.2M4.6 19.4l1.5-1.5M17.9 6.1l1.5-1.5"/></g>
+      <circle class="sm-c" cx="12" cy="12" r="5" fill="currentColor"/>
+      <circle class="sm-b" cx="17" cy="7" r="6.5"/>
+    </svg>
+  </button>
+  <a class="btn btn-p btn-hdr" href="#planner"><span class="bt">Request</span><span class="arr">→</span></a>
+</header>
+
+<main id="top">
+  <!-- ============ HERO ============ -->
+  <section class="hero-wrap">
+    <svg class="branch" viewBox="0 0 520 420" aria-hidden="true">
+      <path d="M560 6C452 36 392 70 330 118C276 160 222 182 150 192C108 198 72 218 38 254" fill="none" stroke="url(#barkG)" stroke-width="11" stroke-linecap="round"/>
+      <path d="M330 118C318 160 330 204 362 244" fill="none" stroke="url(#barkG)" stroke-width="6" stroke-linecap="round"/>
+      <path d="M226 178C206 142 208 112 232 80" fill="none" stroke="url(#barkG)" stroke-width="5" stroke-linecap="round"/>
+      <path d="M150 192C140 214 146 240 160 262" fill="none" stroke="url(#barkG)" stroke-width="4" stroke-linecap="round"/>
+      <use href="#leaf" x="0" y="-16" width="66" height="32" transform="translate(410 46) rotate(128)"/>
+      <use href="#leaf" x="0" y="-14" width="56" height="28" transform="translate(330 118) rotate(40)"/>
+      <use href="#leaf" x="0" y="-14" width="58" height="28" transform="translate(226 178) rotate(-150)"/>
+      <use href="#leaf" x="0" y="-12" width="50" height="24" transform="translate(120 200) rotate(150)"/>
+      <use href="#leaf" x="0" y="-12" width="48" height="24" transform="translate(352 230) rotate(20)"/>
+      <circle cx="400" cy="70" r="5" fill="#f48fb1"/><circle cx="272" cy="150" r="4.5" fill="#f7b3c8"/><circle cx="190" cy="186" r="5" fill="#ee7fa4"/><circle cx="72" cy="236" r="4" fill="#f48fb1"/>
+      <use class="bl" href="#sakura" x="411" y="11" width="58" height="58"/>
+      <use class="bl" href="#sakura" x="349" y="63" width="46" height="46" style="--sk:url(#skG2)"/>
+      <use class="bl" href="#sakura" x="267" y="107" width="66" height="66"/>
+      <use class="bl" href="#sakura" x="303" y="171" width="50" height="50" style="--sk:url(#skG2)"/>
+      <use class="bl" href="#sakura" x="340" y="224" width="44" height="44"/>
+      <use class="bl" href="#sakura" x="219" y="143" width="50" height="50" style="--sk:url(#skG2)"/>
+      <use class="bl" href="#sakura" x="192" y="106" width="40" height="40"/>
+      <use class="bl" href="#sakura" x="206" y="52" width="56" height="56" style="--sk:url(#skG2)"/>
+      <use class="bl" href="#sakura" x="128" y="166" width="60" height="60"/>
+      <use class="bl" href="#sakura" x="77" y="193" width="46" height="46" style="--sk:url(#skG2)"/>
+      <use class="bl" href="#sakura" x="20" y="228" width="52" height="52"/>
+      <use class="bl" href="#sakura" x="141" y="243" width="38" height="38" style="--sk:url(#skG2)"/>
+    </svg>
+
+    <div class="hero">
+      <div class="hero-copy">
+        <span class="eyebrow">🌸 NurulQuran · Lecture Invitations</span>
+        <h1>Invite the <span class="grad-text">light of the Quran</span> to your gathering</h1>
+        <p class="lead">Request a NurulQuran teacher for a dars in your home, or a lecture in your hall, masjid or school. Our planner walks you through every detail — pickup, seating, sound and hospitality — so the day runs smoothly.</p>
+        <div class="cta-row">
+          <a class="btn btn-p" href="#planner"><span class="bt">Request a lecture</span><span class="arr">→</span></a>
+          <a class="btn btn-g" href="#how">See how it works</a>
+        </div>
+        <div class="pills"><span class="pill">🏡 Homes</span><span class="pill">🏛️ Halls</span><span class="pill">🕌 Masjids</span><span class="pill">🎓 Schools</span></div>
+        <p class="mini-note">⏱ About 5 minutes · 💾 Saves your progress on this device</p>
+      </div>
+
+      <button class="hero-art" id="lotusBtn" type="button" aria-label="Tap the lotus to make it bloom again">
+        <svg class="lotus play" id="lotus" viewBox="0 0 400 360" aria-hidden="true">
+          <defs>
+            <radialGradient id="auraG"><stop offset="0" style="stop-color:var(--aura-1)"/><stop offset=".5" style="stop-color:var(--aura-2);stop-opacity:.55"/><stop offset="1" style="stop-color:var(--aura-2);stop-opacity:0"/></radialGradient>
+            <linearGradient id="lpF" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#fff6e8"/><stop offset=".45" stop-color="#ffd0dc"/><stop offset=".85" stop-color="#f27aa0"/><stop offset="1" stop-color="#d9416f"/></linearGradient>
+            <linearGradient id="lpB" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#f9dbe2"/><stop offset=".5" stop-color="#f093b0"/><stop offset="1" stop-color="#c2305e"/></linearGradient>
+            <radialGradient id="podG" cy="40%"><stop offset="0" stop-color="#fff3b0"/><stop offset="1" stop-color="#e3a72f"/></radialGradient>
+            <linearGradient id="padG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7cc98a"/><stop offset="1" stop-color="#2c6e47"/></linearGradient>
+            <linearGradient id="waterG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--water-1)"/><stop offset="1" style="stop-color:var(--water-1);stop-opacity:0"/></linearGradient>
+            <path id="lpet" d="M200 282C166 246 158 162 200 92C242 162 234 246 200 282Z"/>
+            <path id="lvein" d="M200 274C196 222 196 160 200 102M200 262C186 226 182 176 190 128M200 262C214 226 218 176 210 128" fill="none" stroke="#fff" stroke-opacity=".38" stroke-width="1.3"/>
+            <mask id="cresM"><rect width="400" height="360" fill="#fff"/><circle cx="330" cy="60" r="24" fill="#000"/></mask>
+          </defs>
+          <circle class="aura" cx="200" cy="185" r="175" fill="url(#auraG)"/>
+          <circle class="moon" cx="316" cy="70" r="26" fill="#fff7d6" mask="url(#cresM)"/>
+          <g><g transform="translate(70 120)"><path class="spk" d="M0-7L1.6-1.6L7 0L1.6 1.6L0 7L-1.6 1.6L-7 0L-1.6-1.6Z"/></g>
+             <g transform="translate(336 160)"><path class="spk" style="animation-delay:-1s" d="M0-6L1.4-1.4L6 0L1.4 1.4L0 6L-1.4 1.4L-6 0L-1.4-1.4Z"/></g>
+             <g transform="translate(130 56)"><path class="spk" style="animation-delay:-2s" d="M0-5L1.2-1.2L5 0L1.2 1.2L0 5L-1.2 1.2L-5 0L-1.2-1.2Z"/></g>
+             <g transform="translate(262 34)"><path class="spk" style="animation-delay:-.5s" d="M0-6L1.4-1.4L6 0L1.4 1.4L0 6L-1.4 1.4L-6 0L-1.4-1.4Z"/></g>
+             <g transform="translate(50 222)"><path class="spk" style="animation-delay:-1.6s" d="M0-5L1.2-1.2L5 0L1.2 1.2L0 5L-1.2 1.2L-5 0L-1.2-1.2Z"/></g></g>
+          <ellipse cx="200" cy="306" rx="200" ry="46" fill="url(#waterG)"/>
+          <g><ellipse class="rp" cx="200" cy="300" rx="130" ry="18"/><ellipse class="rp" cx="200" cy="300" rx="130" ry="18"/><ellipse class="rp" cx="200" cy="300" rx="130" ry="18"/></g>
+          <path d="M120 306L206.7 302.5A88 20 0 1 0 206.1 310.2Z" fill="url(#padG)" stroke="rgba(255,255,255,.25)"/>
+          <path d="M120 306L60 300M120 306L80 318M120 306L150 290M120 306L170 320" stroke="rgba(255,255,255,.22)" stroke-width="1.2"/>
+          <path d="M292 316L215.2 313.05A78 17 0 1 1 215.2 318.95Z" fill="url(#padG)" stroke="rgba(255,255,255,.25)"/>
+          <path d="M292 316L340 306M292 316L350 326M292 316L270 330" stroke="rgba(255,255,255,.22)" stroke-width="1.2"/>
+          <g class="bud"><path d="M300 316C304 284 296 254 304 228" fill="none" stroke="#3c8a57" stroke-width="4" stroke-linecap="round"/>
+            <path d="M304 192C320 208 320 228 304 238C288 228 288 208 304 192Z" fill="url(#lpB)"/><path d="M304 198C296 212 296 226 304 236" fill="none" stroke="#fff" stroke-opacity=".4"/></g>
+          <ellipse cx="200" cy="286" rx="32" ry="9" fill="url(#padG)"/>
+          <g class="flower">
+            <g class="pt" style="--r:-74deg;--s:.86;--d:.05s"><use href="#lpet" fill="url(#lpB)"/><use href="#lvein"/></g>
+            <g class="pt" style="--r:74deg;--s:.86;--d:.05s"><use href="#lpet" fill="url(#lpB)"/><use href="#lvein"/></g>
+            <g class="pt" style="--r:-52deg;--s:.95;--d:.2s"><use href="#lpet" fill="url(#lpB)"/><use href="#lvein"/></g>
+            <g class="pt" style="--r:52deg;--s:.95;--d:.2s"><use href="#lpet" fill="url(#lpB)"/><use href="#lvein"/></g>
+            <g class="pt" style="--r:-28deg;--s:1;--d:.35s"><use href="#lpet" fill="url(#lpB)"/><use href="#lvein"/></g>
+            <g class="pt" style="--r:28deg;--s:1;--d:.35s"><use href="#lpet" fill="url(#lpB)"/><use href="#lvein"/></g>
+            <ellipse class="stamen" cx="200" cy="200" rx="28" ry="11" fill="url(#podG)"/>
+            <g class="pt" style="--r:-40deg;--s:.88;--d:.6s"><use href="#lpet" fill="url(#lpF)"/><use href="#lvein"/></g>
+            <g class="pt" style="--r:40deg;--s:.88;--d:.6s"><use href="#lpet" fill="url(#lpF)"/><use href="#lvein"/></g>
+            <g class="pt" style="--r:-14deg;--s:.96;--d:.75s"><use href="#lpet" fill="url(#lpF)"/><use href="#lvein"/></g>
+            <g class="pt" style="--r:14deg;--s:.96;--d:.75s"><use href="#lpet" fill="url(#lpF)"/><use href="#lvein"/></g>
+            <g class="pt" style="--r:-24deg;--s:.74;--d:1s"><use href="#lpet" fill="url(#lpF)"/><use href="#lvein"/></g>
+            <g class="pt" style="--r:24deg;--s:.74;--d:1s"><use href="#lpet" fill="url(#lpF)"/><use href="#lvein"/></g>
+            <g class="pt" style="--r:0deg;--s:.8;--d:1.15s"><use href="#lpet" fill="url(#lpF)"/><use href="#lvein"/></g>
+          </g>
+        </svg>
+        <span class="tap-hint">Tap the lotus ✨</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ============ VERSE ============ -->
+  <section class="verse reveal" aria-label="Quranic verse">
+    <div class="verse-card">
+      <div class="leafline"><i></i>🌿<i></i></div>
+      <p class="ar" lang="ar">وَنُنَزِّلُ مِنَ الْقُرْآنِ مَا هُوَ شِفَاءٌ وَرَحْمَةٌ لِّلْمُؤْمِنِينَ</p>
+      <p class="tr">“And We send down of the Quran that which is healing and mercy for the believers.”</p>
+      <span class="ref">Surah Al-Isra · 17:82</span>
+    </div>
+  </section>
+
+  <!-- ============ HOW IT WORKS ============ -->
+  <section class="section" id="how">
+    <div class="sec-head reveal">
+      <span class="kicker">🌱 How it works</span>
+      <h2>From a seed of intention to a full bloom</h2>
+      <p>Four simple stages, so you can plan with confidence.</p>
+    </div>
+    <div class="how-grid">
+      <article class="how tilt reveal"><div class="how-n"><svg viewBox="0 0 100 100"><use href="#sakura" width="100" height="100"/></svg><b>1</b></div><h3>Plan every detail</h3><p>Six gentle steps: venue, guests, sound, travel and care.</p></article>
+      <article class="how tilt reveal"><div class="how-n"><svg viewBox="0 0 100 100"><use href="#sakura" width="100" height="100" style="--sk:url(#skG3)"/></svg><b>2</b></div><h3>Send your request</h3><p>The team gets every detail it needs in a single message.</p></article>
+      <article class="how tilt reveal"><div class="how-n"><svg viewBox="0 0 100 100"><use href="#sakura" width="100" height="100" style="--sk:url(#skG4)"/></svg><b>3</b></div><h3>Team review</h3><p>The team checks the Ustaza’s schedule and may contact you.</p></article>
+      <article class="how tilt reveal"><div class="how-n"><svg viewBox="0 0 100 100"><use href="#sakura" width="100" height="100" style="--sk:url(#skG2)"/></svg><b>4</b></div><h3>Confirmation</h3><p>You’ll hear back with an approval or alternate dates.</p></article>
+    </div>
+  </section>
+
+  <!-- ============ PLANNER ============ -->
+  <section class="section" id="planner">
+    <div class="sec-head reveal">
+      <span class="kicker">🌸 Lecture Request Planner</span>
+      <h2>Plan a gathering that runs smoothly from start to finish</h2>
+      <p>Six steps, with helpful tips along the way. Your progress is saved on this device automatically.</p>
+    </div>
+
+    <div class="planner reveal" id="plannerCard">
+      <div class="p-deco" aria-hidden="true">
+        <svg viewBox="0 0 100 100"><use href="#sakura" width="100" height="100"/></svg>
+        <svg viewBox="0 0 100 100"><use href="#sakura" width="100" height="100" style="--sk:url(#skG3)"/></svg>
+      </div>
+
+      <div class="p-head">
+        <svg class="bloom" viewBox="0 0 120 120" aria-hidden="true">
+          <circle cx="60" cy="60" r="57" class="bloom-ring"/>
+          <path class="bp" style="--a:0deg" fill="url(#bp0)" d="M60 56C46 45 45 19 60 7C75 19 74 45 60 56Z"/>
+          <path class="bp" style="--a:60deg" fill="url(#bp1)" d="M60 56C46 45 45 19 60 7C75 19 74 45 60 56Z"/>
+          <path class="bp" style="--a:120deg" fill="url(#bp2)" d="M60 56C46 45 45 19 60 7C75 19 74 45 60 56Z"/>
+          <path class="bp" style="--a:180deg" fill="url(#bp3)" d="M60 56C46 45 45 19 60 7C75 19 74 45 60 56Z"/>
+          <path class="bp" style="--a:240deg" fill="url(#bp4)" d="M60 56C46 45 45 19 60 7C75 19 74 45 60 56Z"/>
+          <path class="bp" style="--a:300deg" fill="url(#bp5)" d="M60 56C46 45 45 19 60 7C75 19 74 45 60 56Z"/>
+          <circle cx="60" cy="60" r="14" fill="url(#coreG)"/>
+          <text x="60" y="65.5" text-anchor="middle" class="bloom-num" id="bloomNum">1</text>
+        </svg>
+        <div>
+          <h3>Your lecture request</h3>
+          <p><span id="stepCount">Step 1 of 6</span> · <b id="stepName">Your details</b></p>
+        </div>
+        <div class="saved" id="saved" aria-live="polite">🍃 <span>Draft saved</span></div>
+      </div>
+
+      <nav class="steps-nav" id="stepsNav" aria-label="Planner steps">
+        <button type="button" class="sn" data-i="0"><span>🌱</span>Details</button>
+        <button type="button" class="sn" data-i="1"><span>🌷</span>Gathering</button>
+        <button type="button" class="sn" data-i="2"><span>🏡</span>Venue</button>
+        <button type="button" class="sn" data-i="3"><span>🔊</span>Sound</button>
+        <button type="button" class="sn" data-i="4"><span>🚗</span>Travel</button>
+        <button type="button" class="sn" data-i="5"><span>🌸</span>Review</button>
+      </nav>
+      <div class="pbar"><i id="pbar"></i></div>
+
+      <form id="reqForm" novalidate autocomplete="on">
+        <div class="p-body">
+
+          <!-- ===== STEP 1 · DETAILS ===== -->
+          <section class="step active" data-title="Your details" data-emoji="🌱">
+            <header class="st-h"><span class="st-e">🌱</span><div><h3>Let’s get to know you</h3><p>The team will use these details to contact you about your request.</p></div></header>
+            <div class="row c2">
+              <div class="field" data-err="Please tell us your name.">
+                <label class="lbl" for="hostName">Full name <span class="req">*</span></label>
+                <div class="ico"><span class="i">🌼</span><input class="inp" id="hostName" name="hostName" required autocomplete="name" placeholder="e.g. Ayesha Khan"></div>
+              </div>
+              <div class="field" data-err="Please add a valid phone number (with country code).">
+                <label class="lbl" for="phone">Phone / WhatsApp <span class="req">*</span></label>
+                <div class="ico"><span class="i">📱</span><input class="inp" id="phone" name="phone" type="tel" inputmode="tel" required autocomplete="tel" placeholder="+ country code & number"></div>
+              </div>
+            </div>
+            <div class="field" data-label="WhatsApp">
+              <label class="sw"><input type="checkbox" name="onWhatsapp" value="yes" checked><span class="t">This number is on WhatsApp<small>Updates are easier to share there</small></span><span class="tr"></span></label>
+            </div>
+            <div class="row c2">
+              <div class="field">
+                <label class="lbl" for="email">Email <span class="opt">optional</span></label>
+                <div class="ico"><span class="i">✉️</span><input class="inp" id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com"></div>
+                <small class="err">🌱 Please check the email format.</small>
+              </div>
+              <div class="field" data-err="Which city is the gathering in?">
+                <label class="lbl" for="city">City <span class="req">*</span></label>
+                <div class="ico"><span class="i">🏙️</span><input class="inp" id="city" name="city" required autocomplete="address-level2" placeholder="Your city"></div>
+              </div>
+            </div>
+            <div class="row c2">
+              <div class="field">
+                <label class="lbl" for="hostingFor">Hosting on behalf of <span class="opt">optional</span></label>
+                <select class="inp" id="hostingFor" name="hostingFor">
+                  <option value="">Choose…</option><option>Myself & my family</option><option>A masjid / Islamic centre</option><option>A school, college or university</option><option>An organisation or company</option><option>A community group</option><option>Other</option>
+                </select>
+              </div>
+              <div class="field">
+                <label class="lbl" for="heardFrom">How did you hear about us? <span class="opt">optional</span></label>
+                <select class="inp" id="heardFrom" name="heardFrom">
+                  <option value="">Choose…</option><option>NurulQuran class / student</option><option>Friend or family</option><option>WhatsApp group</option><option>Social media</option><option>Website</option><option>Other</option>
+                </select>
+              </div>
+            </div>
+          </section>
+
+          <!-- ===== STEP 2 · GATHERING ===== -->
+          <section class="step" data-title="The gathering" data-emoji="🌷">
+            <header class="st-h"><span class="st-e">🌷</span><div><h3>Tell us about the gathering</h3><p>Where, when and what you’d like the lecture to be about.</p></div></header>
+            <div class="field" data-err="Please choose a venue type.">
+              <span class="lbl">Where will it be held? <span class="req">*</span></span>
+              <div class="tiles">
+                <label class="tile"><input type="radio" name="venueType" value="home" required><span class="tb"><span class="e">🏡</span><span class="t">Home</span><span class="d">Living room, lounge or courtyard dars</span></span></label>
+                <label class="tile"><input type="radio" name="venueType" value="hall"><span class="tb"><span class="e">🏛️</span><span class="t">Hall / Banquet</span><span class="d">Event hall, marquee or banquet</span></span></label>
+                <label class="tile"><input type="radio" name="venueType" value="masjid"><span class="tb"><span class="e">🕌</span><span class="t">Masjid / Centre</span><span class="d">Masjid or Islamic centre</span></span></label>
+                <label class="tile"><input type="radio" name="venueType" value="school"><span class="tb"><span class="e">🎓</span><span class="t">School / University</span><span class="d">Auditorium or classroom</span></span></label>
+                <label class="tile"><input type="radio" name="venueType" value="other"><span class="tb"><span class="e">🌳</span><span class="t">Other venue</span><span class="d">Community centre, office or garden</span></span></label>
+              </div>
+            </div>
+            <div class="field" data-err="Please choose the occasion.">
+              <label class="lbl" for="occasion">Occasion <span class="req">*</span></label>
+              <select class="inp" id="occasion" name="occasion" required>
+                <option value="">Choose an occasion…</option><option>General dars / Quran reminder</option><option>Quran khatam / completion</option><option>Ramadan preparation</option><option>Blessings for a new home</option><option>Pre-wedding / marriage gathering</option><option>New baby / Aqeeqah</option><option>Remembrance / condolence gathering</option><option>Eid or Islamic occasion</option><option>Youth / students event</option><option>Other</option>
+              </select>
+            </div>
+            <div class="field">
+              <span class="lbl">Topics you’d love covered <span class="opt">choose any</span></span>
+              <div class="chips">
+                <label class="chip"><input type="checkbox" name="topics" value="tafseer"><span class="t">📖 Tafseer</span></label>
+                <label class="chip"><input type="checkbox" name="topics" value="seerah"><span class="t">📜 Seerah</span></label>
+                <label class="chip"><input type="checkbox" name="topics" value="salah"><span class="t">🕰️ Salah</span></label>
+                <label class="chip"><input type="checkbox" name="topics" value="dua"><span class="t">🤲 Dua & dhikr</span></label>
+                <label class="chip"><input type="checkbox" name="topics" value="ramadan"><span class="t">🌙 Ramadan</span></label>
+                <label class="chip"><input type="checkbox" name="topics" value="hajj"><span class="t">🕋 Hajj & Umrah</span></label>
+                <label class="chip"><input type="checkbox" name="topics" value="family"><span class="t">💞 Marriage & family</span></label>
+                <label class="chip"><input type="checkbox" name="topics" value="parenting"><span class="t">🌱 Parenting</span></label>
+                <label class="chip"><input type="checkbox" name="topics" value="youth"><span class="t">✨ Youth & identity</span></label>
+                <label class="chip"><input type="checkbox" name="topics" value="heart"><span class="t">🌿 Purifying the heart</span></label>
+                <label class="chip"><input type="checkbox" name="topics" value="akhirah"><span class="t">⏳ The Hereafter</span></label>
+                <label class="chip"><input type="checkbox" name="topics" value="teacher"><span class="t">🌸 Ustaza’s choice</span></label>
+              </div>
+            </div>
+            <div class="field">
+              <label class="lbl" for="topicCustom">Or describe your topic <span class="opt">optional</span></label>
+              <div class="ico"><span class="i">💭</span><input class="inp" id="topicCustom" name="topicCustom" placeholder="e.g. Gratitude in difficult times"></div>
+            </div>
+            <div class="field" data-err="Please choose a language.">
+              <span class="lbl">Preferred language <span class="req">*</span></span>
+              <div class="chips">
+                <label class="chip"><input type="radio" name="lang" value="urdu" required><span class="t">Urdu</span></label>
+                <label class="chip"><input type="radio" name="lang" value="english"><span class="t">English</span></label>
+                <label class="chip"><input type="radio" name="lang" value="mixed"><span class="t">Urdu + English</span></label>
+                <label class="chip"><input type="radio" name="lang" value="any"><span class="t">Either is fine</span></label>
+              </div>
+            </div>
+            <div class="row c2">
+              <div class="field" data-err="Please pick an upcoming date.">
+                <label class="lbl" for="date">Preferred date <span class="req">*</span></label>
+                <div class="ico"><span class="i">📅</span><input class="inp" id="date" name="date" type="date" required></div>
+              </div>
+              <div class="field">
+                <label class="lbl" for="altDate">Alternate date <span class="opt">optional</span></label>
+                <div class="ico"><span class="i">🗓️</span><input class="inp" id="altDate" name="altDate" type="date"></div>
+                <small class="err">🌱 Please pick an upcoming date.</small>
+              </div>
+            </div>
+            <div class="hint" id="dateHint" hidden><span class="hi">🗓️</span><span class="hx"></span></div>
+            <div class="row c2" style="margin-top:16px">
+              <div class="field" data-err="Please choose a start time.">
+                <label class="lbl" for="time">Start time <span class="req">*</span></label>
+                <div class="ico"><span class="i">⏰</span><input class="inp" id="time" name="time" type="time" required></div>
+              </div>
+              <div class="field" data-err="Please choose a duration.">
+                <span class="lbl">Lecture duration <span class="req">*</span></span>
+                <div class="chips">
+                  <label class="chip"><input type="radio" name="duration" value="45" required><span class="t">45 min</span></label>
+                  <label class="chip"><input type="radio" name="duration" value="60" checked><span class="t">1 hour</span></label>
+                  <label class="chip"><input type="radio" name="duration" value="90"><span class="t">1.5 hours</span></label>
+                  <label class="chip"><input type="radio" name="duration" value="120"><span class="t">2 hours</span></label>
+                </div>
+              </div>
+            </div>
+            <div class="hint" id="timeHint" hidden><span class="hi">🕊️</span><span class="hx" id="timeHintTxt"></span></div>
+            <div class="field" data-label="Flexibility" style="margin-top:16px">
+              <label class="sw"><input type="checkbox" name="flexible" value="yes"><span class="t">My date & time are flexible<small>This makes it easier to fit the Ustaza’s schedule</small></span><span class="tr"></span></label>
+            </div>
+          </section>
+
+          <!-- ===== STEP 3 · VENUE & GUESTS ===== -->
+          <section class="step" data-title="Venue & guests" data-emoji="🏡">
+            <header class="st-h"><span class="st-e">🏡</span><div><h3>Venue, guests & seating</h3><p>These details help the Ustaza arrive comfortably and the gathering run smoothly.</p></div></header>
+
+            <div class="group">
+              <h4>📍 Location</h4>
+              <div class="field">
+                <label class="lbl" for="venueName">Venue name <span class="opt">optional</span></label>
+                <div class="ico"><span class="i">🏷️</span><input class="inp" id="venueName" name="venueName" placeholder="e.g. Rose Banquet Hall / Our home"></div>
+              </div>
+              <div class="field" data-err="Please add the full address.">
+                <label class="lbl" for="address">Full address <span class="req">*</span></label>
+                <textarea class="inp" id="address" name="address" rows="2" required autocomplete="street-address" placeholder="House / building, street, area"></textarea>
+              </div>
+              <div class="row c2">
+                <div class="field">
+                  <label class="lbl" for="mapLink">Google Maps link <span class="opt">optional</span></label>
+                  <div class="ico"><span class="i">🗺️</span><input class="inp" id="mapLink" name="mapLink" inputmode="url" placeholder="Paste a location link"></div>
+                </div>
+                <div class="field">
+                  <label class="lbl" for="landmark">Nearby landmark <span class="opt">optional</span></label>
+                  <div class="ico"><span class="i">📌</span><input class="inp" id="landmark" name="landmark" placeholder="e.g. Opposite the green park"></div>
+                </div>
+              </div>
+              <div class="field" data-err="How will she reach the room?">
+                <span class="lbl">Access to the room <span class="req">*</span></span>
+                <div class="tiles c3">
+                  <label class="tile"><input type="radio" name="access" value="ground" required><span class="tb"><span class="e">🚪</span><span class="t">Ground floor</span></span></label>
+                  <label class="tile"><input type="radio" name="access" value="lift"><span class="tb"><span class="e">🛗</span><span class="t">Lift available</span></span></label>
+                  <label class="tile"><input type="radio" name="access" value="stairs"><span class="tb"><span class="e">🪜</span><span class="t">Stairs only</span></span></label>
+                </div>
+              </div>
+              <div class="field" data-when="access:lift|stairs">
+                <label class="lbl" for="floorNo">Which floor? <span class="opt">optional</span></label>
+                <input class="inp" id="floorNo" name="floorNo" inputmode="numeric" placeholder="e.g. 2nd floor">
+              </div>
+              <div class="field" data-err="Please choose a parking option.">
+                <span class="lbl">Parking <span class="req">*</span></span>
+                <div class="tiles c3">
+                  <label class="tile"><input type="radio" name="parking" value="reserved" required><span class="tb"><span class="e">🅿️</span><span class="t">Reserved spot</span></span></label>
+                  <label class="tile"><input type="radio" name="parking" value="street"><span class="tb"><span class="e">🚗</span><span class="t">Street / open</span></span></label>
+                  <label class="tile"><input type="radio" name="parking" value="none"><span class="tb"><span class="e">🚫</span><span class="t">No parking</span></span></label>
+                </div>
+              </div>
+            </div>
+
+            <div class="group">
+              <h4>🌸 Guests <small>Each flower ≈ 10 guests</small></h4>
+              <div class="field" data-err="Please estimate how many guests will attend.">
+                <label class="lbl" for="guests">Expected attendance <span class="req">*</span></label>
+                <div class="guest-top">
+                  <span class="g-big" id="gBig">40</span>
+                  <span class="g-lab" id="gLab">Cozy gathering<small>approx. guests</small></span>
+                  <input class="inp g-num" id="guests" name="guests" type="number" inputmode="numeric" min="5" max="2000" value="40" required data-suffix=" guests" aria-label="Number of guests">
+                </div>
+                <input class="range" id="guestsRange" type="range" min="5" max="500" step="5" value="40" aria-label="Guests slider">
+                <div class="quick" aria-label="Quick picks">
+                  <button type="button" data-g="15">~15</button><button type="button" data-g="30">~30</button><button type="button" data-g="60">~60</button><button type="button" data-g="100">~100</button><button type="button" data-g="200">~200</button><button type="button" data-g="400">400+</button>
+                </div>
+                <div class="garden" id="garden" aria-hidden="true"></div>
+              </div>
+              <div class="field" data-err="Who is the gathering for?">
+                <span class="lbl">Audience <span class="req">*</span></span>
+                <div class="tiles">
+                  <label class="tile"><input type="radio" name="audience" value="women" required><span class="tb"><span class="e">🌷</span><span class="t">Ladies only</span><span class="d">A sisters-only gathering</span></span></label>
+                  <label class="tile"><input type="radio" name="audience" value="family"><span class="tb"><span class="e">🏡</span><span class="t">Family gathering</span><span class="d">With separate seating</span></span></label>
+                  <label class="tile"><input type="radio" name="audience" value="youth"><span class="tb"><span class="e">🎓</span><span class="t">Students & youth</span><span class="d">Schools, colleges & youth groups</span></span></label>
+                  <label class="tile"><input type="radio" name="audience" value="kids"><span class="tb"><span class="e">🎈</span><span class="t">Children’s session</span><span class="d">Mainly young learners</span></span></label>
+                </div>
+              </div>
+              <div class="field">
+                <span class="lbl">Age groups attending <span class="opt">choose any</span></span>
+                <div class="chips">
+                  <label class="chip"><input type="checkbox" name="ages" value="kids"><span class="t">Under 12</span></label>
+                  <label class="chip"><input type="checkbox" name="ages" value="teens"><span class="t">Teens</span></label>
+                  <label class="chip"><input type="checkbox" name="ages" value="young"><span class="t">Young adults</span></label>
+                  <label class="chip"><input type="checkbox" name="ages" value="adults"><span class="t">Adults</span></label>
+                  <label class="chip"><input type="checkbox" name="ages" value="seniors"><span class="t">Seniors</span></label>
+                </div>
+              </div>
+              <div class="field" data-label="Children">
+                <label class="sw"><input type="checkbox" name="kids" value="yes"><span class="t">Small children will attend<small>Planning ahead helps keep the room quiet</small></span><span class="tr"></span></label>
+              </div>
+              <div class="field" data-when="kids:yes" data-label="Kids’ corner">
+                <label class="sw"><input type="checkbox" name="kidsCorner" value="yes"><span class="t">A supervised kids’ corner will be set up<small>A separate room or area with a helper</small></span><span class="tr"></span></label>
+              </div>
+            </div>
+
+            <div class="group">
+              <h4>🪑 Seating & setup</h4>
+              <div class="field" data-err="Please choose guest seating.">
+                <span class="lbl">Guest seating <span class="req">*</span></span>
+                <div class="tiles c3">
+                  <label class="tile"><input type="radio" name="seating" value="floor" required><span class="tb"><span class="e">🛋️</span><span class="t">Floor & cushions</span></span></label>
+                  <label class="tile"><input type="radio" name="seating" value="chairs"><span class="tb"><span class="e">🪑</span><span class="t">Chairs in rows</span></span></label>
+                  <label class="tile"><input type="radio" name="seating" value="mixed"><span class="tb"><span class="e">🔀</span><span class="t">Mixed</span></span></label>
+                </div>
+              </div>
+              <div class="field" data-err="Please choose the Ustaza’s seat.">
+                <span class="lbl">Ustaza’s seat <span class="req">*</span></span>
+                <div class="tiles c3">
+                  <label class="tile"><input type="radio" name="teacherSeat" value="chair" required><span class="tb"><span class="e">🪑</span><span class="t">Chair + table</span></span></label>
+                  <label class="tile"><input type="radio" name="teacherSeat" value="floor"><span class="tb"><span class="e">📿</span><span class="t">Floor + low desk</span></span></label>
+                  <label class="tile"><input type="radio" name="teacherSeat" value="podium"><span class="tb"><span class="e">🎙️</span><span class="t">Podium</span></span></label>
+                </div>
+              </div>
+              <div class="field">
+                <span class="lbl">Arrangements in place <span class="opt">tick what applies</span></span>
+                <label class="sw"><input type="checkbox" name="arrange" value="partition"><span class="t">Partition / purdah screen<small>A private area for ladies</small></span><span class="tr"></span></label>
+                <label class="sw"><input type="checkbox" name="arrange" value="entrance"><span class="t">Separate entrance for ladies</span><span class="tr"></span></label>
+                <label class="sw"><input type="checkbox" name="arrange" value="ventilation"><span class="t">AC / fans working and tested</span><span class="tr"></span></label>
+                <label class="sw"><input type="checkbox" name="arrange" value="lighting"><span class="t">Good lighting at her seat</span><span class="tr"></span></label>
+              </div>
+            </div>
+          </section>
+
+          <!-- ===== STEP 4 · SOUND & TECH ===== -->
+          <section class="step" data-title="Sound & tech" data-emoji="🔊">
+            <header class="st-h"><span class="st-e">🔊</span><div><h3>Sound, screen & recording</h3><p>Clear sound means every guest can hear and benefit, right to the back row.</p></div></header>
+            <div class="hint" id="paHint"><span class="hi">💡</span><span class="hx"><span id="paHintTxt"></span><br><button type="button" class="btn btn-g btn-s" id="paApply">Apply recommendation ✨</button></span></div>
+            <div class="field" style="margin-top:16px" data-err="Please choose a speaker setup.">
+              <span class="lbl">PA / speaker system <span class="req">*</span></span>
+              <div class="tiles">
+                <label class="tile"><input type="radio" name="pa" value="none" required><span class="tb"><span class="e">🔇</span><span class="t">Not needed</span><span class="d">Small, quiet room (under ~20)</span></span></label>
+                <label class="tile"><input type="radio" name="pa" value="portable"><span class="tb"><span class="e">📻</span><span class="t">Portable speaker</span><span class="d">Rechargeable speaker with mic</span></span></label>
+                <label class="tile"><input type="radio" name="pa" value="standard"><span class="tb"><span class="e">🔊</span><span class="t">Standard PA</span><span class="d">Amplifier + 2 speakers</span></span></label>
+                <label class="tile"><input type="radio" name="pa" value="full"><span class="tb"><span class="e">🎛️</span><span class="t">Full sound system</span><span class="d">Mixer, multiple speakers & operator</span></span></label>
+              </div>
+            </div>
+            <div data-when="pa:portable|standard|full">
+              <div class="field" data-err="Please choose a microphone.">
+                <span class="lbl">Microphone <span class="req">*</span></span>
+                <div class="tiles">
+                  <label class="tile"><input type="radio" name="mic" value="collar" required><span class="tb"><span class="e">📎</span><span class="t">Collar / lapel</span><span class="d">Wireless & hands-free — recommended</span></span></label>
+                  <label class="tile"><input type="radio" name="mic" value="handheld"><span class="tb"><span class="e">🎤</span><span class="t">Handheld wireless</span><span class="d">Classic cordless mic</span></span></label>
+                  <label class="tile"><input type="radio" name="mic" value="headset"><span class="tb"><span class="e">🎧</span><span class="t">Headset mic</span><span class="d">Steady sound, hands-free</span></span></label>
+                  <label class="tile"><input type="radio" name="mic" value="stand"><span class="tb"><span class="e">🎙️</span><span class="t">Mic on stand</span><span class="d">Fixed at the desk or podium</span></span></label>
+                </div>
+              </div>
+              <div class="field">
+                <label class="lbl" for="paSource">Who provides the system? <span class="opt">optional</span></label>
+                <select class="inp" id="paSource" name="paSource">
+                  <option value="">Choose…</option><option>Our own equipment</option><option>Venue’s in-house system</option><option>Hired from a sound vendor</option><option>Not sure yet</option>
+                </select>
+              </div>
+              <div class="field">
+                <span class="lbl">Sound readiness <span class="opt">tick what applies</span></span>
+                <label class="sw"><input type="checkbox" name="soundPrep" value="backup"><span class="t">Backup microphone available</span><span class="tr"></span></label>
+                <label class="sw"><input type="checkbox" name="soundPrep" value="batteries"><span class="t">Spare batteries / charger ready</span><span class="tr"></span></label>
+                <label class="sw"><input type="checkbox" name="soundPrep" value="soundcheck"><span class="t">Sound check 30 min before start</span><span class="tr"></span></label>
+                <label class="sw"><input type="checkbox" name="soundPrep" value="overflow"><span class="t">Extra speaker in overflow / ladies’ area</span><span class="tr"></span></label>
+                <label class="sw"><input type="checkbox" name="soundPrep" value="operator"><span class="t">A dedicated person will manage sound<small>Adjusts volume and fixes issues on the spot</small></span><span class="tr"></span></label>
+              </div>
+              <div class="row c2" data-when="soundPrep:operator">
+                <div class="field" data-err="Who will manage sound?">
+                  <label class="lbl" for="soundName">Sound person’s name <span class="req">*</span></label>
+                  <input class="inp" id="soundName" name="soundName" required placeholder="Full name">
+                </div>
+                <div class="field" data-err="Please add their phone number.">
+                  <label class="lbl" for="soundPhone">Their phone <span class="req">*</span></label>
+                  <input class="inp" id="soundPhone" name="soundPhone" type="tel" inputmode="tel" required placeholder="+ country code & number">
+                </div>
+              </div>
+            </div>
+
+            <div class="group">
+              <h4>🖥️ Visuals & extras</h4>
+              <div class="field">
+                <span class="lbl">Screen / projector</span>
+                <div class="chips">
+                  <label class="chip"><input type="radio" name="screen" value="none" checked><span class="t">Not needed</span></label>
+                  <label class="chip"><input type="radio" name="screen" value="available"><span class="t">Available at venue</span></label>
+                  <label class="chip"><input type="radio" name="screen" value="arrange"><span class="t">Can arrange if needed</span></label>
+                </div>
+              </div>
+              <div class="field">
+                <span class="lbl">Extras at her seat <span class="opt">choose any</span></span>
+                <div class="chips">
+                  <label class="chip"><input type="checkbox" name="extras" value="whiteboard"><span class="t">🖊️ Whiteboard & markers</span></label>
+                  <label class="chip"><input type="checkbox" name="extras" value="power"><span class="t">🔌 Extension cord</span></label>
+                  <label class="chip"><input type="checkbox" name="extras" value="wifi"><span class="t">📶 Wi-Fi access</span></label>
+                  <label class="chip"><input type="checkbox" name="extras" value="clock"><span class="t">🕰️ Visible clock</span></label>
+                  <label class="chip"><input type="checkbox" name="extras" value="lamp"><span class="t">💡 Reading lamp</span></label>
+                  <label class="chip"><input type="checkbox" name="extras" value="stand"><span class="t">📖 Book / Quran stand</span></label>
+                </div>
+              </div>
+            </div>
+
+            <div class="group">
+              <h4>🎥 Recording & sharing</h4>
+              <div class="field" data-err="Please choose a recording preference.">
+                <span class="lbl">Recording preference <span class="req">*</span></span>
+                <div class="tiles">
+                  <label class="tile"><input type="radio" name="recording" value="none" required><span class="tb"><span class="e">🚫</span><span class="t">No recording</span><span class="d">No photos or videos</span></span></label>
+                  <label class="tile"><input type="radio" name="recording" value="audio"><span class="tb"><span class="e">🎧</span><span class="t">Audio only</span><span class="d">For the host’s personal use</span></span></label>
+                  <label class="tile"><input type="radio" name="recording" value="stream"><span class="tb"><span class="e">📡</span><span class="t">Video / live stream</span><span class="d">Needs prior approval</span></span></label>
+                </div>
+              </div>
+              <div class="hint"><span class="hi">🤍</span><span class="hx">Any recording needs the Ustaza’s <b>prior permission</b>. The team will confirm this with you.</span></div>
+            </div>
+          </section>
+
+          <!-- ===== STEP 5 · TRAVEL & CARE ===== -->
+          <section class="step" data-title="Travel & care" data-emoji="🚗">
+            <header class="st-h"><span class="st-e">🚗</span><div><h3>Pickup, contact & hospitality</h3><p>A calm journey there and back, and a warm welcome on arrival.</p></div></header>
+            <div class="group">
+              <h4>🚘 Pickup & drop-off</h4>
+              <div class="field" data-err="Please choose a pickup arrangement.">
+                <span class="lbl">Who will pick her up? <span class="req">*</span></span>
+                <div class="tiles">
+                  <label class="tile"><input type="radio" name="pickup" value="self" required><span class="tb"><span class="e">🚘</span><span class="t">Her own transport</span><span class="d">She arranges her own travel</span></span></label>
+                  <label class="tile"><input type="radio" name="pickup" value="driver"><span class="tb"><span class="e">🚗</span><span class="t">Host’s driver</span><span class="d">A trusted driver, briefed in advance</span></span></label>
+                  <label class="tile"><input type="radio" name="pickup" value="family"><span class="tb"><span class="e">🌷</span><span class="t">Host family (lady)</span><span class="d">A trusted lady from the family drives</span></span></label>
+                  <label class="tile"><input type="radio" name="pickup" value="ride"><span class="tb"><span class="e">📱</span><span class="t">Ride service</span><span class="d">You book & pay (e.g. Uber / Careem)</span></span></label>
+                </div>
+              </div>
+              <div data-when="pickup:driver|family|ride">
+                <div class="row c2">
+                  <div class="field" data-err="Who is coordinating the pickup?">
+                    <label class="lbl" for="driverName">Driver / coordinator name <span class="req">*</span></label>
+                    <div class="ico"><span class="i">🧭</span><input class="inp" id="driverName" name="driverName" required placeholder="Full name"></div>
+                  </div>
+                  <div class="field" data-err="Please add their phone number.">
+                    <label class="lbl" for="driverPhone">Their phone <span class="req">*</span></label>
+                    <div class="ico"><span class="i">📞</span><input class="inp" id="driverPhone" name="driverPhone" type="tel" inputmode="tel" required placeholder="+ country code & number"></div>
+                  </div>
+                </div>
+                <div class="field" data-when="pickup:driver|family">
+                  <label class="lbl" for="vehicle">Vehicle details <span class="opt">optional</span></label>
+                  <div class="ico"><span class="i">🚙</span><input class="inp" id="vehicle" name="vehicle" placeholder="Make, colour & number plate"></div>
+                </div>
+                <div class="row c2">
+                  <div class="field">
+                    <label class="lbl" for="travel">Estimated travel time</label>
+                    <select class="inp" id="travel" name="travel">
+                      <option value="15">~15 minutes</option><option value="30" selected>~30 minutes</option><option value="45">~45 minutes</option><option value="60">~1 hour</option><option value="90">~1.5 hours</option>
+                    </select>
+                  </div>
+                  <div class="field">
+                    <label class="lbl" for="pickupTime">Pickup time <span class="opt">optional</span></label>
+                    <div class="ico"><span class="i">⏱️</span><input class="inp" id="pickupTime" name="pickupTime" type="time"></div>
+                  </div>
+                </div>
+                <div class="hint" id="pickupHint"><span class="hi">🧭</span><span class="hx"><span id="pickupHintTxt"></span><br><button type="button" class="btn btn-g btn-s" id="usePickup" hidden>Use this time</button></span></div>
+                <div class="field" data-label="Return trip" style="margin-top:16px">
+                  <label class="sw"><input type="checkbox" name="dropBack" value="yes" checked><span class="t">Same arrangement for the drop-off<small>She’ll be dropped back after the lecture</small></span><span class="tr"></span></label>
+                </div>
+                <div class="hint"><span class="hi">🔒</span><span class="hx">For her privacy, the office shares the Ustaza’s pickup address <b>directly with your driver</b> once the request is approved.</span></div>
+              </div>
+            </div>
+
+            <div class="group">
+              <h4>📞 Point of contact on the day</h4>
+              <div class="row c2">
+                <div class="field" data-err="Who should she contact on the day?">
+                  <label class="lbl" for="contactName">Contact name <span class="req">*</span></label>
+                  <div class="ico"><span class="i">🌼</span><input class="inp" id="contactName" name="contactName" required placeholder="Who will be available"></div>
+                </div>
+                <div class="field" data-err="Please add a reachable number.">
+                  <label class="lbl" for="contactPhone">Contact phone <span class="req">*</span></label>
+                  <div class="ico"><span class="i">📱</span><input class="inp" id="contactPhone" name="contactPhone" type="tel" inputmode="tel" required placeholder="+ country code & number"></div>
+                </div>
+              </div>
+              <div class="field" data-label="Welcome">
+                <label class="sw"><input type="checkbox" name="receive" value="yes" checked><span class="t">Someone will receive her at the entrance<small>And show her to her seat</small></span><span class="tr"></span></label>
+              </div>
+            </div>
+
+            <div class="group">
+              <h4>🍃 Hospitality & comfort</h4>
+              <div class="field">
+                <span class="lbl">We’ll arrange <span class="opt">tick what applies</span></span>
+                <label class="sw"><input type="checkbox" name="care" value="water" checked><span class="t">Drinking water at her seat</span><span class="tr"></span></label>
+                <label class="sw"><input type="checkbox" name="care" value="rest"><span class="t">Quiet room to rest before / after</span><span class="tr"></span></label>
+                <label class="sw"><input type="checkbox" name="care" value="prayer"><span class="t">Prayer space with prayer mat</span><span class="tr"></span></label>
+                <label class="sw"><input type="checkbox" name="care" value="wudu"><span class="t">Wudu area & clean washroom</span><span class="tr"></span></label>
+                <label class="sw"><input type="checkbox" name="care" value="qibla"><span class="t">Qibla direction marked</span><span class="tr"></span></label>
+                <label class="sw"><input type="checkbox" name="care" value="refreshments"><span class="t">Light refreshments after the lecture</span><span class="tr"></span></label>
+              </div>
+              <div class="field">
+                <label class="lbl" for="notes">Anything else the team should know? <span class="opt">optional</span></label>
+                <textarea class="inp" id="notes" name="notes" maxlength="500" placeholder="Special requests, timings around salah, accessibility needs…"></textarea>
+                <div class="counter"><span id="notesCount">0</span>/500</div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ===== STEP 6 · CHECKLIST & REVIEW ===== -->
+          <section class="step" data-title="Checklist & review" data-emoji="🌸">
+            <header class="st-h"><span class="st-e">🌸</span><div><h3>Final checklist & review</h3><p>Tick each item you’ve arranged (or will arrange). Your flower grows as you go.</p></div></header>
+            <div class="ready">
+              <svg class="ring" viewBox="0 0 120 120" aria-hidden="true">
+                <circle cx="60" cy="60" r="50" class="ring-bg"/>
+                <circle cx="60" cy="60" r="50" class="ring-fg" id="ringP" transform="rotate(-90 60 60)"/>
+                <g id="rFlower" class="rf"><use href="#sakura" x="22" y="22" width="76" height="76"/></g>
+              </svg>
+              <div aria-live="polite"><div class="r-pct" id="rPct">0%</div><div class="r-stage" id="rStage">Seedling 🌱</div><p class="r-msg" id="rMsg">Tick each item you’ve arranged.</p></div>
+            </div>
+
+            <div class="ck-wrap">
+              <div class="ck-group">
+                <div class="ck-gh"><span>🏡 Venue</span><span class="ck-count">0/5</span></div>
+                <label class="ck"><input type="checkbox" name="ready" value="venue-booked"><span class="box"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="t">Venue booked & confirmed for the date and time</span></label>
+                <label class="ck"><input type="checkbox" name="ready" value="seating-ready"><span class="box"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="t">Seating arranged at least 1 hour before</span></label>
+                <label class="ck"><input type="checkbox" name="ready" value="privacy"><span class="box"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="t">Separate entrance / partition ready (if needed)</span></label>
+                <label class="ck"><input type="checkbox" name="ready" value="kids-area"><span class="box"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="t">Children’s area with a supervisor (if children attend)</span></label>
+                <label class="ck"><input type="checkbox" name="ready" value="comfort"><span class="box"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="t">AC / fans and lighting checked</span></label>
+              </div>
+              <div class="ck-group">
+                <div class="ck-gh"><span>🔊 Sound</span><span class="ck-count">0/3</span></div>
+                <label class="ck"><input type="checkbox" name="ready" value="pa-tested"><span class="box"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="t">PA system tested on the day</span></label>
+                <label class="ck"><input type="checkbox" name="ready" value="batteries"><span class="box"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="t">Mic batteries charged + spares ready</span></label>
+                <label class="ck"><input type="checkbox" name="ready" value="volume"><span class="box"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="t">Volume checked from the back row</span></label>
+              </div>
+              <div class="ck-group">
+                <div class="ck-gh"><span>🚗 Travel</span><span class="ck-count">0/3</span></div>
+                <label class="ck"><input type="checkbox" name="ready" value="driver-briefed"><span class="box"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="t">Driver briefed on time, route & etiquette</span></label>
+                <label class="ck"><input type="checkbox" name="ready" value="parking"><span class="box"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="t">Parking spot kept free near the entrance</span></label>
+                <label class="ck"><input type="checkbox" name="ready" value="poc"><span class="box"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="t">Point of contact reachable by phone all day</span></label>
+              </div>
+              <div class="ck-group">
+                <div class="ck-gh"><span>🌸 Guests</span><span class="ck-count">0/3</span></div>
+                <label class="ck"><input type="checkbox" name="ready" value="guests-informed"><span class="box"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="t">Guests asked to arrive 15 minutes early</span></label>
+                <label class="ck"><input type="checkbox" name="ready" value="phones"><span class="box"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="t">“Phones on silent” reminder planned</span></label>
+                <label class="ck"><input type="checkbox" name="ready" value="photo-policy"><span class="box"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="t">Photography policy shared with guests</span></label>
+              </div>
+              <div class="ck-group">
+                <div class="ck-gh"><span>🍃 Care</span><span class="ck-count">0/3</span></div>
+                <label class="ck"><input type="checkbox" name="ready" value="water"><span class="box"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="t">Water placed at the Ustaza’s seat</span></label>
+                <label class="ck"><input type="checkbox" name="ready" value="prayer"><span class="box"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="t">Prayer space & Qibla direction ready</span></label>
+                <label class="ck"><input type="checkbox" name="ready" value="clock"><span class="box"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="t">A clock visible to her for timing</span></label>
+              </div>
+            </div>
+
+            <div class="group">
+              <h4>📝 Review your request</h4>
+              <div id="review"></div>
+            </div>
+
+            <div class="field" data-err="Please confirm to send your request.">
+              <label class="ck consent"><input type="checkbox" name="consent" value="yes" required><span class="box"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="t">I confirm these details are correct. I understand this is a <b>request</b>: the NurulQuran team will review it and get back to me.</span></label>
+            </div>
+          </section>
+        </div>
+
+        <div class="wiz-nav">
+          <button type="button" class="btn btn-g" id="prevBtn">← Back</button>
+          <span class="count" id="navCount">1 / 6</span>
+          <button type="button" class="btn btn-p" id="nextBtn"><span class="bt">Continue</span><span class="arr">→</span></button>
+          <button type="submit" class="btn btn-p" id="submitBtn" hidden><span class="bt">Send request</span><span class="arr">🌸</span></button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- ============ FAQ ============ -->
+  <section class="section" id="faq">
+    <div class="sec-head reveal"><span class="kicker">🌿 Questions</span><h2>Gently answered</h2></div>
+    <div class="faq">
+      <details class="reveal"><summary>How far in advance should I send a request?<span class="pm">+</span></summary><p>As early as you can. A few weeks’ notice gives the team the best chance of fitting your date. Adding an alternate date also helps a lot.</p></details>
+      <details class="reveal"><summary>When will I hear back?<span class="pm">+</span></summary><p>Once the team has reviewed your request, you’ll be contacted on the phone or WhatsApp number you provided, with an approval or alternate options.</p></details>
+      <details class="reveal"><summary>Can the lecture be recorded?<span class="pm">+</span></summary><p>Only with the Ustaza’s prior permission. Choose your preference in the Sound & Tech step and the team will confirm it with you.</p></details>
+      <details class="reveal"><summary>Is my information saved if I close the page?<span class="pm">+</span></summary><p>Yes. Your draft is saved privately in this browser on this device, so you can come back and finish later.</p></details>
+      <details class="reveal"><summary>What if my plans change?<span class="pm">+</span></summary><p>Contact the team as soon as possible and quote your request reference number. You’ll get it after you submit.</p></details>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p class="ar" lang="ar">أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ</p>
+  <p><i>“Verily, in the remembrance of Allah do hearts find rest.”</i> — Ar-Ra’d 13:28</p>
+  <p>© <span id="yr"></span> NurulQuran · Lecture Requests</p>
+  <span class="tag">🌱 Phase 1 · Front-end preview</span>
+  <p id="appVersion" style="margin:8px 0 0;font-size:.72rem;opacity:.75">v1.0.1 (updated 2026-11-01 20:06)</p>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<!-- ============ SUCCESS ============ -->
+<div class="success" id="success" role="dialog" aria-modal="true" aria-labelledby="sTitle">
+  <div class="s-card">
+    <button class="s-x" type="button" id="sClose" aria-label="Close">✕</button>
+    <svg class="s-flower" viewBox="0 0 220 220" aria-hidden="true"><g class="s-petals" id="sPetals"></g><circle class="s-core" cx="110" cy="110" r="16" fill="url(#coreG)"/></svg>
+    <h3 id="sTitle">JazakAllahu khayran! 🌸</h3>
+    <p>Your request has been sent. The NurulQuran team will review it and contact you soon, in shā’ Allāh.</p>
+    <button class="ref" type="button" id="sRef" title="Tap to copy">NQ-000000-XXXX <span>📋</span></button>
+    <div class="s-meta" id="sMeta"></div>
+    <div class="s-actions">
+      <div class="row2">
+        <a class="btn btn-g" id="sWa" target="_blank" rel="noopener">💬 Share</a>
+        <button class="btn btn-g" type="button" id="sDl">⬇️ Summary</button>
+      </div>
+      <button class="btn btn-p" type="button" id="sNew"><span class="bt">Plan another gathering</span><span class="arr">🌱</span></button>
+    </div>
+  </div>
+</div>
+
+<script>
+(()=>{
+'use strict';
+const $=(s,c=document)=>c.querySelector(s);
+const $$=(s,c=document)=>Array.from(c.querySelectorAll(s));
+const root=document.documentElement;
+const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const DRAFT='nq_lecture_draft_v1', STORE='nq_lecture_requests';
+
+/* ---------------- helpers ---------------- */
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const pad=n=>String(n).padStart(2,'0');
+const fmtTime=v=>{if(!v)return'';const[h,m]=v.split(':').map(Number);return new Date(2000,0,1,h,m).toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});};
+const addMin=(v,mins)=>{const[h,m]=v.split(':').map(Number);const t=(((h*60+m+mins)%1440)+1440)%1440;return pad(Math.floor(t/60))+':'+pad(t%60);};
+const fmtDate=(v,short)=>v?new Date(v+'T00:00:00').toLocaleDateString([],short?{weekday:'short',day:'numeric',month:'short'}:{weekday:'long',day:'numeric',month:'long',year:'numeric'}):'';
+const todayISO=()=>{const d=new Date();return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());};
+$('#yr').textContent=new Date().getFullYear();
+
+/* ---------------- toast ---------------- */
+const toastEl=$('#toast');let toastT;
+function toast(msg,action){
+  toastEl.innerHTML='';const s=document.createElement('span');s.textContent=msg;toastEl.append(s);
+  if(action){const b=document.createElement('button');b.type='button';b.textContent=action.label;b.onclick=()=>{toastEl.classList.remove('show');action.fn();};toastEl.append(b);}
+  toastEl.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>toastEl.classList.remove('show'),action?7000:2800);
+}
+
+/* ---------------- theme (circular reveal) ---------------- */
+const themeBtn=$('#themeBtn'),metaTheme=$('meta[name="theme-color"]');
+function syncTheme(){const d=root.dataset.theme==='dark';metaTheme.setAttribute('content',d?'#0b1120':'#fff8f3');themeBtn.setAttribute('aria-pressed',String(d));themeBtn.title=d?'Switch to day garden':'Switch to night garden';}
+syncTheme();
+themeBtn.addEventListener('click',()=>{
+  const next=root.dataset.theme==='dark'?'light':'dark';
+  const apply=()=>{root.dataset.theme=next;try{localStorage.setItem('nq_theme',next);}catch(_){}syncTheme();};
+  if(!document.startViewTransition||reduced){apply();return;}
+  const r=themeBtn.getBoundingClientRect(),x=r.left+r.width/2,y=r.top+r.height/2;
+  const R=Math.hypot(Math.max(x,innerWidth-x),Math.max(y,innerHeight-y));
+  const vt=document.startViewTransition(apply);
+  vt.ready.then(()=>root.animate({clipPath:[`circle(0px at ${x}px ${y}px)`,`circle(${R}px at ${x}px ${y}px)`]},{duration:800,easing:'cubic-bezier(.65,0,.35,1)',pseudoElement:'::view-transition-new(root)'})).catch(()=>{});
+});
+
+/* ---------------- falling petals, fireflies & bursts ---------------- */
+const bg=$('#bgfx'),fx=$('#fx'),bctx=bg.getContext('2d'),fctx=fx.getContext('2d');
+let W=0,H=0,wind=0;
+function resize(){const dpr=Math.min(2,window.devicePixelRatio||1);W=innerWidth;H=innerHeight;[bg,fx].forEach(c=>{c.width=Math.round(W*dpr);c.height=Math.round(H*dpr);c.getContext('2d').setTransform(dpr,0,0,dpr,0,0);});}
+resize();addEventListener('resize',resize);
+function petalSprite(c1,c2,c3){
+  const s=document.createElement('canvas');s.width=s.height=64;const g=s.getContext('2d');
+  const gr=g.createRadialGradient(32,58,2,32,30,40);gr.addColorStop(0,c1);gr.addColorStop(.55,c2);gr.addColorStop(1,c3);
+  g.fillStyle=gr;g.beginPath();g.moveTo(32,60);g.bezierCurveTo(10,48,4,24,16,10);g.quadraticCurveTo(24,2,32,11);g.quadraticCurveTo(40,2,48,10);g.bezierCurveTo(60,24,54,48,32,60);g.closePath();g.fill();
+  g.strokeStyle='rgba(255,255,255,.45)';g.lineWidth=1.2;g.beginPath();g.moveTo(32,56);g.quadraticCurveTo(30,34,32,16);g.stroke();return s;
+}
+function glowSprite(a,b){const s=document.createElement('canvas');s.width=s.height=64;const g=s.getContext('2d');const r=g.createRadialGradient(32,32,0,32,32,32);r.addColorStop(0,a);r.addColorStop(.25,a.replace(/[\d.]+\)$/,'.6)'));r.addColorStop(1,b);g.fillStyle=r;g.fillRect(0,0,64,64);return s;}
+const SPR={light:[petalSprite('#e9668f','#ffb6c9','#fff0f4'),petalSprite('#f48fb1','#ffd3e0','#ffffff'),petalSprite('#ff9a7a','#ffd0b8','#fff3ea'),petalSprite('#d36b9e','#f7b8d6','#fdeef6')],
+           dark:[petalSprite('#ff7fa3','#ffc2d4','#ffffff'),petalSprite('#b8a0ff','#e1d6ff','#ffffff'),petalSprite('#ff9fbf','#ffe0ea','#ffffff'),petalSprite('#8fd3ff','#d8f1ff','#ffffff')]};
+const GLOW={light:glowSprite('rgba(255,226,150,1)','rgba(255,200,120,0)'),dark:glowSprite('rgba(246,255,186,1)','rgba(190,255,130,0)')};
+class Petal{
+  constructor(){this.reset(true);}
+  reset(init){this.s=9+Math.random()*15;const side=!init&&Math.random()<.35;this.x=init?Math.random()*W:side?-20:Math.random()*W;this.y=init?Math.random()*H:side?Math.random()*H*.6:-24;
+    this.vx=.25+Math.random()*.6;this.vy=.45+Math.random()*.85;this.rot=Math.random()*6.3;this.vr=(Math.random()-.5)*.035;this.flip=Math.random()*6.3;this.vf=.015+Math.random()*.03;this.ph=Math.random()*6.3;this.k=Math.random()*4|0;this.a=.5+Math.random()*.45;}
+  step(dt){this.ph+=.013*dt;this.x+=(this.vx+Math.sin(this.ph)*.7+wind)*dt;this.y+=this.vy*dt;this.rot+=this.vr*dt;this.flip+=this.vf*dt;if(this.y>H+30||this.x>W+40||this.x<-60)this.reset(false);}
+  draw(c,spr){c.save();c.globalAlpha=this.a;c.translate(this.x,this.y);c.rotate(this.rot);c.scale(1,.2+.8*Math.abs(Math.cos(this.flip)));c.drawImage(spr[this.k],-this.s/2,-this.s/2,this.s,this.s);c.restore();}
+}
+class Fly{
+  constructor(){this.x=Math.random()*W;this.y=Math.random()*H;this.vx=(Math.random()-.5)*.4;this.vy=(Math.random()-.5)*.4;this.ph=Math.random()*6.3;this.sp=.6+Math.random();this.z=8+Math.random()*14;}
+  step(dt){this.ph+=.03*this.sp*dt;this.vx=Math.max(-.5,Math.min(.5,this.vx+(Math.random()-.5)*.04));this.vy=Math.max(-.5,Math.min(.5,this.vy+(Math.random()-.5)*.04));this.x+=this.vx*dt;this.y+=this.vy*dt;
+    if(this.x<-20)this.x=W+20;else if(this.x>W+20)this.x=-20;if(this.y<-20)this.y=H+20;else if(this.y>H+20)this.y=-20;}
+  draw(c,dark){const tw=.5+.5*Math.sin(this.ph);c.globalAlpha=dark?.15+.85*tw:.1+.3*tw;const z=dark?this.z:this.z*.8;c.drawImage(dark?GLOW.dark:GLOW.light,this.x-z/2,this.y-z/2,z,z);c.globalAlpha=1;}
+}
+const petals=[],flies=[],bursts=[];let raf=0,last=0,fxDirty=false;
+if(!reduced){const n=Math.round(Math.max(14,Math.min(44,W*H/30000)));for(let i=0;i<n;i++)petals.push(new Petal());for(let i=0;i<20;i++)flies.push(new Fly());}
+function frame(t){
+  const dt=last?Math.min(3,(t-last)/16.67):1;last=t;
+  const dark=root.dataset.theme==='dark',spr=dark?SPR.dark:SPR.light;
+  wind*=.97;bctx.clearRect(0,0,W,H);
+  const nf=dark?flies.length:10;for(let i=0;i<nf;i++){flies[i].step(dt);flies[i].draw(bctx,dark);}
+  for(const p of petals){p.step(dt);p.draw(bctx,spr);}
+  if(bursts.length){
+    fctx.clearRect(0,0,W,H);
+    for(let i=bursts.length-1;i>=0;i--){const b=bursts[i];b.vx*=.985;b.vy=b.vy*.985+.11*dt;b.x+=b.vx*dt;b.y+=b.vy*dt;b.rot+=b.vr*dt;b.flip+=.12*dt;b.life-=.011*dt;
+      if(b.life<=0||b.y>H+40){bursts.splice(i,1);continue;}
+      fctx.save();fctx.globalAlpha=Math.min(1,b.life*1.4);fctx.translate(b.x,b.y);fctx.rotate(b.rot);fctx.scale(1,.25+.75*Math.abs(Math.cos(b.flip)));fctx.drawImage(spr[b.k],-b.s/2,-b.s/2,b.s,b.s);fctx.restore();}
+    fxDirty=true;
+  }else if(fxDirty){fctx.clearRect(0,0,W,H);fxDirty=false;}
+  raf=requestAnimationFrame(frame);
+}
+function startLoop(){if(!reduced&&!raf){last=0;raf=requestAnimationFrame(frame);}}
+function stopLoop(){cancelAnimationFrame(raf);raf=0;}
+document.addEventListener('visibilitychange',()=>document.hidden?stopLoop():startLoop());
+startLoop();
+function burst(x,y,n=16,power=1){if(reduced)return;n=Math.min(n,300-bursts.length);for(let i=0;i<n;i++){const a=Math.random()*Math.PI*2,sp=(1.5+Math.random()*4)*power;bursts.push({x,y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp-2.2*power,rot:Math.random()*6.3,vr:(Math.random()-.5)*.3,flip:Math.random()*6.3,s:10+Math.random()*14,k:Math.random()*4|0,life:1});}}
+let lastPX=null;
+addEventListener('pointermove',e=>{if(lastPX!==null)wind=Math.max(-2.2,Math.min(2.2,wind+(e.clientX-lastPX)*.004));lastPX=e.clientX;},{passive:true});
+
+/* ---------------- hero lotus ---------------- */
+const lotus=$('#lotus');
+$('#lotusBtn').addEventListener('click',()=>{lotus.classList.remove('play');void lotus.getBoundingClientRect();lotus.classList.add('play');const r=lotus.getBoundingClientRect();burst(r.left+r.width/2,r.top+r.height*.5,34,1.25);});
+
+/* ---------------- reveal + tilt ---------------- */
+if('IntersectionObserver' in window){const io=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);}}),{threshold:.12});$$('.reveal').forEach(el=>io.observe(el));}
+else $$('.reveal').forEach(el=>el.classList.add('in'));
+if(matchMedia('(hover:hover) and (pointer:fine)').matches&&!reduced){
+  $$('.tilt').forEach(el=>{
+    el.addEventListener('pointermove',e=>{const r=el.getBoundingClientRect(),x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;el.style.transform=`perspective(700px) rotateX(${(.5-y)*9}deg) rotateY(${(x-.5)*11}deg) translateY(-4px)`;el.style.setProperty('--mx',x*100+'%');el.style.setProperty('--my',y*100+'%');});
+    el.addEventListener('pointerleave',()=>{el.style.transform='';});
+  });
+}
+
+/* ================= FORM WIZARD ================= */
+const form=$('#reqForm'),steps=$$('.step',form),card=$('#plannerCard');
+let cur=0,maxReached=0;
+
+// inject friendly error messages
+$$('.field',form).forEach(f=>{if(f.querySelector('[required]')&&!f.querySelector('.err')){const s=document.createElement('small');s.className='err';s.textContent='🌱 '+(f.dataset.err||'This helps the team plan. Please fill it in.');f.append(s);}});
+$('#date').min=todayISO();$('#altDate').min=todayISO();
+
+/* conditional fields */
+function getVals(name){return $$(`[name="${name}"]`,form).filter(e=>(e.type==='radio'||e.type==='checkbox')?e.checked:!!e.value).map(e=>e.value);}
+function updateConditionals(){$$('[data-when]',form).forEach(el=>{const[name,vals]=el.dataset.when.split(':');const want=vals.split('|');el.hidden=!getVals(name).some(v=>want.includes(v));});}
+
+/* validation */
+function isFilled(el){if(el.type==='tel')return el.value.replace(/\D/g,'').length>=7;return el.value.trim()!==''&&el.checkValidity();}
+function shake(el){if(!reduced&&el.animate)el.animate([{transform:'translateX(0)'},{transform:'translateX(-7px)'},{transform:'translateX(7px)'},{transform:'translateX(-4px)'},{transform:'translateX(0)'}],{duration:420});}
+function checkStep(i,ui=true){
+  const s=steps[i],seen=new Set();let bad=[];
+  $$('input,select,textarea',s).forEach(el=>{
+    if(!el.name||el.type==='range'||el.closest('[hidden]'))return;
+    const f=el.closest('.field');
+    if(el.type==='radio'||el.type==='checkbox'){
+      if(!el.required||seen.has(el.name))return;seen.add(el.name);
+      if(!s.querySelector(`[name="${el.name}"]:checked`))bad.push(f);
+    }else if(el.required?!isFilled(el):(el.value.trim()&&!el.checkValidity()))bad.push(f);
+  });
+  bad=[...new Set(bad.filter(Boolean))];
+  if(ui){
+    $$('.field.invalid',s).forEach(f=>f.classList.remove('invalid'));bad.forEach(f=>f.classList.add('invalid'));
+    if(bad[0]){bad[0].scrollIntoView({behavior:reduced?'auto':'smooth',block:'center'});shake(bad[0]);toast(bad.length===1?'One detail needs your attention 🌱':`${bad.length} details need your attention 🌱`);}
+  }
+  return bad.length===0;
+}
+
+/* navigation */
+const navBtns=$$('.sn'),stepsNav=$('#stepsNav');
+function updateNav(){
+  const lastI=steps.length-1;
+  $('#prevBtn').style.visibility=cur===0?'hidden':'visible';
+  $('#nextBtn').hidden=cur===lastI;$('#submitBtn').hidden=cur!==lastI;
+  $('#stepCount').textContent=`Step ${cur+1} of ${steps.length}`;$('#navCount').textContent=`${cur+1} / ${steps.length}`;
+  $('#stepName').textContent=steps[cur].dataset.title;$('#bloomNum').textContent=cur+1;
+  $$('.bp').forEach((p,i)=>{p.classList.toggle('on',i<cur);p.classList.toggle('cur',i===cur);});
+  navBtns.forEach((b,i)=>{b.classList.toggle('cur',i===cur);b.classList.toggle('done',i<maxReached&&i!==cur||i<cur);b.disabled=i>maxReached;b.setAttribute('aria-current',i===cur?'step':'false');});
+  $('#pbar').style.width=(cur/lastI*100)+'%';
+  const chip=navBtns[cur];stepsNav.scrollTo({left:chip.offsetLeft-stepsNav.clientWidth/2+chip.offsetWidth/2,behavior:reduced?'auto':'smooth'});
+}
+function go(n,opt={}){
+  if(n<0||n>=steps.length||(n===cur&&!opt.force))return;
+  const dir=n>=cur?1:-1;
+  steps.forEach(s=>s.classList.remove('active','in-r','in-l'));
+  cur=n;maxReached=Math.max(maxReached,n);
+  const s=steps[cur];[...s.children].forEach((c,i)=>c.style.setProperty('--i',i));
+  s.classList.add('active',dir>0?'in-r':'in-l');
+  if(cur===steps.length-1){buildReview();updateReadiness(true);}
+  if(cur===3)paRec();if(cur===4)updatePickupHint();
+  updateNav();
+  if(!opt.noScroll){const top=card.getBoundingClientRect().top;if(top<0)scrollTo({top:scrollY+top-72,behavior:reduced?'auto':'smooth'});}
+  if(!opt.noSave)saveDraft();
+}
+$('#nextBtn').addEventListener('click',e=>{if(!checkStep(cur))return;const r=e.currentTarget.getBoundingClientRect();burst(r.left+r.width/2,r.top+r.height/2,14,.8);go(cur+1);});
+$('#prevBtn').addEventListener('click',()=>go(cur-1));
+stepsNav.addEventListener('click',e=>{const b=e.target.closest('.sn');if(!b||b.disabled)return;const i=+b.dataset.i;if(i>cur&&!checkStep(cur))return;go(i);});
+form.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.tagName==='INPUT'&&!['checkbox','radio','button','submit'].includes(e.target.type)){e.preventDefault();if(cur<steps.length-1)$('#nextBtn').click();}});
+
+/* guests + garden */
+const gNum=$('#guests'),gRange=$('#guestsRange'),garden=$('#garden');
+const SK=['skG','skG2','skG3','skG4','skG','skG2'];
+function setGuests(v,from){
+  v=Math.round(+v||0);const c=Math.max(5,Math.min(2000,v));
+  if(from!=='num')gNum.value=c;
+  const rv=Math.min(500,c);gRange.value=rv;gRange.style.setProperty('--p',((rv-5)/495*100)+'%');
+  $('#gBig').textContent=from==='num'&&v<5?v||'–':c;
+  const lab=c<=20?'Intimate circle':c<=60?'Cozy gathering':c<=150?'Full house':c<=300?'Grand gathering':'Grand assembly';
+  $('#gLab').firstChild.textContent=lab;
+  const n=Math.max(1,Math.min(36,Math.round(c/10)));
+  while(garden.children.length<n){const sp=document.createElement('span');sp.className='gf';sp.style.setProperty('--z',(20+Math.random()*14).toFixed(0)+'px');sp.style.setProperty('--dl',(-Math.random()*3).toFixed(2)+'s');sp.innerHTML=`<svg viewBox="0 0 100 100"><use href="#sakura" width="100" height="100" style="--sk:url(#${SK[Math.random()*SK.length|0]})"/></svg>`;garden.append(sp);}
+  while(garden.children.length>n)garden.lastElementChild.remove();
+  paRec();
+}
+gRange.addEventListener('input',()=>{setGuests(gRange.value);onChange();});
+gNum.addEventListener('input',()=>setGuests(gNum.value,'num'));
+gNum.addEventListener('blur',()=>setGuests(gNum.value));
+$$('[data-g]').forEach(b=>b.addEventListener('click',()=>{setGuests(b.dataset.g);const r=b.getBoundingClientRect();burst(r.left+r.width/2,r.top,8,.6);onChange();}));
+
+/* smart sound recommendation */
+const PA_ORDER=['none','portable','standard','full'];
+function paRec(){
+  const v=+gNum.value||0;
+  const rec=v<=20?{pa:'none',txt:'a quiet room usually carries her voice well, so <b>no speaker is needed</b>.'}:v<=60?{pa:'portable',txt:'a <b>portable speaker</b> with a <b>collar mic</b> is ideal.'}:v<=150?{pa:'standard',txt:'a <b>standard PA</b> (amplifier + 2 speakers) is recommended.'}:{pa:'full',txt:'a <b>full sound system</b> with a mixer and a dedicated operator is recommended.'};
+  const chosen=(form.querySelector('[name=pa]:checked')||{}).value;
+  const low=chosen&&PA_ORDER.indexOf(chosen)<PA_ORDER.indexOf(rec.pa);
+  $('#paHint').classList.toggle('warn',!!low);
+  $('#paHintTxt').innerHTML=`For about <b>${v} guests</b>, ${rec.txt}`+(low?'<br>⚠️ Your current choice may be too quiet for the back rows.':'');
+  const b=$('#paApply');b.hidden=chosen===rec.pa;b.dataset.pa=rec.pa;
+}
+$('#paApply').addEventListener('click',e=>{
+  const pa=e.currentTarget.dataset.pa;const r=form.querySelector(`[name=pa][value="${pa}"]`);if(r)r.checked=true;
+  if(pa!=='none'&&!form.querySelector('[name=mic]:checked'))form.querySelector('[name=mic][value=collar]').checked=true;
+  const rc=e.currentTarget.getBoundingClientRect();burst(rc.left+rc.width/2,rc.top+rc.height/2,16,.8);onChange();toast('Sound setup applied ✨');
+});
+
+/* date / time / pickup hints */
+function updateDateHint(){
+  const v=$('#date').value,h=$('#dateHint');if(!v){h.hidden=true;return;}
+  const d=new Date(v+'T00:00:00'),t=new Date();t.setHours(0,0,0,0);const days=Math.round((d-t)/864e5);
+  h.hidden=false;h.classList.toggle('warn',days<7);
+  h.querySelector('.hx').innerHTML=days<0?'That date has passed. Please pick an upcoming date.':`<b>${esc(fmtDate(v))}</b> · ${days===0?'today':days===1?'tomorrow':'in '+days+' days'}${days<7?'. Short-notice requests are harder to schedule, so adding an alternate date helps.':'. That gives the team good time to plan.'}`;
+}
+function updateTimeHint(){
+  const t=$('#time').value,d=+((form.querySelector('[name=duration]:checked')||{}).value||0),h=$('#timeHint');
+  if(!t||!d){h.hidden=true;return;}h.hidden=false;
+  $('#timeHintTxt').innerHTML=`Starts <b>${fmtTime(t)}</b> · ends around <b>${fmtTime(addMin(t,d))}</b>. Ask guests to be seated 10 minutes before.`;
+}
+function updatePickupHint(){
+  const t=$('#time').value,travel=+$('#travel').value,b=$('#usePickup');
+  if(!t){$('#pickupHintTxt').innerHTML='Add a start time in the “Gathering” step and we’ll suggest a pickup time.';b.hidden=true;return;}
+  const sug=addMin(t,-(travel+30));
+  $('#pickupHintTxt').innerHTML=`To arrive <b>30 min early</b> with ~${travel} min of travel, pick her up around <b>${fmtTime(sug)}</b>.`;
+  b.hidden=$('#pickupTime').value===sug;b.dataset.v=sug;b.textContent=`Use ${fmtTime(sug)} ⏱️`;
+}
+$('#usePickup').addEventListener('click',e=>{$('#pickupTime').value=e.currentTarget.dataset.v;onChange();toast('Pickup time set 🚗');});
+
+/* notes counter */
+function updateCounter(){$('#notesCount').textContent=$('#notes').value.length;}
+
+/* readiness meter */
+const C=2*Math.PI*50;let lastP=0;
+function updateReadiness(silent){
+  const all=$$('[name=ready]',form),done=all.filter(c=>c.checked).length,p=all.length?Math.round(done/all.length*100):0;
+  $('#ringP').style.strokeDashoffset=C*(1-p/100);$('#rPct').textContent=p+'%';
+  $('#rFlower').style.transform=`scale(${.3+.7*p/100}) rotate(${p*1.44}deg)`;
+  const st=p===100?['Full bloom! 🌺','MashaAllah, everything is set for a smooth gathering.']:p>=75?['Blooming 🌸','Almost there. Just a few finishing touches.']:p>=50?['Budding 🌷','Great progress! Keep going.']:p>=25?['Sprouting 🌿','A good start. Tick items as you arrange them.']:['Seedling 🌱','Tick each item you’ve arranged (or will arrange).'];
+  $('#rStage').textContent=st[0];$('#rMsg').textContent=st[1];
+  $$('.ck-group',form).forEach(g=>{const cs=$$('input',g);g.querySelector('.ck-count').textContent=`${cs.filter(c=>c.checked).length}/${cs.length}`;});
+  if(!silent&&p===100&&lastP<100){const r=$('.ring').getBoundingClientRect();burst(r.left+r.width/2,r.top+r.height/2,40,1.3);toast('Full bloom! Everything is ready 🌺');}
+  lastP=p;return p;
+}
+
+/* review */
+function labelOf(f){if(f.dataset.label)return f.dataset.label;const l=f.querySelector('.lbl');if(!l)return'';const c=l.cloneNode(true);c.querySelectorAll('.req,.opt').forEach(x=>x.remove());return c.textContent.replace(/\s+/g,' ').trim();}
+function textOf(inp){const lab=inp.closest('label'),t=lab&&lab.querySelector('.t');if(!t)return inp.value;return((t.firstChild&&t.firstChild.nodeType===3)?t.firstChild.textContent:t.textContent).trim();}
+function fieldValue(f){
+  const out=[];
+  $$('input,select,textarea',f).forEach(e=>{
+    if(!e.name||e.type==='range'||e.closest('[hidden]'))return;
+    if(e.type==='radio'||e.type==='checkbox'){if(e.checked)out.push(textOf(e));return;}
+    const v=e.value.trim();if(!v)return;
+    if(e.tagName==='SELECT')out.push(e.options[e.selectedIndex].text);
+    else if(e.type==='date')out.push(fmtDate(v));
+    else if(e.type==='time')out.push(fmtTime(v));
+    else out.push(v+(e.dataset.suffix||''));
+  });
+  return out.join(', ');
+}
+function collect(){return steps.slice(0,-1).map((s,i)=>({i,title:s.dataset.title,emoji:s.dataset.emoji,rows:$$('.field',s).filter(f=>!f.closest('[hidden]')).map(f=>({label:labelOf(f),value:fieldValue(f)})).filter(r=>r.value)}));}
+function buildReview(){
+  $('#review').innerHTML=collect().map(s=>`<details class="rv" open><summary><span>${s.emoji} ${esc(s.title)}</span><button type="button" class="btn btn-g btn-s" data-goto="${s.i}">Edit ✏️</button></summary>${s.rows.length?`<dl>${s.rows.map(r=>`<dt>${esc(r.label)}</dt><dd>${esc(r.value)}</dd>`).join('')}</dl>`:'<p class="empty">Nothing added yet.</p>'}</details>`).join('');
+}
+$('#review').addEventListener('click',e=>{const b=e.target.closest('[data-goto]');if(b){e.preventDefault();go(+b.dataset.goto);}});
+
+/* draft autosave */
+let saveT;
+function serialize(){
+  const d={};
+  $$('input,select,textarea',form).forEach(e=>{
+    if(!e.name||e.type==='range')return;
+    if(e.type==='checkbox'){if($$(`input[name="${e.name}"]`,form).length>1){d[e.name]=d[e.name]||[];if(e.checked)d[e.name].push(e.value);}else d[e.name]=e.checked;}
+    else if(e.type==='radio'){if(e.checked)d[e.name]=e.value;}
+    else d[e.name]=e.value;
+  });
+  return d;
+}
+function restore(d){
+  $$('input,select,textarea',form).forEach(e=>{
+    if(!e.name||!(e.name in d))return;const v=d[e.name];
+    if(e.type==='checkbox')e.checked=Array.isArray(v)?v.includes(e.value):!!v;
+    else if(e.type==='radio')e.checked=e.value===v;
+    else e.value=v;
+  });
+}
+function saveDraft(){
+  clearTimeout(saveT);
+  saveT=setTimeout(()=>{try{localStorage.setItem(DRAFT,JSON.stringify({v:1,t:Date.now(),step:cur,max:maxReached,data:serialize()}));const s=$('#saved');s.classList.add('show');clearTimeout(s._t);s._t=setTimeout(()=>s.classList.remove('show'),2500);}catch(_){}},450);
+}
+function loadDraft(){
+  try{
+    const d=JSON.parse(localStorage.getItem(DRAFT)||'null');if(!d||!d.data)return false;
+    restore(d.data);maxReached=Math.min(d.max||0,steps.length-1);
+    refreshAll();go(Math.min(d.step||0,steps.length-1),{force:true,noScroll:true,noSave:true});
+    toast('Welcome back! Your draft was restored 🌸',{label:'Start fresh',fn:resetAll});
+    return true;
+  }catch(_){return false;}
+}
+
+/* change handling */
+function onChange(e){
+  const t=e&&e.target;
+  if(t){const f=t.closest('.field');if(f)f.classList.remove('invalid');}
+  updateConditionals();
+  if(!t||['date'].includes(t.id))updateDateHint();
+  if(!t||t.id==='time'||t.name==='duration'){updateTimeHint();updatePickupHint();}
+  if(!t||t.name==='pa')paRec();
+  if(!t||t.id==='travel'||t.id==='pickupTime')updatePickupHint();
+  if(!t||t.id==='notes')updateCounter();
+  if(!t||t.name==='ready')updateReadiness(!t);
+  saveDraft();
+}
+form.addEventListener('input',onChange);
+form.addEventListener('change',e=>{
+  const t=e.target;
+  if(t.checked&&(t.type==='radio'||t.type==='checkbox')){const host=t.closest('.tile,.ck');if(host){const r=host.getBoundingClientRect();burst(host.classList.contains('ck')?r.left+22:r.left+r.width/2,r.top+r.height/2,7,.55);}}
+  onChange(e);
+});
+function refreshAll(){updateConditionals();setGuests(gNum.value);updateDateHint();updateTimeHint();updatePickupHint();paRec();updateCounter();updateReadiness(true);updateNav();}
+
+/* submit */
+function makeRef(){const d=new Date();return`NQ-${String(d.getFullYear()).slice(2)}${pad(d.getMonth()+1)}${pad(d.getDate())}-${Math.random().toString(36).slice(2,6).toUpperCase()}`;}
+function summaryText(p){
+  const L=['🌸 NurulQuran: Lecture Request',`Reference: ${p.id}`,`Submitted: ${new Date(p.submittedAt).toLocaleString()}`,`Readiness: ${p.readiness}%`,''];
+  p.sections.forEach(s=>{L.push(`${s.emoji} ${s.title.toUpperCase()}`);s.rows.forEach(r=>L.push(`• ${r.label}: ${r.value}`));L.push('');});
+  return L.join('\n');
+}
+let lastPayload=null;
+form.addEventListener('submit',e=>{
+  e.preventDefault();
+  for(let i=0;i<steps.length;i++){if(!checkStep(i,false)){go(i);setTimeout(()=>checkStep(i),380);return;}}
+  const btn=$('#submitBtn');btn.classList.add('loading');btn.disabled=true;
+  const payload={id:makeRef(),status:'pending',submittedAt:new Date().toISOString(),readiness:updateReadiness(true),data:serialize(),sections:collect()};
+  /* PHASE 2: connected to /api/lecture-requests */
+  fetch('/api/lecture-requests',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})
+    .then(r=>r.ok?r.json():Promise.reject(r))
+    .then(res=>{if(res&&res.id)payload.id=res.id;})
+    .catch(()=>{})
+    .finally(()=>{
+      try{const list=JSON.parse(localStorage.getItem(STORE)||'[]');list.push(payload);localStorage.setItem(STORE,JSON.stringify(list));localStorage.removeItem(DRAFT);}catch(_){}
+      btn.classList.remove('loading');btn.disabled=false;lastPayload=payload;showSuccess(payload);
+    });
+});
+
+/* success overlay */
+const sPetals=$('#sPetals');
+for(let i=0;i<16;i++){const inner=i>=8,p=document.createElementNS('http://www.w3.org/2000/svg','path');p.setAttribute('d','M110 106C90 90 88 46 110 26C132 46 130 90 110 106Z');p.setAttribute('fill',inner?'url(#spG2)':'url(#spG)');p.setAttribute('class','sp');p.style.cssText=`--a:${(i%8)*45+(inner?22.5:0)}deg;--s:${inner?.66:1};--d:${((inner?.45:.05)+(i%8)*.05).toFixed(2)}s`;sPetals.append(p);}
+const success=$('#success');
+function showSuccess(p){
+  $('#sRef').firstChild.textContent=p.id+' ';
+  const d=p.data,vt=(form.querySelector('[name=venueType]:checked')||{});
+  $('#sMeta').innerHTML=[d.date&&`📅 ${esc(fmtDate(d.date,true))}`,d.time&&`⏰ ${esc(fmtTime(d.time))}`,vt.value&&`📍 ${esc(textOf(vt))}`,d.guests&&`🌸 ${esc(d.guests)} guests`].filter(Boolean).map(x=>`<span>${x}</span>`).join('');
+  const short=`Assalamu alaikum 🌸\nI've sent a lecture request to NurulQuran.\nRef: ${p.id}\nDate: ${fmtDate(d.date)} at ${fmtTime(d.time)}\nVenue: ${d.city||''}\nGuests: ~${d.guests}`;
+  $('#sWa').href='https://wa.me/?text='+encodeURIComponent(short);
+  success.classList.remove('show');void success.offsetWidth;success.classList.add('show');
+  $$('.bp').forEach(b=>{b.classList.add('on');b.classList.remove('cur');});
+  const cx=innerWidth/2,cy=innerHeight/2-80;
+  burst(cx,cy,60,1.6);setTimeout(()=>burst(cx-120,cy+40,30,1.1),350);setTimeout(()=>burst(cx+120,cy+40,30,1.1),650);
+  setTimeout(()=>$('#sNew').focus(),400);
+}
+$('#sRef').addEventListener('click',()=>{if(!lastPayload)return;(navigator.clipboard?navigator.clipboard.writeText(lastPayload.id):Promise.reject()).then(()=>toast('Reference copied 📋')).catch(()=>toast(lastPayload.id));});
+$('#sDl').addEventListener('click',()=>{if(!lastPayload)return;const blob=new Blob([summaryText(lastPayload)],{type:'text/plain'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=lastPayload.id+'.txt';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1000);});
+function closeSuccess(){success.classList.remove('show');resetAll();card.scrollIntoView({behavior:reduced?'auto':'smooth',block:'start'});}
+$('#sNew').addEventListener('click',closeSuccess);$('#sClose').addEventListener('click',closeSuccess);
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&success.classList.contains('show'))closeSuccess();});
+
+function resetAll(){
+  form.reset();try{localStorage.removeItem(DRAFT);}catch(_){}
+  $$('.field.invalid',form).forEach(f=>f.classList.remove('invalid'));
+  garden.innerHTML='';maxReached=0;lastP=0;
+  go(0,{force:true,noScroll:true,noSave:true});refreshAll();
+}
+
+/* init */
+if(!loadDraft()){refreshAll();go(0,{force:true,noScroll:true,noSave:true});}
+})();
+</script>
+</body>
+</html>

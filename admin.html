@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Admin Panel · NurulQuran Lecture Requests</title>
+<meta name="theme-color" content="#fff8f3">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌸</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500;1,9..144,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script>
+(function(){var d=document.documentElement;d.classList.add('js');try{var t=localStorage.getItem('nq_theme');if(!t)t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';d.setAttribute('data-theme',t);}catch(e){}})();
+</script>
+<style>
+:root{
+  --bg:#fff8f3; --text:#2c2233; --muted:#75687c;
+  --surface:rgba(255,255,255,.78); --surface-solid:#fff; --glass:rgba(255,248,243,.86);
+  --border:rgba(232,87,122,.16);
+  --input-bg:#fffdfb; --input-border:#f1dfe5; --tile-on:#fff0f4; --track:#f1e4e8; --group-bg:rgba(255,255,255,.65);
+  --rose:#e8577a; --rose-2:#ff8fab; --peach:#ff9f7a; --leaf:#3f9f6a; --lav:#9b7bd4; --gold:#d99b26;
+  --grad:linear-gradient(120deg,#e8577a,#ff8a6b 40%,#f2b84b 70%,#e8577a);
+  --grad-soft:linear-gradient(135deg,#fff0f4,#fff6e9 55%,#eefaf1);
+  --blob-1:rgba(255,183,201,.48); --blob-2:rgba(170,226,186,.38); --blob-3:rgba(255,214,165,.42);
+  --shadow:0 18px 40px -18px rgba(150,50,90,.28),0 2px 8px rgba(150,50,90,.06);
+  --ring:0 0 0 4px rgba(232,87,122,.18);
+  --fd:'Fraunces',Georgia,serif; --fb:'Plus Jakarta Sans',system-ui,-apple-system,'Segoe UI',sans-serif; --fa:'Amiri','Traditional Arabic',serif;
+  --st-pending-bg:#fff6e0; --st-pending-fg:#9a6406; --st-pending-bd:#f3d078;
+  --st-approved-bg:#e8f8ee; --st-approved-fg:#1f7a46; --st-approved-bd:#9adbb4;
+  --st-declined-bg:#ffeef2; --st-declined-fg:#b8284b; --st-declined-bd:#f5adbe;
+  color-scheme:light;
+}
+[data-theme=dark]{
+  --bg:#0b1120; --text:#f3eef8; --muted:#a9a1bd;
+  --surface:rgba(22,27,52,.75); --surface-solid:#161b33; --glass:rgba(11,17,32,.84);
+  --border:rgba(255,143,171,.16);
+  --input-bg:rgba(255,255,255,.05); --input-border:rgba(255,255,255,.14); --tile-on:rgba(255,127,163,.14); --track:rgba(255,255,255,.12); --group-bg:rgba(255,255,255,.04);
+  --rose:#ff7fa3; --rose-2:#ffb3c7; --peach:#ffb08f; --leaf:#5fcf98; --lav:#b8a0ff; --gold:#ffd27a;
+  --grad:linear-gradient(120deg,#ff7fa3,#c59bff 40%,#7cc4e4 70%,#ff7fa3);
+  --grad-soft:linear-gradient(135deg,rgba(255,127,163,.12),rgba(184,160,255,.1) 55%,rgba(111,211,160,.08));
+  --blob-1:rgba(118,92,210,.3); --blob-2:rgba(32,120,110,.25); --blob-3:rgba(255,127,163,.15);
+  --shadow:0 20px 50px -20px rgba(0,0,0,.7),0 2px 10px rgba(0,0,0,.3);
+  --ring:0 0 0 4px rgba(255,127,163,.22);
+  --st-pending-bg:rgba(255,210,122,.14); --st-pending-fg:#ffd27a; --st-pending-bd:rgba(255,210,122,.35);
+  --st-approved-bg:rgba(95,207,152,.14); --st-approved-fg:#6ee2a8; --st-approved-bd:rgba(95,207,152,.35);
+  --st-declined-bg:rgba(255,127,163,.14); --st-declined-fg:#ff9bb8; --st-declined-bd:rgba(255,127,163,.35);
+  color-scheme:dark;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;font-family:var(--fb);color:var(--text);background:var(--bg);line-height:1.5;min-height:100dvh;display:flex;flex-direction:column;-webkit-font-smoothing:antialiased;transition:background-color .4s,color .4s}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(900px 520px at 105% -5%,var(--blob-1),transparent 62%),
+             radial-gradient(760px 560px at -15% 35%,var(--blob-2),transparent 62%),
+             radial-gradient(800px 480px at 50% 112%,var(--blob-3),transparent 62%)}
+a{color:var(--rose)}
+:focus-visible{outline:3px solid var(--rose);outline-offset:2px;border-radius:8px}
+
+/* HEADER */
+.hdr{position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:10px;padding:12px 20px;background:var(--glass);backdrop-filter:blur(16px) saturate(1.4);-webkit-backdrop-filter:blur(16px) saturate(1.4);border-bottom:1px solid var(--border)}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit;margin-right:auto}
+.brand svg{width:36px;height:36px;filter:drop-shadow(0 4px 8px rgba(232,87,122,.3))}
+.brand b{font-family:var(--fd);font-weight:600;font-size:1.15rem;display:block;line-height:1.1}
+.brand small{display:block;font-size:.62rem;color:var(--muted);letter-spacing:.16em;text-transform:uppercase;font-weight:700}
+.tt{width:40px;height:40px;border-radius:50%;border:1px solid var(--border);background:var(--surface-solid);color:#e9a020;display:grid;place-items:center;cursor:pointer;transition:transform .3s}
+.tt:hover{transform:rotate(-15deg) scale(1.05)}
+[data-theme=dark] .tt{color:#f5e6a8}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:10px 16px;border-radius:999px;border:0;font:700 .85rem var(--fb);cursor:pointer;text-decoration:none;transition:transform .15s,box-shadow .2s,background .2s,border-color .2s;white-space:nowrap}
+.btn:active{transform:scale(.97)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn-p{background:var(--grad);background-size:200% 100%;color:#fff;box-shadow:0 8px 20px -10px var(--rose)}
+.btn-g{background:var(--surface-solid);color:var(--text);border:1.5px solid var(--input-border)}
+.btn-g:hover:not(:disabled){border-color:var(--rose-2)}
+.btn-approve{background:var(--st-approved-bg);color:var(--st-approved-fg);border:1.5px solid var(--st-approved-bd)}
+.btn-approve:hover:not(:disabled){background:var(--leaf);color:#fff;border-color:var(--leaf)}
+.btn-decline{background:var(--st-declined-bg);color:var(--st-declined-fg);border:1.5px solid var(--st-declined-bd)}
+.btn-decline:hover:not(:disabled){background:#d93860;color:#fff;border-color:#d93860}
+.btn-s{padding:6px 12px;font-size:.78rem}
+
+/* MAIN CONTAINER */
+main{flex:1;width:100%;max-width:1280px;margin:0 auto;padding:24px 18px 48px}
+
+/* LOGIN CARD */
+.login-wrap{max-width:420px;margin:48px auto;padding:28px 24px;border-radius:28px;background:var(--surface);border:1px solid var(--border);box-shadow:var(--shadow);backdrop-filter:blur(16px);text-align:center}
+.login-wrap h1{font-family:var(--fd);font-size:1.65rem;margin:10px 0 6px}
+.login-wrap p{color:var(--muted);font-size:.88rem;margin:0 0 20px}
+.inp{width:100%;font:500 .95rem var(--fb);color:var(--text);background:var(--input-bg);border:1.5px solid var(--input-border);border-radius:14px;padding:11px 14px;transition:border-color .2s,box-shadow .2s}
+.inp:focus{outline:none;border-color:var(--rose);box-shadow:var(--ring)}
+textarea.inp{min-height:84px;resize:vertical}
+
+/* STATS RIBBON */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:20px}
+.stat-card{padding:16px 18px;border-radius:22px;background:var(--surface);border:1px solid var(--border);box-shadow:var(--shadow);backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:space-between;gap:12px}
+.stat-card small{display:block;font-size:.73rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.stat-card b{font-family:var(--fd);font-size:1.85rem;line-height:1.1;display:block;margin-top:2px}
+.stat-ico{width:44px;height:44px;border-radius:14px;background:var(--grad-soft);border:1px solid var(--border);display:grid;place-items:center;font-size:1.35rem;flex:none}
+
+/* CONTROLS & FILTERS */
+.panel-card{border-radius:26px;background:var(--surface);border:1px solid var(--border);box-shadow:var(--shadow);backdrop-filter:blur(16px);padding:18px;margin-bottom:20px}
+.filter-pills{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.fpill{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:999px;border:1.5px solid var(--input-border);background:var(--surface-solid);color:var(--muted);font:700 .82rem var(--fb);cursor:pointer;transition:.2s}
+.fpill:hover{border-color:var(--rose-2);color:var(--text)}
+.fpill.active{background:var(--grad);background-size:200% 100%;color:#fff;border-color:transparent;box-shadow:0 8px 18px -10px var(--rose)}
+.fpill .cnt{padding:1px 7px;border-radius:99px;background:rgba(0,0,0,.08);font-size:.72rem}
+.fpill.active .cnt{background:rgba(255,255,255,.25);color:#fff}
+
+.toolbar{display:grid;grid-template-columns:1fr;gap:10px}
+@media(min-width:760px){.toolbar{grid-template-columns:1.6fr 1fr 1fr 1fr auto}}
+
+/* STATUS BADGES */
+.badge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:999px;font-size:.74rem;font-weight:800;letter-spacing:.03em;text-transform:capitalize;border:1px solid transparent}
+.badge.pending{background:var(--st-pending-bg);color:var(--st-pending-fg);border-color:var(--st-pending-bd)}
+.badge.approved{background:var(--st-approved-bg);color:var(--st-approved-fg);border-color:var(--st-approved-bd)}
+.badge.declined{background:var(--st-declined-bg);color:var(--st-declined-fg);border-color:var(--st-declined-bd)}
+
+/* RESPONSIVE TABLE (Modern Web Guidance pattern) */
+.table-wrapper{
+  overflow:auto;
+  max-inline-size:100%;
+  max-block-size:min(720px,78vh);
+  container-type:inline-size;
+  border-radius:18px;
+  border:1px solid var(--border);
+  background:var(--surface-solid);
+}
+table{
+  width:100%;
+  border-collapse:separate;
+  border-spacing:0;
+  --label-2:"Host & Contact";
+  --label-3:"Gathering & Date";
+  --label-4:"Venue & Guests";
+  --label-5:"Readiness";
+  --label-6:"Status";
+  --label-7:"Actions";
+}
+caption{
+  padding:12px 16px;
+  text-align:left;
+  font-weight:800;
+  font-size:.86rem;
+  color:var(--muted);
+  border-bottom:1px solid var(--border);
+  background:var(--surface-solid);
+}
+thead{
+  position:sticky;
+  inset-block-start:0;
+  z-index:3;
+  background:var(--surface-solid);
+}
+thead th{
+  padding:12px 14px;
+  text-align:left;
+  font-size:.72rem;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:.07em;
+  color:var(--muted);
+  border-bottom:1.5px solid var(--border);
+  background:var(--surface-solid);
+  white-space:nowrap;
+}
+tbody tr{
+  transition:background .15s;
+}
+tbody tr:hover{
+  background:var(--tile-on);
+}
+tbody th,tbody td{
+  padding:14px;
+  border-bottom:1px solid var(--border);
+  vertical-align:top;
+  font-size:.87rem;
+  text-align:left;
+}
+tbody th{
+  position:sticky;
+  inset-inline-start:0;
+  z-index:2;
+  background:var(--surface-solid);
+  font-weight:800;
+  min-width:145px;
+}
+tbody tr:hover th{
+  background:var(--tile-on);
+}
+.ref-code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.82rem;color:var(--rose);font-weight:800;display:block}
+.sub-time{font-size:.73rem;color:var(--muted);font-weight:600;margin-top:3px;display:block}
+.cell-main{font-weight:700;color:var(--text);display:block}
+.cell-sub{font-size:.77rem;color:var(--muted);margin-top:2px;display:block}
+.wa-link{display:inline-flex;align-items:center;gap:4px;font-size:.75rem;font-weight:700;color:var(--leaf);text-decoration:none;margin-top:3px}
+.wa-link:hover{text-decoration:underline}
+.r-bar{width:84px;height:7px;border-radius:99px;background:var(--track);overflow:hidden;margin-top:5px}
+.r-bar i{display:block;height:100%;background:var(--grad);border-radius:inherit}
+.row-acts{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+
+@container (width < 760px){
+  table,thead,tbody,tr,th,td{display:block}
+  thead{display:none}
+  tbody tr{
+    margin:12px;
+    border:1.5px solid var(--border);
+    border-radius:18px;
+    overflow:hidden;
+    background:var(--surface-solid);
+    box-shadow:0 6px 18px -10px rgba(0,0,0,.12);
+  }
+  tbody th{
+    position:sticky;
+    inset-block-start:0;
+    z-index:2;
+    background:var(--grad-soft);
+    border-bottom:1px solid var(--border);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+  }
+  tbody td{
+    display:grid;
+    grid-template-columns:125px 1fr;
+    gap:8px;
+    padding:10px 14px;
+  }
+  tbody td:last-child{border-bottom:0}
+  td:nth-child(2)::before{content:var(--label-2) ": ";font-weight:800;font-size:.74rem;color:var(--muted);text-transform:uppercase}
+  td:nth-child(3)::before{content:var(--label-3) ": ";font-weight:800;font-size:.74rem;color:var(--muted);text-transform:uppercase}
+  td:nth-child(4)::before{content:var(--label-4) ": ";font-weight:800;font-size:.74rem;color:var(--muted);text-transform:uppercase}
+  td:nth-child(5)::before{content:var(--label-5) ": ";font-weight:800;font-size:.74rem;color:var(--muted);text-transform:uppercase}
+  td:nth-child(6)::before{content:var(--label-6) ": ";font-weight:800;font-size:.74rem;color:var(--muted);text-transform:uppercase}
+  td:nth-child(7)::before{content:var(--label-7) ": ";font-weight:800;font-size:.74rem;color:var(--muted);text-transform:uppercase}
+}
+
+.empty-state{padding:48px 20px;text-align:center;color:var(--muted)}
+.empty-state .emo{font-size:2.6rem;display:block;margin-bottom:8px}
+
+/* DIALOG MODAL (Modern Web Guidance light-dismiss dialog) */
+dialog#detailDialog{
+  width:min(820px,calc(100vw - 24px));
+  max-height:90dvh;
+  margin:auto;
+  padding:0;
+  border:1px solid var(--border);
+  border-radius:28px;
+  background:var(--surface-solid);
+  color:var(--text);
+  box-shadow:0 30px 80px -20px rgba(0,0,0,.55);
+  overflow:hidden;
+}
+dialog#detailDialog[open]{
+  display:flex;
+  flex-direction:column;
+}
+dialog#detailDialog::backdrop{
+  background-color:rgba(20,10,28,.52);
+  backdrop-filter:blur(6px);
+  -webkit-backdrop-filter:blur(6px);
+}
+.dlg-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:18px 22px;
+  background:var(--grad-soft);
+  border-bottom:1px solid var(--border);
+}
+.dlg-head h2{font-family:var(--fd);font-size:1.35rem;margin:0;line-height:1.2}
+.dlg-close{width:36px;height:36px;border-radius:50%;border:1px solid var(--border);background:var(--surface-solid);color:var(--text);font-size:1rem;cursor:pointer;display:grid;place-items:center}
+.dlg-body{padding:20px 22px;overflow-y:auto;display:grid;gap:16px}
+.decision-box{padding:16px;border-radius:20px;background:var(--group-bg);border:1.5px solid var(--border);display:grid;gap:12px}
+.decision-row{display:grid;grid-template-columns:1fr;gap:12px}
+@media(min-width:640px){.decision-row{grid-template-columns:1fr 1fr}}
+.decision-actions{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;padding-top:6px;border-top:1px solid var(--border)}
+.sec-grid{display:grid;grid-template-columns:1fr;gap:12px}
+@media(min-width:680px){.sec-grid{grid-template-columns:1fr 1fr}}
+.sec-card{padding:14px 16px;border-radius:18px;background:var(--input-bg);border:1px solid var(--input-border)}
+.sec-card h4{margin:0 0 10px;font-size:.92rem;font-weight:800;display:flex;align-items:center;gap:6px;color:var(--rose)}
+.sec-dl{margin:0;display:grid;gap:8px}
+.sec-dl div{display:grid;gap:2px}
+.sec-dl dt{font-size:.69rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.sec-dl dd{margin:0;font-size:.86rem;font-weight:600;word-break:break-word}
+
+/* FOOTER */
+footer{text-align:center;padding:28px 18px;color:var(--muted);font-size:.8rem;border-top:1px solid var(--border);background:var(--glass)}
+footer .ar{font-family:var(--fa);font-size:1.35rem;color:var(--text);margin:0 0 4px}
+
+/* TOAST */
+.toast{position:fixed;left:50%;bottom:24px;z-index:100;transform:translate(-50%,24px);opacity:0;pointer-events:none;background:var(--text);color:var(--bg);padding:11px 18px;border-radius:999px;font-weight:700;font-size:.85rem;box-shadow:0 14px 34px -10px rgba(0,0,0,.4);transition:.3s cubic-bezier(.3,1.4,.5,1)}
+.toast.show{transform:translate(-50%,0);opacity:1;pointer-events:auto}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <radialGradient id="skG" cx="0" cy="0" r="46" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#c9285c"/><stop offset=".22" stop-color="#ee7fa4"/><stop offset=".62" stop-color="#ffd0de"/><stop offset="1" stop-color="#fff7fa"/></radialGradient>
+    <symbol id="sakura" viewBox="-50 -50 100 100" overflow="visible">
+      <g fill="url(#skG)" stroke="rgba(214,90,130,.35)" stroke-width=".6">
+        <path id="skp" d="M0 0C-16-8-22-30-10-42Q-5-46 0-39Q5-46 10-42C22-30 16-8 0 0Z"/>
+        <use href="#skp" transform="rotate(72)"/><use href="#skp" transform="rotate(144)"/><use href="#skp" transform="rotate(216)"/><use href="#skp" transform="rotate(288)"/>
+      </g>
+      <circle r="4" fill="#f7c948"/>
+    </symbol>
+  </defs>
+</svg>
+
+<header class="hdr">
+  <a class="brand" href="/admin.html">
+    <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#sakura" width="100" height="100"/></svg>
+    <span><b>NurulQuran Admin</b><small>Lecture Requests Portal</small></span>
+  </a>
+  <a class="btn btn-g btn-s" href="/request.html" target="_blank" rel="noopener">🌸 Open Request Form ↗</a>
+  <button class="btn btn-g btn-s" id="syncLocalBtn" type="button" hidden title="Import requests saved in this browser">📥 Sync Browser Requests</button>
+  <button class="btn btn-g btn-s" id="exportCsvBtn" type="button" hidden>⬇️ Export CSV</button>
+  <button class="btn btn-g btn-s" id="logoutBtn" type="button" hidden>Log out</button>
+  <button class="tt" id="themeBtn" type="button" aria-label="Toggle day and night theme" title="Toggle day/night garden">🌓</button>
+</header>
+
+<main>
+  <!-- LOGIN VIEW -->
+  <section id="loginView" class="login-wrap">
+    <svg width="56" height="56" viewBox="0 0 100 100" aria-hidden="true" style="margin:0 auto;display:block"><use href="#sakura" width="100" height="100"/></svg>
+    <h1>Admin Sign In</h1>
+    <p>Sign in to review, approve, or decline NurulQuran lecture invitations.</p>
+    <form id="loginForm" style="display:grid;gap:12px;text-align:left">
+      <div>
+        <label for="adminPwd" style="font-size:.82rem;font-weight:700;display:block;margin-bottom:6px">Admin Password</label>
+        <input class="inp" id="adminPwd" type="password" required autocomplete="current-password" placeholder="Enter admin password…">
+      </div>
+      <button class="btn btn-p" id="loginSubmit" type="submit" style="width:100%;padding:13px">Sign in to Admin Panel →</button>
+    </form>
+  </section>
+
+  <!-- DASHBOARD VIEW -->
+  <section id="dashView" hidden>
+    <!-- Stats Ribbon -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div><small>Total Requests</small><b id="stTotal">0</b></div>
+        <div class="stat-ico">🌸</div>
+      </div>
+      <div class="stat-card">
+        <div><small>Pending Review</small><b id="stPending" style="color:var(--st-pending-fg)">0</b></div>
+        <div class="stat-ico">⏳</div>
+      </div>
+      <div class="stat-card">
+        <div><small>Approved</small><b id="stApproved" style="color:var(--st-approved-fg)">0</b></div>
+        <div class="stat-ico">✅</div>
+      </div>
+      <div class="stat-card">
+        <div><small>Declined</small><b id="stDeclined" style="color:var(--st-declined-fg)">0</b></div>
+        <div class="stat-ico">✕</div>
+      </div>
+    </div>
+
+    <!-- Filter & Search Controls -->
+    <div class="panel-card">
+      <div class="filter-pills" role="tablist" aria-label="Filter by request status">
+        <button type="button" class="fpill active" data-status="all">All Requests <span class="cnt" id="cntAll">0</span></button>
+        <button type="button" class="fpill" data-status="pending">⏳ Pending <span class="cnt" id="cntPending">0</span></button>
+        <button type="button" class="fpill" data-status="approved">✅ Approved <span class="cnt" id="cntApproved">0</span></button>
+        <button type="button" class="fpill" data-status="declined">✕ Declined <span class="cnt" id="cntDeclined">0</span></button>
+      </div>
+
+      <div class="toolbar">
+        <input class="inp" id="searchInp" type="search" placeholder="🔍 Search by Ref ID, host name, phone, city, occasion, teacher…">
+        <select class="inp" id="venueFilter" aria-label="Filter by venue type">
+          <option value="">All Venue Types</option>
+          <option value="home">🏡 Home</option>
+          <option value="hall">🏛️ Hall / Banquet</option>
+          <option value="masjid">🕌 Masjid / Centre</option>
+          <option value="school">🎓 School / University</option>
+          <option value="other">🌳 Other venue</option>
+        </select>
+        <select class="inp" id="langFilter" aria-label="Filter by language">
+          <option value="">All Languages</option>
+          <option value="urdu">Urdu</option>
+          <option value="english">English</option>
+          <option value="mixed">Urdu + English</option>
+          <option value="any">Either is fine</option>
+        </select>
+        <select class="inp" id="sortSelect" aria-label="Sort requests">
+          <option value="newest">Newest submitted</option>
+          <option value="date_asc">Event date (soonest)</option>
+          <option value="readiness_desc">Readiness % (high → low)</option>
+          <option value="guests_desc">Guests (high → low)</option>
+        </select>
+        <button type="button" class="btn btn-g" id="refreshBtn">↻ Refresh</button>
+      </div>
+    </div>
+
+    <!-- Responsive Table -->
+    <div tabindex="0" role="region" aria-labelledby="requests-table-caption" class="table-wrapper">
+      <table>
+        <caption id="requests-table-caption">Lecture requests (<span id="showingCount">0</span> shown)</caption>
+        <thead>
+          <tr>
+            <th scope="col">Reference</th>
+            <th scope="col">Host & Contact</th>
+            <th scope="col">Gathering & Date</th>
+            <th scope="col">Venue & Guests</th>
+            <th scope="col">Readiness</th>
+            <th scope="col">Status</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="reqTbody"></tbody>
+      </table>
+      <div id="emptyState" class="empty-state" hidden>
+        <span class="emo">🌱</span>
+        <b style="font-size:1.05rem;display:block;color:var(--text)">No lecture requests match your filter</b>
+        <p style="margin:4px 0 0;font-size:.86rem">When a host submits the planner form, their request will appear here automatically.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- DETAIL & APPROVAL MODAL DIALOG -->
+<dialog id="detailDialog" closedby="any" aria-labelledby="dlgTitle">
+  <div class="dlg-head">
+    <div>
+      <span id="dlgRef" class="ref-code">NQ-000000-XXXX</span>
+      <h2 id="dlgTitle">Lecture Request Details</h2>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px">
+      <span id="dlgStatusBadge" class="badge pending">pending</span>
+      <button type="button" class="dlg-close" id="dlgCloseBtn" aria-label="Close dialog">✕</button>
+    </div>
+  </div>
+
+  <div class="dlg-body">
+    <!-- Admin Decision & Assignment Card -->
+    <div class="decision-box">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+        <strong style="font-size:.95rem">🌸 Admin Decision & Assignment</strong>
+        <small id="dlgDecidedAt" style="color:var(--muted);font-weight:600"></small>
+      </div>
+      <div class="decision-row">
+        <div>
+          <label for="dlgTeacher" style="font-size:.78rem;font-weight:700;display:block;margin-bottom:4px">Assigned Ustaza / Teacher (optional)</label>
+          <input class="inp" id="dlgTeacher" type="text" placeholder="e.g. Ustaza Amina / Main Team">
+        </div>
+        <div>
+          <label for="dlgNotes" style="font-size:.78rem;font-weight:700;display:block;margin-bottom:4px">Internal Admin Notes / Follow-up</label>
+          <input class="inp" id="dlgNotes" type="text" placeholder="Schedule checked, driver confirmed, etc.">
+        </div>
+      </div>
+
+      <div class="decision-actions">
+        <div style="display:flex;flex-wrap:wrap;gap:8px">
+          <button type="button" class="btn btn-approve" id="dlgApproveBtn">✅ Approve Request</button>
+          <button type="button" class="btn btn-decline" id="dlgDeclineBtn">✕ Decline Request</button>
+          <button type="button" class="btn btn-g btn-s" id="dlgPendingBtn">⏳ Set Pending</button>
+          <button type="button" class="btn btn-g btn-s" id="dlgSaveNotesBtn">💾 Save Notes</button>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px">
+          <a class="btn btn-g btn-s" id="dlgWaBtn" target="_blank" rel="noopener">💬 WhatsApp Host</a>
+          <button type="button" class="btn btn-g btn-s" id="dlgDeleteBtn" style="color:#d93860">🗑️ Delete</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- All 6 Planner Sections -->
+    <div id="dlgSections" class="sec-grid"></div>
+  </div>
+</dialog>
+
+<footer>
+  <p class="ar" lang="ar">أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ</p>
+  <p>© <span id="yr"></span> NurulQuran · Lecture Requests Admin Portal</p>
+  <p id="appVersion" style="margin:6px 0 0;font-size:.72rem;opacity:.75">v1.0.1 (updated 2026-11-01 20:06)</p>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(()=>{
+'use strict';
+const $=(s,c=document)=>c.querySelector(s);
+const $$=(s,c=document)=>Array.from(c.querySelectorAll(s));
+const root=document.documentElement;
+const PWD_KEY='nq_admin_pwd_v1';
+const LOCAL_STORE='nq_lecture_requests';
+
+$('#yr').textContent=new Date().getFullYear();
+
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmtDate=v=>{
+  if(!v)return'—';
+  const d=new Date(v.includes('T')?v:v+'T00:00:00');
+  return Number.isNaN(d.getTime())?v:d.toLocaleDateString([],{weekday:'short',day:'numeric',month:'short',year:'numeric'});
+};
+const fmtTime=v=>{
+  if(!v)return'';
+  const[h,m]=String(v).split(':').map(Number);
+  if(Number.isNaN(h))return v;
+  return new Date(2000,0,1,h,m||0).toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});
+};
+
+let toastT;
+function toast(msg){
+  const el=$('#toast');
+  el.textContent=msg;
+  el.classList.add('show');
+  clearTimeout(toastT);
+  toastT=setTimeout(()=>el.classList.remove('show'),3000);
+}
+
+/* Theme toggle */
+$('#themeBtn').addEventListener('click',()=>{
+  const next=root.dataset.theme==='dark'?'light':'dark';
+  root.dataset.theme=next;
+  try{localStorage.setItem('nq_theme',next);}catch(_){}
+});
+
+/* Light-dismiss fallback for browsers without HTMLDialogElement.prototype.closedBy */
+const dialog=$('#detailDialog');
+if(!('closedBy' in HTMLDialogElement.prototype)){
+  dialog.addEventListener('click',event=>{
+    if(event.target!==dialog)return;
+    const rect=dialog.getBoundingClientRect();
+    const isDialogContent=(
+      rect.top<=event.clientY&&
+      event.clientY<=rect.top+rect.height&&
+      rect.left<=event.clientX&&
+      event.clientX<=rect.left+rect.width
+    );
+    if(isDialogContent)return;
+    dialog.close();
+  });
+}
+$('#dlgCloseBtn').addEventListener('click',()=>dialog.close());
+
+/* State */
+let adminPwd=sessionStorage.getItem(PWD_KEY)||'';
+let allRequests=[];
+let activeStatus='all';
+let currentReq=null;
+
+async function api(path,opts={}){
+  const headers=Object.assign({'Content-Type':'application/json','x-admin-password':adminPwd},opts.headers||{});
+  const res=await fetch(path,Object.assign({},opts,{headers}));
+  if(res.status===401){
+    doLogout();
+    throw new Error('Unauthorized');
+  }
+  return res;
+}
+
+/* Auth */
+$('#loginForm').addEventListener('submit',async e=>{
+  e.preventDefault();
+  const pw=$('#adminPwd').value.trim();
+  if(!pw)return;
+  const btn=$('#loginSubmit');
+  btn.disabled=true;
+  btn.textContent='Signing in…';
+  try{
+    const r=await fetch('/api/login',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({password:pw})
+    });
+    const d=await r.json().catch(()=>({}));
+    if(r.ok){
+      adminPwd=pw;
+      sessionStorage.setItem(PWD_KEY,pw);
+      showDashboard();
+      toast('Welcome to NurulQuran Admin 🌸');
+    }else{
+      toast(d.error||'Incorrect password');
+      $('#adminPwd').focus();
+    }
+  }catch(_){
+    toast('Network error — please try again');
+  }finally{
+    btn.disabled=false;
+    btn.textContent='Sign in to Admin Panel →';
+  }
+});
+
+function doLogout(){
+  adminPwd='';
+  sessionStorage.removeItem(PWD_KEY);
+  $('#dashView').hidden=true;
+  $('#logoutBtn').hidden=true;
+  $('#exportCsvBtn').hidden=true;
+  $('#syncLocalBtn').hidden=true;
+  $('#loginView').hidden=false;
+}
+$('#logoutBtn').addEventListener('click',doLogout);
+
+function checkLocalUnsynced(){
+  try{
+    const localList=JSON.parse(localStorage.getItem(LOCAL_STORE)||'[]');
+    const btn=$('#syncLocalBtn');
+    btn.hidden=!Array.isArray(localList)||localList.length===0;
+  }catch(_){}
+}
+
+$('#syncLocalBtn').addEventListener('click',async()=>{
+  try{
+    const localList=JSON.parse(localStorage.getItem(LOCAL_STORE)||'[]');
+    if(!localList.length)return;
+    let imported=0;
+    for(const item of localList){
+      const r=await fetch('/api/lecture-requests',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify(item)
+      });
+      if(r.ok)imported++;
+    }
+    toast(`Synced ${imported} request(s) from browser 🌸`);
+    await loadRequests();
+  }catch(_){
+    toast('Could not sync browser requests');
+  }
+});
+
+function showDashboard(){
+  $('#loginView').hidden=true;
+  $('#dashView').hidden=false;
+  $('#logoutBtn').hidden=false;
+  $('#exportCsvBtn').hidden=false;
+  checkLocalUnsynced();
+  loadRequests();
+}
+
+/* Load & Render Requests */
+async function loadRequests(){
+  const btn=$('#refreshBtn');
+  btn.disabled=true;
+  try{
+    const r=await api('/api/lecture-requests');
+    const d=await r.json();
+    allRequests=Array.isArray(d.requests)?d.requests:[];
+    updateStats();
+    renderTable();
+  }catch(e){
+    if(e.message!=='Unauthorized')toast('Failed to load lecture requests');
+  }finally{
+    btn.disabled=false;
+  }
+}
+
+function updateStats(){
+  const total=allRequests.length;
+  const pending=allRequests.filter(x=>x.status==='pending').length;
+  const approved=allRequests.filter(x=>x.status==='approved').length;
+  const declined=allRequests.filter(x=>x.status==='declined').length;
+  $('#stTotal').textContent=total;
+  $('#stPending').textContent=pending;
+  $('#stApproved').textContent=approved;
+  $('#stDeclined').textContent=declined;
+  $('#cntAll').textContent=total;
+  $('#cntPending').textContent=pending;
+  $('#cntApproved').textContent=approved;
+  $('#cntDeclined').textContent=declined;
+}
+
+const VENUE_LABELS={home:'🏡 Home',hall:'🏛️ Hall',masjid:'🕌 Masjid',school:'🎓 School',other:'🌳 Other'};
+const LANG_LABELS={urdu:'Urdu',english:'English',mixed:'Urdu + English',any:'Either'};
+
+function getFilteredRequests(){
+  const q=$('#searchInp').value.trim().toLowerCase();
+  const vf=$('#venueFilter').value;
+  const lf=$('#langFilter').value;
+  const sort=$('#sortSelect').value;
+
+  const list=allRequests.filter(r=>{
+    if(activeStatus!=='all'&&r.status!==activeStatus)return false;
+    if(vf&&r.venueType!==vf)return false;
+    if(lf&&r.lang!==lf)return false;
+    if(q){
+      const hay=[
+        r.id,r.hostName,r.phone,r.email,r.city,r.occasion,
+        r.venueType,r.assignedTeacher,r.adminNotes,
+        r.data?.venueName,r.data?.address,r.data?.topicCustom
+      ].filter(Boolean).join(' ').toLowerCase();
+      if(!hay.includes(q))return false;
+    }
+    return true;
+  });
+
+  list.sort((a,b)=>{
+    if(sort==='date_asc')return String(a.preferredDate||'9999').localeCompare(String(b.preferredDate||'9999'));
+    if(sort==='readiness_desc')return (b.readiness||0)-(a.readiness||0);
+    if(sort==='guests_desc')return (b.guests||0)-(a.guests||0);
+    return String(b.submittedAt||'').localeCompare(String(a.submittedAt||''));
+  });
+  return list;
+}
+
+function buildWhatsAppLink(req,statusOverride){
+  const st=statusOverride||req.status;
+  const cleanPhone=String(req.phone||'').replace(/[^\d]/g,'');
+  const dateStr=fmtDate(req.preferredDate);
+  const timeStr=fmtTime(req.startTime);
+  let msg=`Assalamu alaikum ${req.hostName||''} 🌸\nRegarding your NurulQuran lecture request (${req.id}) for ${dateStr}${timeStr?' at '+timeStr:''} in ${req.city||''}:`;
+  if(st==='approved'){
+    msg+=`\n\n✅ Alhamdulillah, your lecture request has been APPROVED!${req.assignedTeacher?'\nAssigned Ustaza: '+req.assignedTeacher:''}\nIn shā’ Allāh, we look forward to the gathering.`;
+  }else if(st==='declined'){
+    msg+=`\n\nWe apologies, unfortunately the schedule does not permit this slot at this time.${req.adminNotes?'\nNote: '+req.adminNotes:''}\nPlease feel free to suggest an alternate date.`;
+  }else{
+    msg+=`\n\nWe are currently reviewing your request and wanted to follow up with you.`;
+  }
+  return `https://wa.me/${cleanPhone}?text=${encodeURIComponent(msg)}`;
+}
+
+function renderTable(){
+  const rows=getFilteredRequests();
+  $('#showingCount').textContent=rows.length;
+  const tbody=$('#reqTbody');
+  const empty=$('#emptyState');
+
+  if(!rows.length){
+    tbody.innerHTML='';
+    empty.hidden=false;
+    return;
+  }
+  empty.hidden=true;
+
+  tbody.innerHTML=rows.map(r=>{
+    const subDate=r.submittedAt?new Date(r.submittedAt).toLocaleString([],{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}):'—';
+    const vBadge=VENUE_LABELS[r.venueType]||r.venueType||'Venue';
+    const lBadge=LANG_LABELS[r.lang]||r.lang||'';
+    const waHref=buildWhatsAppLink(r);
+    return `<tr data-id="${esc(r.id)}">
+      <th scope="row">
+        <div>
+          <span class="ref-code">${esc(r.id)}</span>
+          <span class="sub-time">Sent ${esc(subDate)}</span>
+        </div>
+      </th>
+      <td>
+        <div>
+          <span class="cell-main">${esc(r.hostName)}</span>
+          <span class="cell-sub">📍 ${esc(r.city)} · 📞 ${esc(r.phone)}</span>
+          <a class="wa-link" href="${esc(waHref)}" target="_blank" rel="noopener">💬 WhatsApp host ↗</a>
+        </div>
+      </td>
+      <td>
+        <div>
+          <span class="cell-main">📅 ${esc(fmtDate(r.preferredDate))}</span>
+          <span class="cell-sub">⏰ ${esc(fmtTime(r.startTime)||'—')} (${esc(r.duration||60)}m) · ${esc(lBadge)}</span>
+          <span class="cell-sub">${esc(r.occasion||'General dars')}</span>
+        </div>
+      </td>
+      <td>
+        <div>
+          <span class="cell-main">${esc(vBadge)} · ~${esc(r.guests||0)} guests</span>
+          <span class="cell-sub">${esc(r.data?.venueName||r.data?.address||'')}</span>
+        </div>
+      </td>
+      <td>
+        <div>
+          <span class="cell-main">${esc(r.readiness||0)}% ready</span>
+          <div class="r-bar"><i style="width:${Math.min(100,Math.max(0,r.readiness||0))}%"></i></div>
+          ${r.assignedTeacher?`<span class="cell-sub" style="color:var(--rose);font-weight:700">👩‍🏫 ${esc(r.assignedTeacher)}</span>`:''}
+        </div>
+      </td>
+      <td>
+        <span class="badge ${esc(r.status)}">${esc(r.status)}</span>
+      </td>
+      <td>
+        <div class="row-acts">
+          ${r.status!=='approved'?`<button type="button" class="btn btn-approve btn-s" data-act="approve" data-id="${esc(r.id)}">✅ Approve</button>`:''}
+          ${r.status!=='declined'?`<button type="button" class="btn btn-decline btn-s" data-act="decline" data-id="${esc(r.id)}">✕ Decline</button>`:''}
+          <button type="button" class="btn btn-g btn-s" data-act="view" data-id="${esc(r.id)}">👁️ Details</button>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+/* Quick Table Actions */
+$('#reqTbody').addEventListener('click',async e=>{
+  const btn=e.target.closest('button[data-act]');
+  if(!btn)return;
+  const id=btn.dataset.id;
+  const act=btn.dataset.act;
+  const req=allRequests.find(x=>x.id===id);
+  if(!req)return;
+
+  if(act==='view'){
+    openDetailModal(req);
+  }else if(act==='approve'||act==='decline'){
+    await updateRequestStatus(id,{status:act==='approve'?'approved':'declined'},btn);
+  }
+});
+
+async function updateRequestStatus(id,patch,triggerBtn){
+  if(triggerBtn)triggerBtn.disabled=true;
+  try{
+    const r=await api(`/api/lecture-requests/${encodeURIComponent(id)}`,{
+      method:'PUT',
+      body:JSON.stringify(patch)
+    });
+    const d=await r.json();
+    if(r.ok&&d.request){
+      const idx=allRequests.findIndex(x=>x.id===id);
+      if(idx!==-1)allRequests[idx]=d.request;
+      updateStats();
+      renderTable();
+      if(currentReq&&currentReq.id===id){
+        openDetailModal(d.request,true);
+      }
+      const label=patch.status?`Request ${id} marked as ${patch.status.toUpperCase()} 🌸`:`Saved notes for ${id} 🌸`;
+      toast(label);
+    }else{
+      toast(d.error||'Failed to update request');
+    }
+  }catch(_){
+    toast('Error updating request');
+  }finally{
+    if(triggerBtn)triggerBtn.disabled=false;
+  }
+}
+
+/* Detail Modal */
+function openDetailModal(req,keepOpen){
+  currentReq=req;
+  $('#dlgRef').textContent=req.id;
+  $('#dlgTitle').textContent=`${req.hostName} · ${req.city}`;
+  const b=$('#dlgStatusBadge');
+  b.className=`badge ${req.status}`;
+  b.textContent=req.status;
+
+  $('#dlgDecidedAt').textContent=req.decidedAt?`Decision recorded: ${new Date(req.decidedAt).toLocaleString()}`:`Submitted: ${new Date(req.submittedAt).toLocaleString()}`;
+  $('#dlgTeacher').value=req.assignedTeacher||'';
+  $('#dlgNotes').value=req.adminNotes||'';
+  $('#dlgWaBtn').href=buildWhatsAppLink(req);
+
+  const sections=Array.isArray(req.sections)&&req.sections.length?req.sections:buildFallbackSections(req);
+  $('#dlgSections').innerHTML=sections.map(s=>`
+    <div class="sec-card">
+      <h4><span>${esc(s.emoji||'🌸')}</span> ${esc(s.title)}</h4>
+      <dl class="sec-dl">
+        ${(s.rows||[]).map(row=>`<div><dt>${esc(row.label)}</dt><dd>${esc(row.value)}</dd></div>`).join('')}
+      </dl>
+    </div>
+  `).join('')+`
+    <div class="sec-card">
+      <h4><span>🌺</span> Readiness & Metadata</h4>
+      <dl class="sec-dl">
+        <div><dt>Checklist Readiness</dt><dd>${esc(req.readiness||0)}% (${(req.data?.ready||[]).length}/17 items checked)</dd></div>
+        ${req.data?.mapLink?`<div><dt>Google Maps Link</dt><dd><a href="${esc(req.data.mapLink)}" target="_blank" rel="noopener">${esc(req.data.mapLink)} ↗</a></dd></div>`:''}
+        ${req.data?.notes?`<div><dt>Host Additional Notes</dt><dd>${esc(req.data.notes)}</dd></div>`:''}
+      </dl>
+    </div>
+  `;
+
+  if(!keepOpen&&!dialog.open){
+    dialog.showModal();
+  }
+}
+
+function buildFallbackSections(req){
+  const d=req.data||{};
+  return [
+    {emoji:'🌱',title:'Your details',rows:[
+      {label:'Full name',value:req.hostName},
+      {label:'Phone / WhatsApp',value:req.phone},
+      {label:'Email',value:req.email||'—'},
+      {label:'City',value:req.city}
+    ]},
+    {emoji:'🌷',title:'The gathering',rows:[
+      {label:'Venue type',value:req.venueType},
+      {label:'Occasion',value:req.occasion},
+      {label:'Preferred date',value:fmtDate(req.preferredDate)},
+      {label:'Start time',value:`${fmtTime(req.startTime)} (${req.duration||60} min)`}
+    ]},
+    {emoji:'🏡',title:'Venue & guests',rows:[
+      {label:'Address',value:d.address||'—'},
+      {label:'Guests',value:String(req.guests||d.guests||'—')},
+      {label:'Audience',value:d.audience||'—'}
+    ]}
+  ];
+}
+
+$('#dlgApproveBtn').addEventListener('click',e=>{
+  if(!currentReq)return;
+  updateRequestStatus(currentReq.id,{
+    status:'approved',
+    assignedTeacher:$('#dlgTeacher').value,
+    adminNotes:$('#dlgNotes').value
+  },e.currentTarget);
+});
+
+$('#dlgDeclineBtn').addEventListener('click',e=>{
+  if(!currentReq)return;
+  updateRequestStatus(currentReq.id,{
+    status:'declined',
+    assignedTeacher:$('#dlgTeacher').value,
+    adminNotes:$('#dlgNotes').value
+  },e.currentTarget);
+});
+
+$('#dlgPendingBtn').addEventListener('click',e=>{
+  if(!currentReq)return;
+  updateRequestStatus(currentReq.id,{
+    status:'pending',
+    assignedTeacher:$('#dlgTeacher').value,
+    adminNotes:$('#dlgNotes').value
+  },e.currentTarget);
+});
+
+$('#dlgSaveNotesBtn').addEventListener('click',e=>{
+  if(!currentReq)return;
+  updateRequestStatus(currentReq.id,{
+    assignedTeacher:$('#dlgTeacher').value,
+    adminNotes:$('#dlgNotes').value
+  },e.currentTarget);
+});
+
+$('#dlgDeleteBtn').addEventListener('click',async e=>{
+  if(!currentReq)return;
+  if(!confirm(`Delete lecture request ${currentReq.id} permanently?`))return;
+  const btn=e.currentTarget;
+  btn.disabled=true;
+  try{
+    const r=await api(`/api/lecture-requests/${encodeURIComponent(currentReq.id)}`,{method:'DELETE'});
+    if(r.ok){
+      allRequests=allRequests.filter(x=>x.id!==currentReq.id);
+      dialog.close();
+      updateStats();
+      renderTable();
+      toast(`Deleted ${currentReq.id}`);
+    }
+  }catch(_){
+    toast('Failed to delete request');
+  }finally{
+    btn.disabled=false;
+  }
+});
+
+/* Filters & Search listeners */
+$$('.fpill').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    $$('.fpill').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    activeStatus=btn.dataset.status;
+    renderTable();
+  });
+});
+['searchInp','venueFilter','langFilter','sortSelect'].forEach(id=>{
+  $('#'+id).addEventListener('input',renderTable);
+  $('#'+id).addEventListener('change',renderTable);
+});
+$('#refreshBtn').addEventListener('click',loadRequests);
+
+/* Export CSV */
+$('#exportCsvBtn').addEventListener('click',()=>{
+  const rows=getFilteredRequests();
+  if(!rows.length){toast('Nothing to export');return;}
+  const headers=['Reference','Status','Submitted At','Host Name','Phone','Email','City','Venue Type','Occasion','Preferred Date','Start Time','Duration (min)','Guests','Language','Readiness %','Assigned Teacher','Admin Notes','Address'];
+  const csv=[
+    headers.join(','),
+    ...rows.map(r=>[
+      r.id,r.status,r.submittedAt,r.hostName,r.phone,r.email,r.city,
+      r.venueType,r.occasion,r.preferredDate,r.startTime,r.duration,
+      r.guests,r.lang,r.readiness,r.assignedTeacher,r.adminNotes,r.data?.address||''
+    ].map(v=>`"${String(v??'').replace(/"/g,'""')}"`).join(','))
+  ].join('\n');
+  const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download=`nurulquran-lecture-requests-${new Date().toISOString().slice(0,10)}.csv`;
+  document.body.append(a);
+  a.click();
+  a.remove();
+});
+
+/* Auto-init if password saved in sessionStorage */
+if(adminPwd){
+  showDashboard();
+}
+})();
+</script>
+</body>
+</html>
