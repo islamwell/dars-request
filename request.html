@@ -381,7 +381,7 @@ select.inp{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.
 
 /* footer */
 footer{text-align:center;padding:40px 18px calc(40px + env(safe-area-inset-bottom));color:var(--muted);font-size:.82rem}
-footer .ar-wrap{display:inline-flex;align-items:center;justify-content:center;gap:12px;margin:0 0 6px}
+.ar-wrap{display:inline-flex;align-items:center;justify-content:center;gap:12px;margin:0 0 6px;direction:rtl;flex-wrap:wrap}
 footer .ar{font-family:var(--fa);font-size:1.6rem;color:var(--text);direction:rtl;margin:0}
 .btn-audio-ring{position:relative;display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;min-width:34px;min-height:34px;border-radius:50%;border:none;background:transparent;cursor:pointer;padding:0;flex-shrink:0;vertical-align:middle;transition:transform .2s ease}
 .btn-audio-ring:hover{transform:scale(1.1)}
@@ -552,7 +552,7 @@ footer .ar{font-family:var(--fa);font-size:1.6rem;color:var(--text);direction:rt
     <div class="hero">
       <div class="hero-copy">
         <span class="eyebrow" data-i18n="hero_eyebrow">🌸 NurulQuran · Lecture Invitations</span>
-        <h1 data-i18n="hero_h1">Invite the <span class="grad-text">light of the Quran</span> to your gathering</h1>
+        <h1 data-i18n="hero_h1"><span class="grad-text">Dars</span> Request</h1>
         <p class="lead" data-i18n="hero_lead">Request a NurulQuran teacher for a dars in your home, or a lecture in your hall, masjid or school. Our planner walks you through every detail — pickup, seating, sound and hospitality — so the day runs smoothly.</p>
         <div class="cta-row">
           <a class="btn btn-p" href="#planner"><span class="bt" data-i18n="hero_cta_req">Request a lecture</span><span class="arr">→</span></a>
@@ -617,7 +617,24 @@ footer .ar{font-family:var(--fa);font-size:1.6rem;color:var(--text);direction:rt
   <section class="verse reveal" aria-label="Quranic verse">
     <div class="verse-card">
       <div class="leafline"><i></i>🌿<i></i></div>
-      <p class="ar" lang="ar">وَنُنَزِّلُ مِنَ الْقُرْآنِ مَا هُوَ شِفَاءٌ وَرَحْمَةٌ لِّلْمُؤْمِنِينَ</p>
+      <div class="ar-wrap" dir="rtl">
+        <p class="ar" lang="ar">وَنُنَزِّلُ مِنَ الْقُرْآنِ مَا هُوَ شِفَاءٌ وَرَحْمَةٌ لِّلْمُؤْمِنِينَ</p>
+        <button type="button" class="btn-audio-ring" data-audio="https://everyayah.com/data/Alafasy_128kbps/017082.mp3" aria-label="Listen to Ayah (Mishary Rashid Alafasy)" title="Listen · Sheikh Mishary Rashid Alafasy" aria-pressed="false">
+          <svg class="audio-ring-svg" viewBox="0 0 46 46" aria-hidden="true">
+            <circle class="audio-ring-bg" cx="23" cy="23" r="18" />
+            <circle class="audio-ring-fill" cx="23" cy="23" r="18" />
+          </svg>
+          <span class="audio-ring-icon" aria-hidden="true">
+            <svg class="icon-play" viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+              <polygon points="7 4 21 12 7 20 7 4" />
+            </svg>
+            <svg class="icon-pause" viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+              <rect x="5" y="4" width="4" height="16" rx="1" />
+              <rect x="15" y="4" width="4" height="16" rx="1" />
+            </svg>
+          </span>
+        </button>
+      </div>
       <p class="tr" data-i18n="verse_text">“And We send down of the Quran that which is healing and mercy for the believers.”</p>
       <span class="ref">Surah Al-Isra · 17:82</span>
     </div>
@@ -1180,7 +1197,7 @@ footer .ar{font-family:var(--fa);font-size:1.6rem;color:var(--text);direction:rt
 </main>
 
 <footer>
-  <div class="ar-wrap">
+  <div class="ar-wrap" dir="rtl">
     <p class="ar" lang="ar">أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ</p>
     <button type="button" class="btn-audio-ring" data-audio="https://everyayah.com/data/Alafasy_128kbps/013028.mp3" aria-label="Listen to Ayah (Mishary Rashid Alafasy)" title="Listen · Sheikh Mishary Rashid Alafasy" aria-pressed="false">
       <svg class="audio-ring-svg" viewBox="0 0 46 46" aria-hidden="true">
@@ -1201,7 +1218,7 @@ footer .ar{font-family:var(--fa);font-size:1.6rem;color:var(--text);direction:rt
   <p><i>“Verily, in the remembrance of Allah do hearts find rest.”</i> — Ar-Ra’d 13:28</p>
   <p style="margin:8px 0 4px"><span data-i18n="ft_more_info">For more info, call</span> <a href="tel:+4799106785" style="color:var(--rose);font-weight:700;text-decoration:none">+47 991 06 785</a></p>
   <p>© <span id="yr"></span> NurulQuran · Lecture Requests</p>
-  <p id="appVersion" style="margin:8px 0 0;font-size:.72rem;opacity:.75">v1.0.7 (updated 2026-11-02 04:42)</p>
+  <p id="appVersion" style="margin:8px 0 0;font-size:.72rem;opacity:.75">v1.0.8 (updated 2026-11-02 06:03)</p>
 </footer>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -1285,7 +1302,7 @@ const I18N={
     nav_track:"Track request",
     nav_req:"Request",
     hero_eyebrow:"🌸 NurulQuran · Lecture Invitations",
-    hero_h1:"Invite the <span class=\"grad-text\">light of the Quran</span> to your gathering",
+    hero_h1:"<span class=\"grad-text\">Dars</span> Request",
     hero_lead:"Request a NurulQuran teacher for a dars in your home, or a lecture in your hall, masjid or school. Our planner walks you through every detail — pickup, seating, sound and hospitality — so the day runs smoothly.",
     hero_cta_req:"Request a lecture",
     hero_cta_how:"See how it works",
@@ -1342,7 +1359,7 @@ const I18N={
     nav_track:"Spor forespørsel",
     nav_req:"Be om foredrag",
     hero_eyebrow:"🌸 NurulQuran · Foredragsinvitasjoner",
-    hero_h1:"Inviter <span class=\"grad-text\">Koranens lys</span> til din samling",
+    hero_h1:"<span class=\"grad-text\">Dars</span>-forespørsel",
     hero_lead:"Be om en NurulQuran-lærer til et dars i hjemmet ditt, eller et foredrag i en sal, moské eller skole. Vår planlegger veileder deg gjennom hver detalj – henting, sitteplasser, lyd og gjestfrihet – slik at dagen går knirkefritt.",
     hero_cta_req:"Be om et foredrag",
     hero_cta_how:"Se hvordan det fungerer",
@@ -1399,7 +1416,7 @@ const I18N={
     nav_track:"درخواست ٹریک کریں",
     nav_req:"درخواست بھیجیں",
     hero_eyebrow:"🌸 نور القرآن · درس کی دعوتیں",
-    hero_h1:"اپنی محفل میں <span class=\"grad-text\">نورِ قرآن</span> کی برکتیں لائیں",
+    hero_h1:"<span class=\"grad-text\">درس</span> کی درخواست",
     hero_lead:"اپنے گھر میں درس یا مسجد، ہال اور اسکول میں خطبے کے لیے نور القرآن کی استادہ کو مدعو کریں۔ ہمارا پلانر آپ کی ہر ضرورت میں رہنمائی کرتا ہے — آمدورفت، نشستیں، ساؤنڈ اور مہمان نوازی۔",
     hero_cta_req:"درس کی درخواست کریں",
     hero_cta_how:"طریقہ کار دیکھیں",

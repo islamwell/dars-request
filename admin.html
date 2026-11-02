@@ -375,7 +375,7 @@ dialog#detailDialog::backdrop,dialog#notifyDialog::backdrop,dialog#itineraryDial
 
 /* FOOTER */
 footer{text-align:center;padding:28px 18px;color:var(--muted);font-size:.8rem;border-top:1px solid var(--border);background:var(--glass)}
-footer .ar-wrap{display:inline-flex;align-items:center;justify-content:center;gap:12px;margin:0 0 6px}
+.ar-wrap{display:inline-flex;align-items:center;justify-content:center;gap:12px;margin:0 0 6px;direction:rtl;flex-wrap:wrap}
 footer .ar{font-family:var(--fa);font-size:1.35rem;color:var(--text);margin:0}
 .btn-audio-ring{position:relative;display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;min-width:34px;min-height:34px;border-radius:50%;border:none;background:transparent;cursor:pointer;padding:0;flex-shrink:0;vertical-align:middle;transition:transform .2s ease}
 .btn-audio-ring:hover{transform:scale(1.1)}
@@ -823,7 +823,7 @@ footer .ar{font-family:var(--fa);font-size:1.35rem;color:var(--text);margin:0}
 </dialog>
 
 <footer>
-  <div class="ar-wrap">
+  <div class="ar-wrap" dir="rtl">
     <p class="ar" lang="ar">أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ</p>
     <button type="button" class="btn-audio-ring" data-audio="https://everyayah.com/data/Alafasy_128kbps/013028.mp3" aria-label="Listen to Ayah (Mishary Rashid Alafasy)" title="Listen · Sheikh Mishary Rashid Alafasy" aria-pressed="false">
       <svg class="audio-ring-svg" viewBox="0 0 46 46" aria-hidden="true">
@@ -844,7 +844,7 @@ footer .ar{font-family:var(--fa);font-size:1.35rem;color:var(--text);margin:0}
   <p><i>“Verily, in the remembrance of Allah do hearts find rest.”</i> — Ar-Ra’d 13:28</p>
   <p style="margin:8px 0 4px">For more info, call <a href="tel:+4799106785" style="color:var(--rose);font-weight:700;text-decoration:none">+47 991 06 785</a></p>
   <p>© <span id="yr"></span> NurulQuran · Lecture Requests Admin Portal</p>
-  <p id="appVersion" style="margin:6px 0 0;font-size:.72rem;opacity:.75">v1.0.7 (updated 2026-11-02 04:42)</p>
+  <p id="appVersion" style="margin:6px 0 0;font-size:.72rem;opacity:.75">v1.0.8 (updated 2026-11-02 06:03)</p>
 </footer>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
