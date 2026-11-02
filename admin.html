@@ -394,6 +394,54 @@ footer .ar{font-family:var(--fa);font-size:1.35rem;color:var(--text);margin:0}
 /* TOAST */
 .toast{position:fixed;left:50%;bottom:24px;z-index:100;transform:translate(-50%,24px);opacity:0;pointer-events:none;background:var(--text);color:var(--bg);padding:11px 18px;border-radius:999px;font-weight:700;font-size:.85rem;box-shadow:0 14px 34px -10px rgba(0,0,0,.4);transition:.3s cubic-bezier(.3,1.4,.5,1)}
 .toast.show{transform:translate(-50%,0);opacity:1;pointer-events:auto}
+
+/* LIVE ALERTS & CHIME */
+.live-pill{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;font:700 .76rem var(--fb);cursor:pointer;border:1px solid var(--border);background:var(--surface-solid);color:var(--text);transition:.2s}
+.live-pill:hover{border-color:var(--rose)}
+.live-pill .dot{width:8px;height:8px;border-radius:50%;background:#a1a1aa;transition:background .2s}
+.live-pill.active .dot{background:var(--leaf);box-shadow:0 0 8px var(--leaf);animation:pulse-dot 1.8s infinite}
+@keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.45;transform:scale(1.25)}}
+
+/* NOTIFICATION PERMISSION BANNER */
+.alert-banner{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 18px;margin-bottom:16px;border-radius:18px;background:var(--grad-soft);border:1.5px solid var(--st-approved-bd);color:var(--text);font-size:.86rem;font-weight:600}
+.alert-banner b{font-weight:700;color:var(--st-approved-fg)}
+
+/* VIEW SWITCHER TABS */
+.view-tabs{display:inline-flex;background:var(--input-bg);padding:4px;border-radius:999px;border:1.5px solid var(--input-border);gap:4px}
+.view-tab{padding:6px 14px;border-radius:999px;border:0;background:transparent;color:var(--muted);font:700 .8rem var(--fb);cursor:pointer;transition:.2s}
+.view-tab.active{background:var(--surface-solid);color:var(--text);box-shadow:0 2px 8px rgba(0,0,0,.1)}
+
+/* NEW ROW ANIMATION */
+@keyframes row-glow{0%,100%{background:transparent}50%{background:rgba(63,159,106,.24)}}
+.row-new-arrival{animation:row-glow 2.2s ease-in-out 3}
+
+/* FLOATING BULK ACTIONS BAR */
+.bulk-bar{position:fixed;bottom:24px;left:50%;transform:translate(-50%,140%);z-index:90;display:flex;align-items:center;gap:12px;padding:10px 18px;border-radius:999px;background:var(--surface-solid);border:1.5px solid var(--rose);box-shadow:0 16px 40px -10px rgba(0,0,0,.35);transition:transform .3s cubic-bezier(.3,1.4,.5,1);font-size:.85rem;font-weight:700}
+.bulk-bar.show{transform:translate(-50%,0)}
+.bulk-bar .count-badge{background:var(--rose);color:#fff;padding:2px 8px;border-radius:99px;font-size:.78rem}
+
+/* CALENDAR VIEW */
+.cal-wrap{border-radius:24px;background:var(--surface-solid);border:1px solid var(--border);padding:20px;display:grid;gap:16px}
+.cal-head{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.cal-head h3{font-family:var(--fd);font-size:1.35rem;margin:0}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.cal-dow{font-size:.72rem;font-weight:800;color:var(--muted);text-transform:uppercase;text-align:center;padding:6px 0;letter-spacing:.06em}
+.cal-day{min-height:96px;padding:6px;border-radius:12px;background:var(--input-bg);border:1px solid var(--input-border);display:flex;flex-direction:column;gap:4px;transition:background .15s}
+.cal-day.today{border-color:var(--rose);background:var(--tile-on)}
+.cal-day.other-month{opacity:.35}
+.cal-day-num{font-size:.75rem;font-weight:800;color:var(--muted);display:flex;justify-content:space-between;align-items:center}
+.cal-day.today .cal-day-num{color:var(--rose)}
+.cal-chip{display:block;padding:3px 6px;border-radius:6px;font-size:.69rem;font-weight:700;line-height:1.2;cursor:pointer;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;border:1px solid transparent;transition:transform .12s}
+.cal-chip:hover{transform:scale(1.02)}
+.cal-chip.pending{background:var(--st-pending-bg);color:var(--st-pending-fg);border-color:var(--st-pending-bd)}
+.cal-chip.approved{background:var(--st-approved-bg);color:var(--st-approved-fg);border-color:var(--st-approved-bd)}
+.cal-chip.declined{background:var(--st-declined-bg);color:var(--st-declined-fg);border-color:var(--st-declined-bd)}
+.cal-chip.has-conflict{box-shadow:0 0 0 1.5px #e8577a}
+@media(max-width:720px){
+  .cal-grid{gap:3px}
+  .cal-day{min-height:72px;padding:3px}
+  .cal-chip{font-size:.6rem;padding:2px 3px}
+}
 </style>
 </head>
 <body>
@@ -417,6 +465,11 @@ footer .ar{font-family:var(--fa);font-size:1.35rem;color:var(--text);margin:0}
     <span><b>NurulQuran Admin</b><small>Lecture Requests Portal</small></span>
   </a>
   <a class="btn btn-g btn-s" href="/request.html" target="_blank" rel="noopener">🌸 Open Request Form ↗</a>
+  <button class="live-pill" id="liveAlertBtn" type="button" hidden title="Toggle live desktop alerts for new lecture requests">
+    <span class="dot"></span>
+    <span id="liveAlertText">Live Alerts</span>
+  </button>
+  <button class="btn btn-g btn-s" id="chimeBtn" type="button" hidden title="Toggle audio chime when new requests arrive">🔔 Chime: ON</button>
   <button class="btn btn-g btn-s" id="notifyBtn" type="button" hidden>🔔 Notifications <span id="notifyActiveBadge" class="badge approved" style="padding:1px 6px;font-size:.68rem" hidden>ON</span></button>
   <button class="btn btn-g btn-s" id="changePwdBtn" type="button" hidden>🔑 Password</button>
   <button class="btn btn-g btn-s" id="syncLocalBtn" type="button" hidden title="Import requests saved in this browser">📥 Sync Browser Requests</button>
@@ -442,6 +495,18 @@ footer .ar{font-family:var(--fa);font-size:1.35rem;color:var(--text);margin:0}
 
   <!-- DASHBOARD VIEW -->
   <section id="dashView" hidden>
+    <!-- Live Alerts Permission Banner -->
+    <div id="alertBanner" class="alert-banner" hidden>
+      <div style="display:flex;align-items:center;gap:10px">
+        <span style="font-size:1.4rem">🔔</span>
+        <span><b>Enable Live Notifications:</b> Receive instant desktop popups & chime whenever a host submits a new request.</span>
+      </div>
+      <div style="display:flex;gap:8px;flex-shrink:0">
+        <button type="button" class="btn btn-approve btn-s" id="enableNotifyBtn">Enable Now</button>
+        <button type="button" class="btn btn-g btn-s" id="dismissBannerBtn" aria-label="Dismiss banner">✕</button>
+      </div>
+    </div>
+
     <!-- Stats Ribbon -->
     <div class="stats-grid">
       <div class="stat-card">
@@ -464,16 +529,28 @@ footer .ar{font-family:var(--fa);font-size:1.35rem;color:var(--text);margin:0}
 
     <!-- Filter & Search Controls -->
     <div class="panel-card">
-      <div class="filter-pills" role="tablist" aria-label="Filter by request status">
-        <button type="button" class="fpill active" data-status="all">All Requests <span class="cnt" id="cntAll">0</span></button>
-        <button type="button" class="fpill" data-status="pending">⏳ Pending <span class="cnt" id="cntPending">0</span></button>
-        <button type="button" class="fpill" data-status="approved">✅ Approved <span class="cnt" id="cntApproved">0</span></button>
-        <button type="button" class="fpill" data-status="declined">✕ Declined <span class="cnt" id="cntDeclined">0</span></button>
-        <button type="button" class="fpill" data-status="conflicts">⚠️ Conflicts <span class="cnt" id="cntConflicts">0</span></button>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:10px">
+        <div class="filter-pills" role="tablist" aria-label="Filter by request status" style="margin-bottom:0">
+          <button type="button" class="fpill active" data-status="all">All Requests <span class="cnt" id="cntAll">0</span></button>
+          <button type="button" class="fpill" data-status="pending">⏳ Pending <span class="cnt" id="cntPending">0</span></button>
+          <button type="button" class="fpill" data-status="approved">✅ Approved <span class="cnt" id="cntApproved">0</span></button>
+          <button type="button" class="fpill" data-status="declined">✕ Declined <span class="cnt" id="cntDeclined">0</span></button>
+          <button type="button" class="fpill" data-status="conflicts">⚠️ Conflicts <span class="cnt" id="cntConflicts">0</span></button>
+        </div>
+        <div class="view-tabs" role="tablist" aria-label="Switch schedule view">
+          <button type="button" class="view-tab active" id="tabTableView" data-view="table">📋 Table View</button>
+          <button type="button" class="view-tab" id="tabCalView" data-view="calendar">📅 Calendar View</button>
+        </div>
       </div>
 
       <div class="toolbar">
         <input class="inp" id="searchInp" type="search" placeholder="🔍 Search by Ref ID, host name, phone, city, occasion, teacher…">
+        <select class="inp" id="dateFilter" aria-label="Filter by date range">
+          <option value="all">All Dates</option>
+          <option value="upcoming_30">Upcoming (Next 30 Days)</option>
+          <option value="this_month">This Month</option>
+          <option value="past">Past Events</option>
+        </select>
         <select class="inp" id="venueFilter" aria-label="Filter by venue type">
           <option value="">All Venue Types</option>
           <option value="home">🏡 Home</option>
@@ -501,11 +578,12 @@ footer .ar{font-family:var(--fa);font-size:1.35rem;color:var(--text);margin:0}
     </div>
 
     <!-- Responsive Table -->
-    <div tabindex="0" role="region" aria-labelledby="requests-table-caption" class="table-wrapper">
+    <div tabindex="0" role="region" aria-labelledby="requests-table-caption" class="table-wrapper" id="tableViewWrap">
       <table>
         <caption id="requests-table-caption">Lecture requests (<span id="showingCount">0</span> shown)</caption>
         <thead>
           <tr>
+            <th scope="col" style="width:36px;text-align:center"><input type="checkbox" id="checkAll" aria-label="Select all requests"></th>
             <th scope="col">Reference</th>
             <th scope="col">Host & Contact</th>
             <th scope="col">Gathering & Date</th>
@@ -522,6 +600,43 @@ footer .ar{font-family:var(--fa);font-size:1.35rem;color:var(--text);margin:0}
         <b style="font-size:1.05rem;display:block;color:var(--text)">No lecture requests match your filter</b>
         <p style="margin:4px 0 0;font-size:.86rem">When a host submits the planner form, their request will appear here automatically.</p>
       </div>
+    </div>
+
+    <!-- Calendar Schedule View -->
+    <div id="calViewWrap" class="cal-wrap" hidden>
+      <div class="cal-head">
+        <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+          <button type="button" class="btn btn-g btn-s" id="calPrevBtn">◀ Previous</button>
+          <h3 id="calMonthTitle">Month YYYY</h3>
+          <button type="button" class="btn btn-g btn-s" id="calNextBtn">Next ▶</button>
+          <button type="button" class="btn btn-g btn-s" id="calTodayBtn">Today</button>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;font-size:.76rem;font-weight:700;flex-wrap:wrap">
+          <span style="display:inline-flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:50%;background:var(--st-approved-fg)"></span> Approved</span>
+          <span style="display:inline-flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:50%;background:var(--st-pending-fg)"></span> Pending</span>
+          <span style="display:inline-flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:50%;background:var(--st-declined-fg)"></span> Declined</span>
+          <span style="display:inline-flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:3px;border:1.5px solid var(--rose)"></span> Conflict</span>
+        </div>
+      </div>
+      <div class="cal-grid" id="calDowRow">
+        <div class="cal-dow">Mon</div>
+        <div class="cal-dow">Tue</div>
+        <div class="cal-dow">Wed</div>
+        <div class="cal-dow">Thu</div>
+        <div class="cal-dow">Fri</div>
+        <div class="cal-dow">Sat</div>
+        <div class="cal-dow">Sun</div>
+      </div>
+      <div class="cal-grid" id="calDaysGrid"></div>
+    </div>
+
+    <!-- Floating Bulk Actions Bar -->
+    <div id="bulkBar" class="bulk-bar" role="toolbar" aria-label="Bulk actions">
+      <span><span id="bulkCount" class="count-badge">0</span> selected</span>
+      <button type="button" class="btn btn-approve btn-s" id="bulkApproveBtn">✅ Bulk Approve</button>
+      <button type="button" class="btn btn-decline btn-s" id="bulkDeclineBtn">✕ Bulk Decline</button>
+      <button type="button" class="btn btn-g btn-s" id="bulkExportBtn">⬇️ Export CSV</button>
+      <button type="button" class="btn btn-g btn-s" id="bulkClearBtn" style="padding:4px 8px" title="Deselect all">✕</button>
     </div>
   </section>
 </main>
@@ -605,12 +720,14 @@ footer .ar{font-family:var(--fa);font-size:1.35rem;color:var(--text);margin:0}
             <label for="nf_email_provider">Provider</label>
             <select class="inp" id="nf_email_provider">
               <option value="resend">Resend API (Recommended · Free 3k/mo)</option>
-              <option value="webhook">Custom Email Webhook (Make / Zapier / Brevo)</option>
+              <option value="brevo">Brevo / Sendinblue (Free 300/day · No credit card)</option>
+              <option value="sendgrid">SendGrid API</option>
+              <option value="webhook">Custom Email Webhook (Make / Zapier)</option>
             </select>
           </div>
           <div>
             <label for="nf_email_to">Admin Recipient Email(s)</label>
-            <input class="inp" id="nf_email_to" type="email" placeholder="admin@nurulquran.com">
+            <input class="inp" id="nf_email_to" type="email" placeholder="it@nrq.no">
           </div>
           <div id="nf_email_resend_box" style="display:grid;gap:8px">
             <div>
@@ -618,8 +735,8 @@ footer .ar{font-family:var(--fa);font-size:1.35rem;color:var(--text);margin:0}
               <input class="inp" id="nf_email_from" type="text" placeholder="NurulQuran Requests <onboarding@resend.dev>">
             </div>
             <div>
-              <label for="nf_email_key">Resend API Key</label>
-              <input class="inp" id="nf_email_key" type="password" placeholder="re_xxxxxxxxx">
+              <label for="nf_email_key" id="nf_email_key_lbl">Provider API Key</label>
+              <input class="inp" id="nf_email_key" type="password" placeholder="API key (re_xxxx or Brevo/SendGrid key)">
             </div>
           </div>
           <div id="nf_email_webhook_box" hidden>
@@ -789,9 +906,15 @@ footer .ar{font-family:var(--fa);font-size:1.35rem;color:var(--text);margin:0}
   <div class="dlg-body" style="padding:22px">
     <div id="itinerarySheet" class="itinerary-sheet"></div>
     <div class="decision-actions no-print" style="margin-top:12px">
-      <button type="button" class="btn btn-p" id="itineraryPrintBtn2">🖨️ Print / Save as PDF</button>
-      <button type="button" class="btn btn-g" id="itineraryCopyBtn2">📋 Copy WhatsApp Text</button>
-      <button type="button" class="btn btn-g" id="itineraryDoneBtn">Done</button>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button type="button" class="btn btn-p" id="itineraryPrintBtn2">🖨️ Print / Save as PDF</button>
+        <button type="button" class="btn btn-g" id="itineraryCopyBtn2">📋 Copy WhatsApp Text</button>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button type="button" class="btn btn-g btn-s" id="itineraryWaUstazaBtn">💬 Send Ustaza (WhatsApp)</button>
+        <button type="button" class="btn btn-g btn-s" id="itineraryWaDriverBtn">💬 Send Driver (WhatsApp)</button>
+        <button type="button" class="btn btn-g btn-s" id="itineraryDoneBtn">Done</button>
+      </div>
     </div>
   </div>
 </dialog>
@@ -844,7 +967,7 @@ footer .ar{font-family:var(--fa);font-size:1.35rem;color:var(--text);margin:0}
   <p><i>“Verily, in the remembrance of Allah do hearts find rest.”</i> — Ar-Ra’d 13:28</p>
   <p style="margin:8px 0 4px">For more info, call <a href="tel:+4799106785" style="color:var(--rose);font-weight:700;text-decoration:none">+47 991 06 785</a></p>
   <p>© <span id="yr"></span> NurulQuran · Lecture Requests Admin Portal</p>
-  <p id="appVersion" style="margin:6px 0 0;font-size:.72rem;opacity:.75">v1.0.8 (updated 2026-11-02 06:03)</p>
+  <p id="appVersion" style="margin:6px 0 0;font-size:.72rem;opacity:.75">v1.0.9 (updated 2026-11-02 06:17)</p>
 </footer>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -924,6 +1047,145 @@ let adminPwd=sessionStorage.getItem(PWD_KEY)||'';
 let allRequests=[];
 let activeStatus='all';
 let currentReq=null;
+let currentView='table'; // 'table' | 'calendar'
+let selectedIds=new Set();
+let knownRequestIds=new Set();
+let newArrivalIds=new Set();
+let pollTimer=null;
+let chimeEnabled=localStorage.getItem('nq_chime')!=='false';
+let calYear=new Date().getFullYear();
+let calMonth=new Date().getMonth();
+
+/* Web Audio Synthesized Chime */
+function playChime(){
+  if(!chimeEnabled)return;
+  try{
+    const AudioCtx=window.AudioContext||window.webkitAudioContext;
+    if(!AudioCtx)return;
+    const ctx=new AudioCtx();
+    const now=ctx.currentTime;
+    
+    // Note 1: 587.33 Hz (D5)
+    const o1=ctx.createOscillator();
+    const g1=ctx.createGain();
+    o1.type='sine';
+    o1.frequency.setValueAtTime(587.33,now);
+    g1.gain.setValueAtTime(0.18,now);
+    g1.gain.exponentialRampToValueAtTime(0.001,now+0.35);
+    o1.connect(g1);
+    g1.connect(ctx.destination);
+    o1.start(now);
+    o1.stop(now+0.36);
+
+    // Note 2: 880 Hz (A5)
+    const o2=ctx.createOscillator();
+    const g2=ctx.createGain();
+    o2.type='sine';
+    o2.frequency.setValueAtTime(880,now+0.12);
+    g2.gain.setValueAtTime(0.22,now+0.12);
+    g2.gain.exponentialRampToValueAtTime(0.001,now+0.65);
+    o2.connect(g2);
+    g2.connect(ctx.destination);
+    o2.start(now+0.12);
+    o2.stop(now+0.66);
+  }catch(e){
+    console.warn('Web Audio Chime failed:',e);
+  }
+}
+
+/* Browser Desktop Notifications */
+function updateLiveAlertUI(){
+  const btn=$('#liveAlertBtn');
+  const txt=$('#liveAlertText');
+  const ban=$('#alertBanner');
+  if(!btn)return;
+  if(!('Notification' in window)){
+    btn.hidden=true;
+    if(ban)ban.hidden=true;
+    return;
+  }
+  btn.hidden=false;
+  const perm=Notification.permission;
+  if(perm==='granted'){
+    btn.classList.add('active');
+    if(txt)txt.textContent='Live Alerts: ON';
+    btn.title='Live alerts active · Browser checking for new requests';
+    if(ban)ban.hidden=true;
+  }else if(perm==='denied'){
+    btn.classList.remove('active');
+    if(txt)txt.textContent='Alerts Blocked';
+    btn.title='Desktop notifications blocked in browser settings';
+    if(ban)ban.hidden=true;
+  }else{
+    btn.classList.remove('active');
+    if(txt)txt.textContent='Enable Alerts';
+    btn.title='Click to enable desktop notifications';
+    if(ban)ban.hidden=false;
+  }
+}
+
+async function requestNotificationPermission(){
+  if(!('Notification' in window)){
+    toast('Notifications not supported in this browser');
+    return;
+  }
+  try{
+    const res=await Notification.requestPermission();
+    updateLiveAlertUI();
+    if(res==='granted'){
+      toast('Live desktop notifications enabled! 🌸');
+      playChime();
+      try{
+        new Notification('🌸 NurulQuran Admin Alerts Enabled', {
+          body: 'You will receive desktop alerts when a new lecture request arrives.',
+          icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🌸</text></svg>'
+        });
+      }catch(_){}
+    }else{
+      toast('Notifications permission was not granted');
+    }
+  }catch(_){
+    toast('Could not request notification permission');
+  }
+}
+
+async function pollNewRequests(){
+  if(!adminPwd)return;
+  try{
+    const r=await api('/api/lecture-requests');
+    const d=await r.json();
+    if(!Array.isArray(d.requests))return;
+    const incoming=d.requests;
+    if(knownRequestIds.size>0){
+      const fresh=incoming.filter(x=>!knownRequestIds.has(x.id));
+      if(fresh.length>0){
+        playChime();
+        fresh.forEach(nr=>{
+          newArrivalIds.add(nr.id);
+          if('Notification' in window && Notification.permission==='granted'){
+            try{
+              const notif=new Notification(`🌸 New Request: ${nr.hostName}`, {
+                body: `${nr.occasion||'Lecture'} in ${nr.city} on ${fmtDate(nr.preferredDate)} (~${nr.guests||0} guests)`,
+                icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🌸</text></svg>'
+              });
+              notif.onclick=()=>{
+                window.focus();
+                const found=allRequests.find(x=>x.id===nr.id);
+                if(found)openDetailModal(found);
+              };
+            }catch(_){}
+          }
+        });
+        toast(`🌸 ${fresh.length} new lecture request(s) received!`);
+      }
+    }
+    incoming.forEach(x=>knownRequestIds.add(x.id));
+    allRequests=incoming;
+    updateStats();
+    if(currentView==='calendar')renderCalendar();
+    else renderTable();
+  }catch(_){}
+}
 
 async function api(path,opts={}){
   const headers=Object.assign({'Content-Type':'application/json','x-admin-password':adminPwd},opts.headers||{});
@@ -970,12 +1232,15 @@ $('#loginForm').addEventListener('submit',async e=>{
 function doLogout(){
   adminPwd='';
   sessionStorage.removeItem(PWD_KEY);
+  if(pollTimer){clearInterval(pollTimer);pollTimer=null;}
   $('#dashView').hidden=true;
   $('#logoutBtn').hidden=true;
   $('#exportCsvBtn').hidden=true;
   $('#notifyBtn').hidden=true;
   $('#changePwdBtn').hidden=true;
   $('#syncLocalBtn').hidden=true;
+  $('#liveAlertBtn').hidden=true;
+  $('#chimeBtn').hidden=true;
   $('#loginView').hidden=false;
 }
 $('#logoutBtn').addEventListener('click',doLogout);
@@ -1015,16 +1280,40 @@ function showDashboard(){
   $('#exportCsvBtn').hidden=false;
   $('#notifyBtn').hidden=false;
   $('#changePwdBtn').hidden=false;
+  $('#liveAlertBtn').hidden=false;
+  $('#chimeBtn').hidden=false;
+  $('#chimeBtn').textContent=chimeEnabled?'🔔 Chime: ON':'🔕 Chime: OFF';
+  updateLiveAlertUI();
   checkLocalUnsynced();
   loadRequests();
   loadNotificationSettings();
+  if(!pollTimer){
+    pollTimer=setInterval(pollNewRequests,25000);
+  }
 }
+
+/* Chime & Banner listeners */
+$('#chimeBtn').addEventListener('click',()=>{
+  chimeEnabled=!chimeEnabled;
+  try{localStorage.setItem('nq_chime',chimeEnabled?'true':'false');}catch(_){}
+  $('#chimeBtn').textContent=chimeEnabled?'🔔 Chime: ON':'🔕 Chime: OFF';
+  if(chimeEnabled)playChime();
+  toast(chimeEnabled?'Audio chime enabled 🔔':'Audio chime muted 🔕');
+});
+$('#liveAlertBtn').addEventListener('click',requestNotificationPermission);
+$('#enableNotifyBtn').addEventListener('click',requestNotificationPermission);
+$('#dismissBannerBtn').addEventListener('click',()=>{$('#alertBanner').hidden=true;});
 
 /* Notifications Settings */
 function syncNotifyUI(){
   const ep=$('#nf_email_provider').value;
-  $('#nf_email_resend_box').hidden=ep!=='resend';
+  const isApi=ep==='resend'||ep==='brevo'||ep==='sendgrid';
+  $('#nf_email_resend_box').hidden=!isApi;
   $('#nf_email_webhook_box').hidden=ep!=='webhook';
+  const keyLbl=$('#nf_email_key_lbl');
+  if(keyLbl){
+    keyLbl.textContent=ep==='brevo'?'Brevo API Key':(ep==='sendgrid'?'SendGrid API Key':'Resend API Key');
+  }
 
   const wp=$('#nf_wa_provider').value;
   $('#nf_wa_callmebot_box').hidden=wp!=='callmebot';
@@ -1094,7 +1383,7 @@ function populateNotifyForm(s){
   if(s.email){
     $('#nf_email_enabled').checked=!!s.email.enabled;
     $('#nf_email_provider').value=s.email.provider||'resend';
-    $('#nf_email_to').value=s.email.toEmail||'';
+    $('#nf_email_to').value=s.email.toEmail||'it@nrq.no';
     $('#nf_email_from').value=s.email.fromEmail||'NurulQuran Requests <onboarding@resend.dev>';
     $('#nf_email_key').value=s.email.resendApiKey||'';
     $('#nf_email_webhook').value=s.email.webhookUrl||'';
@@ -1214,7 +1503,8 @@ async function loadRequests(){
     const d=await r.json();
     allRequests=Array.isArray(d.requests)?d.requests:[];
     updateStats();
-    renderTable();
+    if(currentView==='calendar')renderCalendar();
+    else renderTable();
   }catch(e){
     if(e.message!=='Unauthorized')toast('Failed to load lecture requests');
   }finally{
@@ -1257,8 +1547,10 @@ function getFilteredRequests(){
   const q=$('#searchInp').value.trim().toLowerCase();
   const vf=$('#venueFilter').value;
   const lf=$('#langFilter').value;
+  const df=$('#dateFilter')?$('#dateFilter').value:'all';
   const sort=$('#sortSelect').value;
   const cMap=getConflictsMap();
+  const today=new Date().toISOString().slice(0,10);
 
   const list=allRequests.filter(r=>{
     if(activeStatus==='conflicts'){
@@ -1266,6 +1558,18 @@ function getFilteredRequests(){
     }else if(activeStatus!=='all'&&r.status!==activeStatus)return false;
     if(vf&&r.venueType!==vf)return false;
     if(lf&&r.lang!==lf)return false;
+    if(df!=='all'){
+      const rd=r.preferredDate||'';
+      if(!rd)return false;
+      if(df==='upcoming_30'){
+        const d30=new Date(Date.now()+30*86400000).toISOString().slice(0,10);
+        if(rd<today||rd>d30)return false;
+      }else if(df==='this_month'){
+        if(!rd.startsWith(today.slice(0,7)))return false;
+      }else if(df==='past'){
+        if(rd>=today)return false;
+      }
+    }
     if(q){
       const hay=[
         r.id,r.hostName,r.phone,r.email,r.city,r.occasion,
@@ -1332,9 +1636,17 @@ END:VCALENDAR`;
   document.body.append(a);a.click();a.remove();
 }
 
+function normalizePhone(p){
+  let raw=String(p||'').replace(/[^\d]/g,'');
+  if(!raw)return '';
+  if(raw.startsWith('00'))raw=raw.slice(2);
+  if(raw.length===8&&/^[49]/.test(raw))raw='47'+raw;
+  return raw;
+}
+
 function buildWhatsAppLink(req,statusOverride){
   const st=statusOverride||req.status;
-  const cleanPhone=String(req.phone||'').replace(/[^\d]/g,'');
+  const cleanPhone=normalizePhone(req.phone);
   const dateStr=fmtDate(req.preferredDate);
   const timeStr=fmtTime(req.startTime);
   let msg=`Assalamu alaikum ${req.hostName||''} 🌸\nRegarding your NurulQuran lecture request (${req.id}) for ${dateStr}${timeStr?' at '+timeStr:''} in ${req.city||''}:`;
@@ -1348,6 +1660,15 @@ function buildWhatsAppLink(req,statusOverride){
   return `https://wa.me/${cleanPhone}?text=${encodeURIComponent(msg)}`;
 }
 
+function updateBulkBar(){
+  const bar=$('#bulkBar');
+  const countEl=$('#bulkCount');
+  if(!bar)return;
+  const count=selectedIds.size;
+  if(countEl)countEl.textContent=count;
+  bar.classList.toggle('show',count>0);
+}
+
 function renderTable(){
   const rows=getFilteredRequests();
   $('#showingCount').textContent=rows.length;
@@ -1355,9 +1676,15 @@ function renderTable(){
   const empty=$('#emptyState');
   const cMap=getConflictsMap();
 
+  const checkAll=$('#checkAll');
+  if(checkAll){
+    checkAll.checked=rows.length>0&&rows.every(r=>selectedIds.has(r.id));
+  }
+
   if(!rows.length){
     tbody.innerHTML='';
     empty.hidden=false;
+    updateBulkBar();
     return;
   }
   empty.hidden=true;
@@ -1375,7 +1702,13 @@ function renderTable(){
       confPill=`<br><span class="conflict-pill" title="${conflicts.length} other request(s) on ${r.preferredDate}">${hasAppr?'⚠️ Conflict with Approved':'⚠️ '+conflicts.length+' other on date'}</span>`;
     }
 
-    return `<tr data-id="${esc(r.id)}">
+    const isNew=newArrivalIds.has(r.id);
+    const isChecked=selectedIds.has(r.id);
+
+    return `<tr data-id="${esc(r.id)}" class="${isNew?'row-new-arrival':''}" style="cursor:pointer">
+      <td style="text-align:center;vertical-align:middle" onclick="event.stopPropagation()">
+        <input type="checkbox" class="req-check" data-id="${esc(r.id)}" ${isChecked?'checked':''} aria-label="Select request ${esc(r.id)}">
+      </td>
       <th scope="row">
         <div>
           <span class="ref-code">${esc(r.id)}</span>
@@ -1386,7 +1719,7 @@ function renderTable(){
         <div>
           <span class="cell-main">${esc(r.hostName)}</span>
           <span class="cell-sub">📍 ${esc(r.city)} · 📞 ${esc(r.phone)}</span>
-          <a class="wa-link" href="${esc(waHref)}" target="_blank" rel="noopener">💬 WhatsApp host ↗</a>
+          <a class="wa-link" href="${esc(waHref)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">💬 WhatsApp host ↗</a>
         </div>
       </td>
       <td>
@@ -1413,7 +1746,7 @@ function renderTable(){
       <td>
         <span class="badge ${esc(r.status)}">${esc(r.status)}</span>
       </td>
-      <td>
+      <td onclick="event.stopPropagation()">
         <div class="row-acts">
           ${r.status!=='approved'?`<button type="button" class="btn btn-approve btn-s" data-act="approve" data-id="${esc(r.id)}">✅ Approve</button>`:''}
           ${r.status!=='declined'?`<button type="button" class="btn btn-decline btn-s" data-act="decline" data-id="${esc(r.id)}">✕ Decline</button>`:''}
@@ -1422,21 +1755,97 @@ function renderTable(){
       </td>
     </tr>`;
   }).join('');
+
+  updateBulkBar();
+}
+
+/* Calendar Schedule View Renderer */
+const MONTH_NAMES=['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+function renderCalendar(){
+  const title=$('#calMonthTitle');
+  const grid=$('#calDaysGrid');
+  if(!title||!grid)return;
+
+  title.textContent=`${MONTH_NAMES[calMonth]} ${calYear}`;
+  grid.innerHTML='';
+
+  const firstDay=(new Date(calYear,calMonth,1).getDay()+6)%7; // Monday=0
+  const daysInMonth=new Date(calYear,calMonth+1,0).getDate();
+  const daysInPrevMonth=new Date(calYear,calMonth,0).getDate();
+  const cMap=getConflictsMap();
+  const todayStr=new Date().toISOString().slice(0,10);
+
+  // Group filtered requests by preferredDate
+  const filtered=getFilteredRequests();
+  const byDate=new Map();
+  filtered.forEach(r=>{
+    if(!r.preferredDate)return;
+    if(!byDate.has(r.preferredDate))byDate.set(r.preferredDate,[]);
+    byDate.get(r.preferredDate).push(r);
+  });
+
+  // Previous month trailing days
+  for(let i=firstDay-1;i>=0;i--){
+    const dayNum=daysInPrevMonth-i;
+    grid.innerHTML+=`<div class="cal-day other-month"><div class="cal-day-num">${dayNum}</div></div>`;
+  }
+
+  // Current month days
+  for(let day=1;day<=daysInMonth;day++){
+    const dStr=`${calYear}-${String(calMonth+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+    const reqs=byDate.get(dStr)||[];
+    const isToday=dStr===todayStr;
+    const hasConflict=(cMap.get(dStr)||[]).length>1;
+
+    let chipsHtml='';
+    reqs.forEach(r=>{
+      const time=fmtTime(r.startTime);
+      chipsHtml+=`<button type="button" class="cal-chip ${esc(r.status)} ${hasConflict?'has-conflict':''}" data-id="${esc(r.id)}" title="${esc(r.id)}: ${esc(r.hostName)} (${esc(r.status)}) · ${time}">
+        ${time?`<b>${esc(time)}</b> `:''}${esc(r.hostName)}
+      </button>`;
+    });
+
+    grid.innerHTML+=`
+      <div class="cal-day ${isToday?'today':''}">
+        <div class="cal-day-num">
+          <span>${day}</span>
+          ${reqs.length?`<small style="font-weight:700;color:var(--rose)">${reqs.length} dars</small>`:''}
+        </div>
+        ${chipsHtml}
+      </div>
+    `;
+  }
+
+  // Next month leading days to complete grid
+  const totalCells=firstDay+daysInMonth;
+  const trailing=totalCells%7===0?0:(7-(totalCells%7));
+  for(let i=1;i<=trailing;i++){
+    grid.innerHTML+=`<div class="cal-day other-month"><div class="cal-day-num">${i}</div></div>`;
+  }
 }
 
 /* Quick Table Actions */
 $('#reqTbody').addEventListener('click',async e=>{
   const btn=e.target.closest('button[data-act]');
-  if(!btn)return;
-  const id=btn.dataset.id;
-  const act=btn.dataset.act;
-  const req=allRequests.find(x=>x.id===id);
-  if(!req)return;
+  if(btn){
+    const id=btn.dataset.id;
+    const act=btn.dataset.act;
+    const req=allRequests.find(x=>x.id===id);
+    if(!req)return;
 
-  if(act==='view'){
-    openDetailModal(req);
-  }else if(act==='approve'||act==='decline'){
-    await updateRequestStatus(id,{status:act==='approve'?'approved':'declined'},btn);
+    if(act==='view'){
+      openDetailModal(req);
+    }else if(act==='approve'||act==='decline'){
+      await updateRequestStatus(id,{status:act==='approve'?'approved':'declined'},btn);
+    }
+    return;
+  }
+  if(e.target.closest('input, a'))return;
+  const row=e.target.closest('tr[data-id]');
+  if(row){
+    const req=allRequests.find(x=>x.id===row.dataset.id);
+    if(req)openDetailModal(req);
   }
 });
 
@@ -1452,7 +1861,8 @@ async function updateRequestStatus(id,patch,triggerBtn){
       const idx=allRequests.findIndex(x=>x.id===id);
       if(idx!==-1)allRequests[idx]=d.request;
       updateStats();
-      renderTable();
+      if(currentView==='calendar')renderCalendar();
+      else renderTable();
       if(currentReq&&currentReq.id===id){
         openDetailModal(d.request,true);
       }
@@ -1649,6 +2059,28 @@ $('#itineraryPrintBtn2').addEventListener('click',()=>window.print());
 $('#itineraryCopyBtn').addEventListener('click',copyItineraryText);
 $('#itineraryCopyBtn2').addEventListener('click',copyItineraryText);
 
+/* Dispatch Itinerary via WhatsApp */
+$('#itineraryWaUstazaBtn').addEventListener('click',()=>{
+  if(!currentReq)return;
+  const teacherPhone=prompt(`Enter WhatsApp number for Ustaza / Teacher (${currentReq.assignedTeacher||'Teacher'}):`, '+47');
+  if(!teacherPhone)return;
+  const clean=normalizePhone(teacherPhone);
+  const text=buildItineraryWhatsAppText(currentReq);
+  window.open(`https://wa.me/${clean}?text=${encodeURIComponent(text)}`,'_blank');
+});
+$('#itineraryWaDriverBtn').addEventListener('click',()=>{
+  if(!currentReq)return;
+  const d=currentReq.data||{};
+  let driverPhone=d.driverPhone||'';
+  if(!driverPhone){
+    driverPhone=prompt('Enter driver WhatsApp number:', '+47');
+  }
+  if(!driverPhone)return;
+  const clean=normalizePhone(driverPhone);
+  const text=buildItineraryWhatsAppText(currentReq);
+  window.open(`https://wa.me/${clean}?text=${encodeURIComponent(text)}`,'_blank');
+});
+
 /* Password change handlers */
 $('#changePwdBtn').addEventListener('click',()=>{
   $('#passwordForm').reset();
@@ -1771,24 +2203,125 @@ $('#dlgDeleteBtn').addEventListener('click',async e=>{
 });
 
 /* Filters & Search listeners */
+function onFilterChange(){
+  if(currentView==='calendar')renderCalendar();
+  else renderTable();
+}
+
 $$('.fpill').forEach(btn=>{
   btn.addEventListener('click',()=>{
     $$('.fpill').forEach(b=>b.classList.remove('active'));
     btn.classList.add('active');
     activeStatus=btn.dataset.status;
-    renderTable();
+    onFilterChange();
   });
 });
-['searchInp','venueFilter','langFilter','sortSelect'].forEach(id=>{
-  $('#'+id).addEventListener('input',renderTable);
-  $('#'+id).addEventListener('change',renderTable);
+['searchInp','venueFilter','langFilter','dateFilter','sortSelect'].forEach(id=>{
+  const el=$('#'+id);
+  if(el){
+    el.addEventListener('input',onFilterChange);
+    el.addEventListener('change',onFilterChange);
+  }
 });
 $('#refreshBtn').addEventListener('click',loadRequests);
 
-/* Export CSV */
-$('#exportCsvBtn').addEventListener('click',()=>{
+/* View Switcher Listeners */
+$('#tabTableView').addEventListener('click',()=>{
+  currentView='table';
+  $('#tabTableView').classList.add('active');
+  $('#tabCalView').classList.remove('active');
+  $('#tableViewWrap').hidden=false;
+  $('#calViewWrap').hidden=true;
+  renderTable();
+});
+$('#tabCalView').addEventListener('click',()=>{
+  currentView='calendar';
+  $('#tabCalView').classList.add('active');
+  $('#tabTableView').classList.remove('active');
+  $('#tableViewWrap').hidden=true;
+  $('#calViewWrap').hidden=false;
+  renderCalendar();
+});
+
+/* Calendar Navigation Listeners */
+$('#calPrevBtn').addEventListener('click',()=>{
+  calMonth--;
+  if(calMonth<0){calMonth=11;calYear--;}
+  renderCalendar();
+});
+$('#calNextBtn').addEventListener('click',()=>{
+  calMonth++;
+  if(calMonth>11){calMonth=0;calYear++;}
+  renderCalendar();
+});
+$('#calTodayBtn').addEventListener('click',()=>{
+  calYear=new Date().getFullYear();
+  calMonth=new Date().getMonth();
+  renderCalendar();
+});
+$('#calDaysGrid').addEventListener('click',e=>{
+  const chip=e.target.closest('.cal-chip[data-id]');
+  if(!chip)return;
+  const req=allRequests.find(x=>x.id===chip.dataset.id);
+  if(req)openDetailModal(req);
+});
+
+/* Checkbox & Bulk Actions */
+$('#checkAll').addEventListener('change',e=>{
   const rows=getFilteredRequests();
-  if(!rows.length){toast('Nothing to export');return;}
+  if(e.target.checked){
+    rows.forEach(r=>selectedIds.add(r.id));
+  }else{
+    rows.forEach(r=>selectedIds.delete(r.id));
+  }
+  renderTable();
+});
+
+$('#reqTbody').addEventListener('change',e=>{
+  if(!e.target.classList.contains('req-check'))return;
+  const id=e.target.dataset.id;
+  if(e.target.checked)selectedIds.add(id);
+  else selectedIds.delete(id);
+  const rows=getFilteredRequests();
+  $('#checkAll').checked=rows.length>0&&rows.every(r=>selectedIds.has(r.id));
+  updateBulkBar();
+});
+
+$('#bulkClearBtn').addEventListener('click',()=>{
+  selectedIds.clear();
+  renderTable();
+});
+
+async function runBulkStatusUpdate(newStatus){
+  const ids=Array.from(selectedIds);
+  if(!ids.length)return;
+  if(!confirm(`Mark ${ids.length} selected request(s) as ${newStatus.toUpperCase()}?`))return;
+  toast(`Updating ${ids.length} request(s)…`);
+  let count=0;
+  for(const id of ids){
+    try{
+      const r=await api(`/api/lecture-requests/${encodeURIComponent(id)}`,{
+        method:'PUT',
+        body:JSON.stringify({status:newStatus})
+      });
+      if(r.ok)count++;
+    }catch(_){}
+  }
+  selectedIds.clear();
+  toast(`Bulk updated: ${count}/${ids.length} marked ${newStatus.toUpperCase()} 🌸`);
+  await loadRequests();
+}
+
+$('#bulkApproveBtn').addEventListener('click',()=>runBulkStatusUpdate('approved'));
+$('#bulkDeclineBtn').addEventListener('click',()=>runBulkStatusUpdate('declined'));
+$('#bulkExportBtn').addEventListener('click',()=>{
+  const rows=allRequests.filter(r=>selectedIds.has(r.id));
+  if(!rows.length){toast('No requests selected to export');return;}
+  exportRequestsCsv(rows,`nurulquran-selected-${new Date().toISOString().slice(0,10)}.csv`);
+});
+
+/* Export CSV Helper */
+function exportRequestsCsv(rows,filename){
   const headers=['Reference','Status','Submitted At','Host Name','Phone','Email','City','Venue Type','Occasion','Preferred Date','Start Time','Duration (min)','Guests','Language','Readiness %','Assigned Teacher','Admin Notes','Address'];
   const csv=[
     headers.join(','),
@@ -1801,10 +2334,16 @@ $('#exportCsvBtn').addEventListener('click',()=>{
   const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});
   const a=document.createElement('a');
   a.href=URL.createObjectURL(blob);
-  a.download=`nurulquran-lecture-requests-${new Date().toISOString().slice(0,10)}.csv`;
+  a.download=filename;
   document.body.append(a);
   a.click();
   a.remove();
+}
+
+$('#exportCsvBtn').addEventListener('click',()=>{
+  const rows=getFilteredRequests();
+  if(!rows.length){toast('Nothing to export');return;}
+  exportRequestsCsv(rows,`nurulquran-lecture-requests-${new Date().toISOString().slice(0,10)}.csv`);
 });
 
 /* Audio Recitation Player (Circular Progress Ring) */

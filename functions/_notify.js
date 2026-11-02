@@ -1,8 +1,8 @@
 const DEFAULT_SETTINGS = {
   email: {
-    enabled: false,
-    provider: 'resend', // 'resend' | 'webhook'
-    toEmail: '',
+    enabled: true,
+    provider: 'resend', // 'resend' | 'brevo' | 'sendgrid' | 'postmark' | 'webhook'
+    toEmail: 'it@nrq.no',
     fromEmail: 'NurulQuran Requests <onboarding@resend.dev>',
     resendApiKey: '',
     webhookUrl: '',
@@ -53,7 +53,8 @@ export async function getNotificationSettings(env) {
     email: {
       ...DEFAULT_SETTINGS.email,
       ...(saved.email || {}),
-      toEmail: saved.email?.toEmail || env?.ADMIN_EMAIL || '',
+      enabled: saved.email?.enabled !== undefined ? !!saved.email.enabled : true,
+      toEmail: saved.email?.toEmail || env?.ADMIN_EMAIL || 'it@nrq.no',
       resendApiKey: saved.email?.resendApiKey || env?.RESEND_API_KEY || '',
     },
     whatsapp: {
@@ -160,20 +161,74 @@ export function formatMessages(req, baseUrl = 'https://dars-request.pages.dev') 
 }
 
 export async function sendEmailNotification(cfg, msg) {
-  if (!cfg.toEmail) return { ok: false, error: 'Recipient Admin Email is missing' };
+  const toEmail = cfg.toEmail || 'it@nrq.no';
+  if (!toEmail) return { ok: false, error: 'Recipient Admin Email is missing' };
+
   if (cfg.provider === 'webhook') {
     if (!cfg.webhookUrl) return { ok: false, error: 'Email Webhook URL is missing' };
     const r = await fetch(cfg.webhookUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ to: cfg.toEmail, subject: msg.subject, text: msg.plainText, html: msg.emailHtml }),
+      body: JSON.stringify({ to: toEmail, subject: msg.subject, text: msg.plainText, html: msg.emailHtml }),
     });
     if (!r.ok) return { ok: false, error: `Webhook HTTP ${r.status}` };
     return { ok: true };
   }
 
+  if (cfg.provider === 'brevo') {
+    if (!cfg.resendApiKey) return { ok: false, error: 'Brevo API Key is missing. Add your Brevo API key in Admin Notifications settings.' };
+    const r = await fetch('https://api.brevo.com/v3/smtp/email', {
+      method: 'POST',
+      headers: {
+        'api-key': cfg.resendApiKey,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        sender: { email: 'requests@nrq.no', name: 'NurulQuran Requests' },
+        to: toEmail.split(',').map((s) => ({ email: s.trim() })).filter((x) => x.email),
+        subject: msg.subject,
+        htmlContent: msg.emailHtml,
+        textContent: msg.plainText,
+      }),
+    });
+    const d = await r.json().catch(() => ({}));
+    if (!r.ok) return { ok: false, error: d.message || `Brevo HTTP ${r.status}` };
+    return { ok: true, id: d.messageId };
+  }
+
+  if (cfg.provider === 'sendgrid') {
+    if (!cfg.resendApiKey) return { ok: false, error: 'SendGrid API Key is missing' };
+    const r = await fetch('https://api.sendgrid.com/v3/mail/send', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${cfg.resendApiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        personalizations: [{ to: toEmail.split(',').map((s) => ({ email: s.trim() })).filter((x) => x.email) }],
+        from: { email: 'requests@nrq.no', name: 'NurulQuran Requests' },
+        subject: msg.subject,
+        content: [
+          { type: 'text/plain', value: msg.plainText },
+          { type: 'text/html', value: msg.emailHtml },
+        ],
+      }),
+    });
+    if (!r.ok) {
+      const d = await r.json().catch(() => ({}));
+      return { ok: false, error: d.errors?.[0]?.message || `SendGrid HTTP ${r.status}` };
+    }
+    return { ok: true };
+  }
+
   // Default: Resend API
-  if (!cfg.resendApiKey) return { ok: false, error: 'Resend API Key is missing' };
+  if (!cfg.resendApiKey) {
+    return {
+      ok: false,
+      error: 'Resend API Key is missing. Please enter your Resend API Key (free from resend.com) in Admin Notifications settings, or select Webhook/Brevo/SendGrid.',
+    };
+  }
+
   const r = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: {
@@ -182,7 +237,7 @@ export async function sendEmailNotification(cfg, msg) {
     },
     body: JSON.stringify({
       from: cfg.fromEmail || 'NurulQuran Requests <onboarding@resend.dev>',
-      to: cfg.toEmail.split(',').map((s) => s.trim()).filter(Boolean),
+      to: toEmail.split(',').map((s) => s.trim()).filter(Boolean),
       subject: msg.subject,
       html: msg.emailHtml,
       text: msg.plainText,
