@@ -843,7 +843,7 @@ footer .ar{font-family:var(--fa);font-size:1.35rem;color:var(--text);margin:0}
   <p><i>“Verily, in the remembrance of Allah do hearts find rest.”</i> — Ar-Ra’d 13:28</p>
   <p style="margin:8px 0 4px">For more info, call <a href="tel:+4799106785" style="color:var(--rose);font-weight:700;text-decoration:none">+47 991 06 785</a></p>
   <p>© <span id="yr"></span> NurulQuran · Lecture Requests Admin Portal</p>
-  <p id="appVersion" style="margin:6px 0 0;font-size:.72rem;opacity:.75">v1.0.5 (updated 2026-11-01 22:45)</p>
+  <p id="appVersion" style="margin:6px 0 0;font-size:.72rem;opacity:.75">v1.0.6 (updated 2026-11-02 04:38)</p>
 </footer>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -1523,8 +1523,16 @@ function openDetailModal(req,keepOpen){
 }
 
 /* Teacher & Driver Itinerary Brief */
+const SEAT_LABELS = {
+  revolving: '💺 Revolving chair + table (Recommended)',
+  chair: '🪑 Standard chair + table',
+  floor: '📿 Floor + low desk',
+  podium: '🎙️ Podium / lectern'
+};
+
 function buildItineraryWhatsAppText(req){
   const d=req.data||{};
+  const seatDesc = SEAT_LABELS[d.teacherSeat] || d.teacherSeat || 'Chair + table';
   return [
     `🌸 *NURULQURAN LECTURE ITINERARY BRIEF*`,
     `Ref: ${req.id} | Status: ${req.status.toUpperCase()}`,
@@ -1553,7 +1561,7 @@ function buildItineraryWhatsAppText(req){
     ``,
     `🪑 *AUDIENCE & SETUP*`,
     `• Expected Attendance: ~${req.guests||0} (${d.audience||'Gathering'})`,
-    `• Guest Seating: ${d.seating||'Floor / Mixed'} | Ustaza Seat: ${d.teacherSeat||'Chair + table'}`,
+    `• Guest Seating: ${d.seating||'Floor / Mixed'} | Ustaza Seat: ${seatDesc}`,
     `• Sound: ${d.pa||'Standard'} | Mic: ${d.mic||'Collar'}`,
     d.soundName?`• Sound Manager: ${d.soundName} (${d.soundPhone||''})`:null,
     `• Recording: ${d.recording==='audio'?'Audio only':(d.recording==='stream'?'Video/Live stream':'No recording')}`,
@@ -1567,6 +1575,7 @@ function buildItineraryWhatsAppText(req){
 
 function openItineraryBrief(req){
   const d=req.data||{};
+  const seatDesc = SEAT_LABELS[d.teacherSeat] || d.teacherSeat || 'Chair + table';
   const sheet=$('#itinerarySheet');
   sheet.innerHTML=`
     <div class="it-head">
@@ -1610,7 +1619,7 @@ function openItineraryBrief(req){
       <div class="it-sec">
         <h4>🪑 Seating & Sound</h4>
         <p><b>Audience:</b> ~${esc(req.guests||0)} guests (${esc(d.audience||'Gathering')})</p>
-        <p><b>Ustaza Seat:</b> ${esc(d.teacherSeat||'Chair + table')} · <b>Guests:</b> ${esc(d.seating||'Floor')}</p>
+        <p><b>Ustaza Seat:</b> ${esc(seatDesc)} · <b>Guests:</b> ${esc(d.seating||'Floor')}</p>
         <p><b>Sound:</b> ${esc(d.pa||'Standard')} · <b>Mic:</b> ${esc(d.mic||'Collar')}</p>
         ${d.soundName?`<p><b>Sound POC:</b> ${esc(d.soundName)} (📞 ${esc(d.soundPhone||'')})</p>`:''}
         <p><b>Recording:</b> ${d.recording==='audio'?'Audio only':(d.recording==='stream'?'Video/Live stream':'No recording')}</p>

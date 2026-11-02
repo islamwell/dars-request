@@ -94,6 +94,30 @@ a{color:var(--rose)}
 [data-theme=dark] .sm-r{transform:rotate(90deg) scale(.4);opacity:0}
 @media(min-width:860px){.nav{display:flex}.hdr{padding:12px 28px}}
 
+/* Language Toggle Button */
+.lang-toggle-btn{display:inline-flex;align-items:center;gap:6px;height:42px;padding:0 14px;border-radius:999px;border:1.5px solid var(--border);background:var(--surface-solid);color:var(--text);font:700 .86rem var(--fb);cursor:pointer;transition:transform .18s,border-color .2s,background .2s;white-space:nowrap;-webkit-tap-highlight-color:transparent;flex:none}
+.lang-toggle-btn:hover{border-color:var(--rose);transform:scale(1.04)}
+.lang-toggle-btn:active{transform:scale(.96)}
+.lang-toggle-btn .lang-icon{font-size:1.05rem;line-height:1}
+.lang-toggle-btn .lang-name{font-weight:800;color:var(--rose)}
+@media(max-width:540px){
+  .lang-toggle-btn{padding:0 10px;height:38px;font-size:.78rem}
+  .btn-hdr{display:none}
+}
+
+/* Recommended pill */
+.rec-pill{display:inline-block;padding:2px 8px;border-radius:99px;background:var(--tile-on);color:var(--rose);font-size:.7rem;font-weight:800;letter-spacing:.02em;margin-left:6px;border:1px solid rgba(232,87,122,.25);vertical-align:middle}
+
+/* Urdu / RTL Typography */
+[data-lang="ur"]{font-family:'Amiri','Plus Jakarta Sans',system-ui,sans-serif}
+[data-lang="ur"] .brand b,[data-lang="ur"] h1,[data-lang="ur"] h2,[data-lang="ur"] h3,[data-lang="ur"] .lbl,[data-lang="ur"] .tb .t,[data-lang="ur"] .btn{font-family:'Amiri','Plus Jakarta Sans',sans-serif}
+[data-lang="ur"] .brand small{letter-spacing:normal;font-size:.75rem}
+[dir="rtl"] .brand{margin-right:0;margin-left:auto}
+[dir="rtl"] .rec-pill{margin-left:0;margin-right:6px}
+[dir="rtl"] .btn .arr{transform:rotate(180deg)}
+[dir="rtl"] .btn:hover .arr{transform:translateX(-4px) rotate(180deg)}
+[dir="rtl"] .inp,[dir="rtl"] textarea{text-align:right}
+
 /* ========================= BUTTONS ========================= */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 22px;border-radius:999px;border:0;font:700 .95rem var(--fb);cursor:pointer;text-decoration:none;position:relative;overflow:hidden;transition:transform .2s,box-shadow .3s,background-position .6s;-webkit-tap-highlight-color:transparent;white-space:nowrap}
 .btn:active{transform:scale(.96)}
@@ -475,11 +499,18 @@ footer .ar{font-family:var(--fa);font-size:1.6rem;color:var(--text);direction:rt
 <header class="hdr">
   <a class="brand" href="#top" aria-label="NurulQuran Lecture Requests home">
     <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#sakura" width="100" height="100"/></svg>
-    <span><b>NurulQuran</b><small>Lecture Requests</small></span>
+    <span><b>NurulQuran</b><small data-i18n="brand_sub">Lecture Requests</small></span>
   </a>
   <nav class="nav" aria-label="Main">
-    <a href="#how">How it works</a><a href="#planner">Planner</a><a href="#faq">FAQ</a><a href="/status.html">Track request</a>
+    <a href="#how" data-i18n="nav_how">How it works</a>
+    <a href="#planner" data-i18n="nav_planner">Planner</a>
+    <a href="#faq" data-i18n="nav_faq">FAQ</a>
+    <a href="/status.html" data-i18n="nav_track">Track request</a>
   </nav>
+  <button class="lang-toggle-btn" id="langBtn" type="button" aria-label="Switch language: English, Norsk, Urdu" title="Bytt språk / Switch language / زبان تبدیل کریں">
+    <span class="lang-icon">🌐</span>
+    <span class="lang-name" id="langCurrent">English</span>
+  </button>
   <button class="tt" id="themeBtn" type="button" aria-label="Toggle day and night garden" aria-pressed="false">
     <svg viewBox="0 0 24 24" aria-hidden="true">
       <g class="sm-r" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 1.5v2.2M12 20.3v2.2M4.6 4.6l1.5 1.5M17.9 17.9l1.5 1.5M1.5 12h2.2M20.3 12h2.2M4.6 19.4l1.5-1.5M17.9 6.1l1.5-1.5"/></g>
@@ -487,7 +518,7 @@ footer .ar{font-family:var(--fa);font-size:1.6rem;color:var(--text);direction:rt
       <circle class="sm-b" cx="17" cy="7" r="6.5"/>
     </svg>
   </button>
-  <a class="btn btn-p btn-hdr" href="#planner"><span class="bt">Request</span><span class="arr">→</span></a>
+  <a class="btn btn-p btn-hdr" href="#planner"><span class="bt" data-i18n="nav_req">Request</span><span class="arr">→</span></a>
 </header>
 
 <main id="top">
@@ -520,15 +551,15 @@ footer .ar{font-family:var(--fa);font-size:1.6rem;color:var(--text);direction:rt
 
     <div class="hero">
       <div class="hero-copy">
-        <span class="eyebrow">🌸 NurulQuran · Lecture Invitations</span>
-        <h1>Invite the <span class="grad-text">light of the Quran</span> to your gathering</h1>
-        <p class="lead">Request a NurulQuran teacher for a dars in your home, or a lecture in your hall, masjid or school. Our planner walks you through every detail — pickup, seating, sound and hospitality — so the day runs smoothly.</p>
+        <span class="eyebrow" data-i18n="hero_eyebrow">🌸 NurulQuran · Lecture Invitations</span>
+        <h1 data-i18n="hero_h1">Invite the <span class="grad-text">light of the Quran</span> to your gathering</h1>
+        <p class="lead" data-i18n="hero_lead">Request a NurulQuran teacher for a dars in your home, or a lecture in your hall, masjid or school. Our planner walks you through every detail — pickup, seating, sound and hospitality — so the day runs smoothly.</p>
         <div class="cta-row">
-          <a class="btn btn-p" href="#planner"><span class="bt">Request a lecture</span><span class="arr">→</span></a>
-          <a class="btn btn-g" href="#how">See how it works</a>
+          <a class="btn btn-p" href="#planner"><span class="bt" data-i18n="hero_cta_req">Request a lecture</span><span class="arr">→</span></a>
+          <a class="btn btn-g" href="#how" data-i18n="hero_cta_how">See how it works</a>
         </div>
-        <div class="pills"><span class="pill">🏡 Homes</span><span class="pill">🏛️ Halls</span><span class="pill">🕌 Masjids</span><span class="pill">🎓 Schools</span></div>
-        <p class="mini-note">⏱ About 5 minutes · 💾 Saves your progress on this device</p>
+        <div class="pills"><span class="pill" data-i18n="pill_homes">🏡 Homes</span><span class="pill" data-i18n="pill_halls">🏛️ Halls</span><span class="pill" data-i18n="pill_masjids">🕌 Masjids</span><span class="pill" data-i18n="pill_schools">🎓 Schools</span></div>
+        <p class="mini-note" data-i18n="hero_note">⏱ About 5 minutes · 💾 Saves your progress on this device</p>
       </div>
 
       <button class="hero-art" id="lotusBtn" type="button" aria-label="Tap the lotus to make it bloom again">
@@ -587,7 +618,7 @@ footer .ar{font-family:var(--fa);font-size:1.6rem;color:var(--text);direction:rt
     <div class="verse-card">
       <div class="leafline"><i></i>🌿<i></i></div>
       <p class="ar" lang="ar">وَنُنَزِّلُ مِنَ الْقُرْآنِ مَا هُوَ شِفَاءٌ وَرَحْمَةٌ لِّلْمُؤْمِنِينَ</p>
-      <p class="tr">“And We send down of the Quran that which is healing and mercy for the believers.”</p>
+      <p class="tr" data-i18n="verse_text">“And We send down of the Quran that which is healing and mercy for the believers.”</p>
       <span class="ref">Surah Al-Isra · 17:82</span>
     </div>
   </section>
@@ -595,24 +626,24 @@ footer .ar{font-family:var(--fa);font-size:1.6rem;color:var(--text);direction:rt
   <!-- ============ HOW IT WORKS ============ -->
   <section class="section" id="how">
     <div class="sec-head reveal">
-      <span class="kicker">🌱 How it works</span>
-      <h2>From a seed of intention to a full bloom</h2>
-      <p>Four simple stages, so you can plan with confidence.</p>
+      <span class="kicker" data-i18n="how_kicker">🌱 How it works</span>
+      <h2 data-i18n="how_h2">From a seed of intention to a full bloom</h2>
+      <p data-i18n="how_p">Four simple stages, so you can plan with confidence.</p>
     </div>
     <div class="how-grid">
-      <article class="how tilt reveal"><div class="how-n"><svg viewBox="0 0 100 100"><use href="#sakura" width="100" height="100"/></svg><b>1</b></div><h3>Plan every detail</h3><p>Six gentle steps: venue, guests, sound, travel and care.</p></article>
-      <article class="how tilt reveal"><div class="how-n"><svg viewBox="0 0 100 100"><use href="#sakura" width="100" height="100" style="--sk:url(#skG3)"/></svg><b>2</b></div><h3>Send your request</h3><p>The team gets every detail it needs in a single message.</p></article>
-      <article class="how tilt reveal"><div class="how-n"><svg viewBox="0 0 100 100"><use href="#sakura" width="100" height="100" style="--sk:url(#skG4)"/></svg><b>3</b></div><h3>Team review</h3><p>The team checks the Ustaza’s schedule and may contact you.</p></article>
-      <article class="how tilt reveal"><div class="how-n"><svg viewBox="0 0 100 100"><use href="#sakura" width="100" height="100" style="--sk:url(#skG2)"/></svg><b>4</b></div><h3>Confirmation</h3><p>You’ll hear back with an approval or alternate dates.</p></article>
+      <article class="how tilt reveal"><div class="how-n"><svg viewBox="0 0 100 100"><use href="#sakura" width="100" height="100"/></svg><b>1</b></div><h3 data-i18n="how_s1_t">Plan every detail</h3><p data-i18n="how_s1_p">Six gentle steps: venue, guests, sound, travel and care.</p></article>
+      <article class="how tilt reveal"><div class="how-n"><svg viewBox="0 0 100 100"><use href="#sakura" width="100" height="100" style="--sk:url(#skG3)"/></svg><b>2</b></div><h3 data-i18n="how_s2_t">Send your request</h3><p data-i18n="how_s2_p">The team gets every detail it needs in a single message.</p></article>
+      <article class="how tilt reveal"><div class="how-n"><svg viewBox="0 0 100 100"><use href="#sakura" width="100" height="100" style="--sk:url(#skG4)"/></svg><b>3</b></div><h3 data-i18n="how_s3_t">Team review</h3><p data-i18n="how_s3_p">The team checks the Ustaza’s schedule and may contact you.</p></article>
+      <article class="how tilt reveal"><div class="how-n"><svg viewBox="0 0 100 100"><use href="#sakura" width="100" height="100" style="--sk:url(#skG2)"/></svg><b>4</b></div><h3 data-i18n="how_s4_t">Confirmation</h3><p data-i18n="how_s4_p">You’ll hear back with an approval or alternate dates.</p></article>
     </div>
   </section>
 
   <!-- ============ PLANNER ============ -->
   <section class="section" id="planner">
     <div class="sec-head reveal">
-      <span class="kicker">🌸 Lecture Request Planner</span>
-      <h2>Plan a gathering that runs smoothly from start to finish</h2>
-      <p>Six steps, with helpful tips along the way. Your progress is saved on this device automatically.</p>
+      <span class="kicker" data-i18n="plan_kicker">🌸 Lecture Request Planner</span>
+      <h2 data-i18n="plan_h2">Plan a gathering that runs smoothly from start to finish</h2>
+      <p data-i18n="plan_lead">Six steps, with helpful tips along the way. Your progress is saved on this device automatically.</p>
     </div>
 
     <div class="planner reveal" id="plannerCard">
@@ -877,11 +908,12 @@ footer .ar{font-family:var(--fa);font-size:1.6rem;color:var(--text);direction:rt
                 </div>
               </div>
               <div class="field" data-err="Please choose the Ustaza’s seat.">
-                <span class="lbl">Ustaza’s seat <span class="req">*</span></span>
-                <div class="tiles c3">
-                  <label class="tile"><input type="radio" name="teacherSeat" value="chair" required><span class="tb"><span class="e">🪑</span><span class="t">Chair + table</span></span></label>
-                  <label class="tile"><input type="radio" name="teacherSeat" value="floor"><span class="tb"><span class="e">📿</span><span class="t">Floor + low desk</span></span></label>
-                  <label class="tile"><input type="radio" name="teacherSeat" value="podium"><span class="tb"><span class="e">🎙️</span><span class="t">Podium</span></span></label>
+                <span class="lbl" data-i18n="lbl_ustaza_seat">Ustaza’s seat <span class="req">*</span></span>
+                <div class="tiles">
+                  <label class="tile"><input type="radio" name="teacherSeat" value="revolving" required checked><span class="tb"><span class="e">💺</span><span class="t"><span data-i18n="seat_revolving">Revolving chair + table</span> <span class="rec-pill" data-i18n="pill_recommended">Recommended</span></span><span class="d" data-i18n="seat_revolving_d">Comfortable with easy 360° interaction — Recommended 🌸</span></span></label>
+                  <label class="tile"><input type="radio" name="teacherSeat" value="chair"><span class="tb"><span class="e">🪑</span><span class="t" data-i18n="seat_chair">Standard chair + table</span><span class="d" data-i18n="seat_chair_d">Stationary chair and table</span></span></label>
+                  <label class="tile"><input type="radio" name="teacherSeat" value="floor"><span class="tb"><span class="e">📿</span><span class="t" data-i18n="seat_floor">Floor + low desk</span><span class="d" data-i18n="seat_floor_d">Cushion seating with a low table</span></span></label>
+                  <label class="tile"><input type="radio" name="teacherSeat" value="podium"><span class="tb"><span class="e">🎙️</span><span class="t" data-i18n="seat_podium">Podium / lectern</span><span class="d" data-i18n="seat_podium_d">Standing presentation</span></span></label>
                 </div>
               </div>
               <div class="field">
@@ -1124,10 +1156,10 @@ footer .ar{font-family:var(--fa);font-size:1.6rem;color:var(--text);direction:rt
         </div>
 
         <div class="wiz-nav">
-          <button type="button" class="btn btn-g" id="prevBtn">← Back</button>
+          <button type="button" class="btn btn-g" id="prevBtn">← <span data-i18n="btn_back">Back</span></button>
           <span class="count" id="navCount">1 / 6</span>
-          <button type="button" class="btn btn-p" id="nextBtn"><span class="bt">Continue</span><span class="arr">→</span></button>
-          <button type="submit" class="btn btn-p" id="submitBtn" hidden><span class="bt">Send request</span><span class="arr">🌸</span></button>
+          <button type="button" class="btn btn-p" id="nextBtn"><span class="bt" data-i18n="btn_next">Continue</span><span class="arr">→</span></button>
+          <button type="submit" class="btn btn-p" id="submitBtn" hidden><span class="bt" data-i18n="btn_submit">Send request</span><span class="arr">🌸</span></button>
         </div>
       </form>
     </div>
@@ -1166,9 +1198,9 @@ footer .ar{font-family:var(--fa);font-size:1.6rem;color:var(--text);direction:rt
     </button>
   </div>
   <p><i>“Verily, in the remembrance of Allah do hearts find rest.”</i> — Ar-Ra’d 13:28</p>
-  <p style="margin:8px 0 4px">For more info, call <a href="tel:+4799106785" style="color:var(--rose);font-weight:700;text-decoration:none">+47 991 06 785</a></p>
+  <p style="margin:8px 0 4px"><span data-i18n="ft_more_info">For more info, call</span> <a href="tel:+4799106785" style="color:var(--rose);font-weight:700;text-decoration:none">+47 991 06 785</a></p>
   <p>© <span id="yr"></span> NurulQuran · Lecture Requests</p>
-  <p id="appVersion" style="margin:8px 0 0;font-size:.72rem;opacity:.75">v1.0.5 (updated 2026-11-01 22:45)</p>
+  <p id="appVersion" style="margin:8px 0 0;font-size:.72rem;opacity:.75">v1.0.6 (updated 2026-11-02 04:38)</p>
 </footer>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -1235,6 +1267,222 @@ themeBtn.addEventListener('click',()=>{
   const vt=document.startViewTransition(apply);
   vt.ready.then(()=>root.animate({clipPath:[`circle(0px at ${x}px ${y}px)`,`circle(${R}px at ${x}px ${y}px)`]},{duration:800,easing:'cubic-bezier(.65,0,.35,1)',pseudoElement:'::view-transition-new(root)'})).catch(()=>{});
 });
+
+/* ---------------- language (English / Norsk / Urdu) ---------------- */
+const LANGS=['en','no','ur'];
+const LANG_INFO={
+  en:{code:'en',label:'English',toast:'Switched to English 🇬🇧'},
+  no:{code:'no',label:'Norsk',toast:'Byttet til Norsk 🇳🇴'},
+  ur:{code:'ur',label:'اردو',toast:'زبان تبدیل ہو گئی: اردو 🇵🇰'}
+};
+const I18N={
+  en:{
+    brand_sub:"Lecture Requests",
+    nav_how:"How it works",
+    nav_planner:"Planner",
+    nav_faq:"FAQ",
+    nav_track:"Track request",
+    nav_req:"Request",
+    hero_eyebrow:"🌸 NurulQuran · Lecture Invitations",
+    hero_h1:"Invite the <span class=\"grad-text\">light of the Quran</span> to your gathering",
+    hero_lead:"Request a NurulQuran teacher for a dars in your home, or a lecture in your hall, masjid or school. Our planner walks you through every detail — pickup, seating, sound and hospitality — so the day runs smoothly.",
+    hero_cta_req:"Request a lecture",
+    hero_cta_how:"See how it works",
+    pill_homes:"🏡 Homes",
+    pill_halls:"🏛️ Halls",
+    pill_masjids:"🕌 Masjids",
+    pill_schools:"🎓 Schools",
+    hero_note:"⏱ About 5 minutes · 💾 Saves your progress on this device",
+    verse_text:"“And We send down of the Quran that which is healing and mercy for the believers.”",
+    how_kicker:"🌱 How it works",
+    how_h2:"From a seed of intention to a full bloom",
+    how_p:"Four simple stages, so you can plan with confidence.",
+    how_s1_t:"Plan every detail",
+    how_s1_p:"Six gentle steps: venue, guests, sound, travel and care.",
+    how_s2_t:"Send your request",
+    how_s2_p:"The team gets every detail it needs in a single message.",
+    how_s3_t:"Team review",
+    how_s3_p:"The team checks the Ustaza’s schedule and may contact you.",
+    how_s4_t:"Confirmation",
+    how_s4_p:"You’ll hear back with an approval or alternate dates.",
+    plan_kicker:"🌸 Lecture Request Planner",
+    plan_h2:"Plan a gathering that runs smoothly from start to finish",
+    plan_lead:"Six steps, with helpful tips along the way. Your progress is saved on this device automatically.",
+    steps:["Your details","The gathering","Venue & location","Guests & setup","Travel & care","Checklist & review"],
+    s_tabs:["Details","Gathering","Venue","Sound","Travel","Review"],
+    lbl_ustaza_seat:"Ustaza’s seat",
+    seat_revolving:"Revolving chair + table",
+    seat_revolving_d:"Comfortable with easy 360° interaction — Recommended 🌸",
+    seat_chair:"Standard chair + table",
+    seat_chair_d:"Stationary chair and table",
+    seat_floor:"Floor + low desk",
+    seat_floor_d:"Cushion seating with a low table",
+    seat_podium:"Podium / lectern",
+    seat_podium_d:"Standing presentation",
+    pill_recommended:"Recommended",
+    btn_back:"Back",
+    btn_next:"Continue",
+    btn_submit:"Send request",
+    ft_more_info:"For more info, call",
+    step_prefix:"Step",
+    step_of:"of"
+  },
+  no:{
+    brand_sub:"Foredragsforespørsler",
+    nav_how:"Hvordan det fungerer",
+    nav_planner:"Planlegger",
+    nav_faq:"Spørsmål og svar",
+    nav_track:"Spor forespørsel",
+    nav_req:"Be om foredrag",
+    hero_eyebrow:"🌸 NurulQuran · Foredragsinvitasjoner",
+    hero_h1:"Inviter <span class=\"grad-text\">Koranens lys</span> til din samling",
+    hero_lead:"Be om en NurulQuran-lærer til et dars i hjemmet ditt, eller et foredrag i en sal, moské eller skole. Vår planlegger veileder deg gjennom hver detalj – henting, sitteplasser, lyd og gjestfrihet – slik at dagen går knirkefritt.",
+    hero_cta_req:"Be om et foredrag",
+    hero_cta_how:"Se hvordan det fungerer",
+    pill_homes:"🏡 Hjem",
+    pill_halls:"🏛️ Saler",
+    pill_masjids:"🕌 Moskeer",
+    pill_schools:"🎓 Skoler",
+    hero_note:"⏱ Ca. 5 minutter · 💾 Lagrer fremgangen på denne enheten",
+    verse_text:"«Og Vi åpenbarer i Koranen det som er helbredelse og barmhjertighet for de troende.»",
+    how_kicker:"🌱 Slik fungerer det",
+    how_h2:"Fra en intensjon til en blomstrende samling",
+    how_p:"Fire enkle steg så du kan planlegge med ro.",
+    how_s1_t:"Planlegg hver detalj",
+    how_s1_p:"Seks rolige steg: sted, gjester, lyd, transport og omsorg.",
+    how_s2_t:"Send forespørselen",
+    how_s2_p:"Teamet mottar alle nødvendige detaljer i én oversikt.",
+    how_s3_t:"Teamets gjennomgang",
+    how_s3_p:"Teamet sjekker lærerens kalender og tar kontakt med deg.",
+    how_s4_t:"Bekreftelse",
+    how_s4_p:"Du mottar godkjenning eller forslag til alternative datoer.",
+    plan_kicker:"🌸 Foredragsplanlegger",
+    plan_h2:"Planlegg en samling som glir sømløst fra start til slutt",
+    plan_lead:"Seks steg med nyttige råd underveis. Fremgangen lagres automatisk på denne enheten.",
+    steps:["Dine opplysninger","Samlingen","Lokale og adresse","Gjester og oppsett","Transport og vertskap","Sjekkliste og oversikt"],
+    s_tabs:["Opplysninger","Samling","Lokale","Lyd","Transport","Oversikt"],
+    lbl_ustaza_seat:"Lærerens sitteplass",
+    seat_revolving:"Svingstol + bord",
+    seat_revolving_d:"Komfortabel med god 360° oversikt — Anbefalt 🌸",
+    seat_chair:"Vanlig stol + bord",
+    seat_chair_d:"Stasjonær stol og bord",
+    seat_floor:"Gulv + lavt bord",
+    seat_floor_d:"Puter og lavt bord på gulvet",
+    seat_podium:"Talerstol / podium",
+    seat_podium_d:"Stående presentasjon",
+    pill_recommended:"Anbefalt",
+    btn_back:"Tilbake",
+    btn_next:"Fortsett",
+    btn_submit:"Send inn forespørsel",
+    ft_more_info:"For mer info, ring",
+    step_prefix:"Steg",
+    step_of:"av"
+  },
+  ur:{
+    brand_sub:"درس کی درخواستیں",
+    nav_how:"طریقہ کار",
+    nav_planner:"پلانر",
+    nav_faq:"عام سوالات",
+    nav_track:"درخواست ٹریک کریں",
+    nav_req:"درخواست بھیجیں",
+    hero_eyebrow:"🌸 نور القرآن · درس کی دعوتیں",
+    hero_h1:"اپنی محفل میں <span class=\"grad-text\">نورِ قرآن</span> کی برکتیں لائیں",
+    hero_lead:"اپنے گھر میں درس یا مسجد، ہال اور اسکول میں خطبے کے لیے نور القرآن کی استادہ کو مدعو کریں۔ ہمارا پلانر آپ کی ہر ضرورت میں رہنمائی کرتا ہے — آمدورفت، نشستیں، ساؤنڈ اور مہمان نوازی۔",
+    hero_cta_req:"درس کی درخواست کریں",
+    hero_cta_how:"طریقہ کار دیکھیں",
+    pill_homes:"🏡 گھر",
+    pill_halls:"🏛️ ہال",
+    pill_masjids:"🕌 مساجد",
+    pill_schools:"🎓 اسکول",
+    hero_note:"⏱ تقریباً 5 منٹ · 💾 آپ کی معلومات اس ڈیوائس پر محفوظ رہتی ہے",
+    verse_text:"”اور ہم قرآن میں سے وہ چیز نازل کرتے ہیں جو ایمان والوں کے لیے شفا اور رحمت ہے۔“",
+    how_kicker:"🌱 طریقہ کار",
+    how_h2:"نیت کے بیج سے لے کر کامل محفل تک",
+    how_p:"چار آسان مراحل تاکہ آپ اطمینان سے انتظام کر سکیں۔",
+    how_s1_t:"ہر تفصیل کی منصوبہ بندی",
+    how_s1_p:"چھ آسان مراحل: مقام، مہمان، ساؤنڈ، سواری اور مہمان نوازی۔",
+    how_s2_t:"درخواست ارسال کریں",
+    how_s2_p:"انتظامیہ کو تمام ضروری تفصیلات ایک ساتھ مل جاتی ہیں۔",
+    how_s3_t:"انتظامی جائزہ",
+    how_s3_p:"ٹیم استادہ کے شیڈول کا جائزہ لے کر آپ سے رابطہ کرے گی۔",
+    how_s4_t:"تصدیق و منظوری",
+    how_s4_p:"آپ کو منظوری یا متبادل تاریخوں سے مطلع کیا جائے گا۔",
+    plan_kicker:"🌸 درس و خطبہ پلانر",
+    plan_h2:"ایک بابرکت اور باضابطہ محفل کی تیاری",
+    plan_lead:"چھ آسان مراحل، رہنمائی کے ساتھ۔ آپ کی معلومات خودکار طور پر محفوظ ہوتی رہتی ہے۔",
+    steps:["میزبان کی معلومات","پروگرام کی نوعیت","مقام اور پتہ","مہمان اور سیٹ اپ","سواری اور دیکھ بھال","جائزہ اور ارسال"],
+    s_tabs:["معلومات","پروگرام","مقام","ساؤنڈ","سواری","جائزہ"],
+    lbl_ustaza_seat:"استادہ کی نشست",
+    seat_revolving:"گھومنے والی کرسی اور میز",
+    seat_revolving_d:"آرام دہ اور ہر طرف آسانی سے مخاطب ہونے کے لیے — تجویز کردہ 🌸",
+    seat_chair:"عام کرسی اور میز",
+    seat_chair_d:"معیاری کرسی اور میز",
+    seat_floor:"فرشی نشست اور چھوٹی میز",
+    seat_floor_d:"قالین یا گدوں کے ساتھ چھوٹی میز",
+    seat_podium:"ڈائس / پوڈیم",
+    seat_podium_d:"کھڑے ہو کر بیان کے لیے",
+    pill_recommended:"تجویز کردہ",
+    btn_back:"پیچھے",
+    btn_next:"آگے بڑھیں",
+    btn_submit:"درخواست جمع کروائیں",
+    ft_more_info:"مزید معلومات کے لیے رابطہ کریں",
+    step_prefix:"مرحلہ",
+    step_of:"از"
+  }
+};
+
+let curLang='en';
+try{
+  const savedL=localStorage.getItem('nq_lang');
+  if(savedL&&LANGS.includes(savedL))curLang=savedL;
+}catch(_){}
+
+function applyLang(lang,showToast=false){
+  if(!LANGS.includes(lang))lang='en';
+  curLang=lang;
+  const info=LANG_INFO[lang];
+  const langCur=$('#langCurrent');
+  if(langCur)langCur.textContent=info.label;
+  root.setAttribute('data-lang',lang);
+  root.setAttribute('lang',lang);
+  root.setAttribute('dir',lang==='ur'?'rtl':'ltr');
+  try{localStorage.setItem('nq_lang',lang);}catch(_){}
+
+  const dict=I18N[lang]||I18N.en;
+  $$('[data-i18n]').forEach(el=>{
+    const k=el.dataset.i18n;
+    if(dict[k]!==undefined)el.innerHTML=dict[k];
+  });
+  $$('[data-i18n-ph]').forEach(el=>{
+    const k=el.dataset.i18nPh;
+    if(dict[k]!==undefined)el.placeholder=dict[k];
+  });
+
+  if(dict.steps&&typeof steps!=='undefined'){
+    steps.forEach((s,idx)=>{
+      if(dict.steps[idx])s.dataset.title=dict.steps[idx];
+    });
+  }
+  if(dict.s_tabs&&typeof navBtns!=='undefined'){
+    navBtns.forEach((b,idx)=>{
+      if(dict.s_tabs[idx]){
+        const textNode=Array.from(b.childNodes).find(n=>n.nodeType===3);
+        if(textNode)textNode.textContent=dict.s_tabs[idx];
+      }
+    });
+  }
+
+  if(typeof updateNav==='function')updateNav();
+  if(showToast)toast(info.toast);
+}
+
+const langBtn=$('#langBtn');
+if(langBtn){
+  langBtn.addEventListener('click',()=>{
+    const nextIdx=(LANGS.indexOf(curLang)+1)%LANGS.length;
+    applyLang(LANGS[nextIdx],true);
+  });
+}
 
 /* ---------------- falling petals, fireflies & bursts ---------------- */
 const bg=$('#bgfx'),fx=$('#fx'),bctx=bg.getContext('2d'),fctx=fx.getContext('2d');
@@ -1340,9 +1588,11 @@ function checkStep(i,ui=true){
 const navBtns=$$('.sn'),stepsNav=$('#stepsNav');
 function updateNav(){
   const lastI=steps.length-1;
+  const dict=(typeof I18N!=='undefined'&&(I18N[curLang]||I18N.en))||{};
   $('#prevBtn').style.visibility=cur===0?'hidden':'visible';
   $('#nextBtn').hidden=cur===lastI;$('#submitBtn').hidden=cur!==lastI;
-  $('#stepCount').textContent=`Step ${cur+1} of ${steps.length}`;$('#navCount').textContent=`${cur+1} / ${steps.length}`;
+  $('#stepCount').textContent=`${dict.step_prefix||'Step'} ${cur+1} ${dict.step_of||'of'} ${steps.length}`;
+  $('#navCount').textContent=`${cur+1} / ${steps.length}`;
   $('#stepName').textContent=steps[cur].dataset.title;$('#bloomNum').textContent=cur+1;
   $$('.bp').forEach((p,i)=>{p.classList.toggle('on',i<cur);p.classList.toggle('cur',i===cur);});
   navBtns.forEach((b,i)=>{b.classList.toggle('cur',i===cur);b.classList.toggle('done',i<maxReached&&i!==cur||i<cur);b.disabled=i>maxReached;b.setAttribute('aria-current',i===cur?'step':'false');});
@@ -1644,6 +1894,7 @@ document.addEventListener('click',e=>{
 });
 
 /* init */
+applyLang(curLang, false);
 if(!loadDraft()){refreshAll();go(0,{force:true,noScroll:true,noSave:true});}
 })();
 </script>

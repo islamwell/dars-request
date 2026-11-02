@@ -96,6 +96,13 @@ footer .ar{font-family:var(--fa);font-size:1.4rem;color:var(--text);margin:0}
 .audio-ring-icon .icon-pause{display:none}
 .btn-audio-ring.is-playing .audio-ring-icon .icon-play,.btn-audio-ring.playing .audio-ring-icon .icon-play{display:none}
 .btn-audio-ring.is-playing .audio-ring-icon .icon-pause,.btn-audio-ring.playing .audio-ring-icon .icon-pause{display:block}
+.lang-toggle-btn{display:inline-flex;align-items:center;gap:6px;height:38px;padding:0 12px;border-radius:999px;border:1.5px solid var(--border);background:var(--surface-solid);color:var(--text);font:700 .82rem var(--fb);cursor:pointer;transition:transform .18s,border-color .2s;white-space:nowrap;-webkit-tap-highlight-color:transparent}
+.lang-toggle-btn:hover{border-color:var(--rose);transform:scale(1.04)}
+.lang-toggle-btn .lang-name{font-weight:800;color:var(--rose)}
+[data-lang="ur"]{font-family:'Amiri','Plus Jakarta Sans',system-ui,sans-serif}
+[data-lang="ur"] h1,[data-lang="ur"] .btn{font-family:'Amiri','Plus Jakarta Sans',sans-serif}
+[dir="rtl"] .brand{margin-right:0;margin-left:auto}
+[dir="rtl"] .hdr{flex-direction:row}
 .toast{position:fixed;left:50%;bottom:24px;z-index:100;transform:translate(-50%,24px);opacity:0;pointer-events:none;background:var(--text);color:var(--bg);padding:11px 18px;border-radius:999px;font-weight:700;font-size:.85rem;transition:.3s}
 .toast.show{transform:translate(-50%,0);opacity:1}
 </style>
@@ -107,21 +114,25 @@ footer .ar{font-family:var(--fa);font-size:1.4rem;color:var(--text);margin:0}
       <circle cx="50" cy="50" r="44" fill="#ffd0de"/>
       <circle cx="50" cy="50" r="16" fill="#f7c948"/>
     </svg>
-    <span><b>NurulQuran</b><small>Lecture Requests</small></span>
+    <span><b>NurulQuran</b><small data-i18n="brand_sub">Lecture Requests</small></span>
   </a>
-  <a class="btn btn-g btn-s" href="/request.html">🌸 New Request</a>
+  <a class="btn btn-g btn-s" href="/request.html" data-i18n="btn_new_req">🌸 New Request</a>
+  <button class="lang-toggle-btn" id="langBtn" type="button" aria-label="Switch language: English, Norsk, Urdu" title="Bytt språk / Switch language / زبان تبدیل کریں">
+    <span class="lang-icon">🌐</span>
+    <span class="lang-name" id="langCurrent">English</span>
+  </button>
   <button class="tt" id="themeBtn" type="button" aria-label="Toggle theme">🌓</button>
 </header>
 
 <main>
   <div class="card">
     <span style="font-size:2.2rem">🔍</span>
-    <h1>Track Your Lecture Request</h1>
-    <p>Enter the reference code you received upon submitting your lecture planner form.</p>
+    <h1 data-i18n="track_h1">Track Your Lecture Request</h1>
+    <p data-i18n="track_p">Enter the reference code you received upon submitting your lecture planner form.</p>
 
     <form id="trackForm" style="display:grid;gap:12px;max-width:440px;margin:0 auto">
-      <input class="inp" id="refInput" type="text" placeholder="e.g. NQ-261101-ABCD" required style="text-align:center;letter-spacing:.08em;text-transform:uppercase">
-      <button class="btn btn-p" type="submit" id="trackSubmitBtn">Check Status →</button>
+      <input class="inp" id="refInput" type="text" placeholder="e.g. NQ-261101-ABCD" data-i18n-ph="track_ph" required style="text-align:center;letter-spacing:.08em;text-transform:uppercase">
+      <button class="btn btn-p" type="submit" id="trackSubmitBtn" data-i18n="track_btn">Check Status →</button>
     </form>
 
     <div id="resultBox" hidden></div>
@@ -148,9 +159,9 @@ footer .ar{font-family:var(--fa);font-size:1.4rem;color:var(--text);margin:0}
     </button>
   </div>
   <p><i>“Verily, in the remembrance of Allah do hearts find rest.”</i> — Ar-Ra’d 13:28</p>
-  <p style="margin:8px 0 4px">For more info, call <a href="tel:+4799106785" style="color:var(--rose);font-weight:700;text-decoration:none">+47 991 06 785</a></p>
+  <p style="margin:8px 0 4px"><span data-i18n="ft_more_info">For more info, call</span> <a href="tel:+4799106785" style="color:var(--rose);font-weight:700;text-decoration:none">+47 991 06 785</a></p>
   <p>© <span id="yr"></span> NurulQuran · Lecture Requests</p>
-  <p id="appVersion" style="margin:6px 0 0;font-size:.72rem;opacity:.75">v1.0.5 (updated 2026-11-01 22:45)</p>
+  <p id="appVersion" style="margin:6px 0 0;font-size:.72rem;opacity:.75">v1.0.6 (updated 2026-11-02 04:38)</p>
 </footer>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -175,6 +186,148 @@ $('#themeBtn').addEventListener('click',()=>{
   const next=root.dataset.theme==='dark'?'light':'dark';
   root.dataset.theme=next;try{localStorage.setItem('nq_theme',next);}catch(_){}
 });
+
+/* ---------------- language (English / Norsk / Urdu) ---------------- */
+const LANGS=['en','no','ur'];
+const LANG_INFO={
+  en:{code:'en',label:'English',toast:'Switched to English 🇬🇧'},
+  no:{code:'no',label:'Norsk',toast:'Byttet til Norsk 🇳🇴'},
+  ur:{code:'ur',label:'اردو',toast:'زبان تبدیل ہو گئی: اردو 🇵🇰'}
+};
+const I18N={
+  en:{
+    brand_sub:"Lecture Requests",
+    btn_new_req:"🌸 New Request",
+    track_h1:"Track Your Lecture Request",
+    track_p:"Enter the reference code you received upon submitting your lecture planner form.",
+    track_ph:"e.g. NQ-261101-ABCD",
+    track_btn:"Check Status →",
+    txt_checking:"Checking…",
+    ft_more_info:"For more info, call",
+    status_approved_b:"Alhamdulillah! Your lecture request is APPROVED. 🌸",
+    status_approved_p:"The Ustaza and team are scheduled. Please ensure all venue and audio arrangements are prepared.",
+    status_declined_b:"Update on your request:",
+    status_declined_p:"Unfortunately, our schedule cannot accommodate this date. Please contact the office or submit an alternate date.",
+    status_pending_b:"Your request is currently UNDER REVIEW ⏳",
+    status_pending_p:"The NurulQuran office is coordinating the Ustaza’s calendar and will contact you via WhatsApp / phone shortly, in shā’ Allāh.",
+    lbl_host:"Host Name",
+    lbl_city_venue:"City & Venue",
+    lbl_date:"Event Date",
+    lbl_time:"Start Time",
+    lbl_occasion:"Occasion",
+    lbl_guests:"Expected Guests",
+    lbl_teacher:"Assigned Ustaza / Teacher",
+    btn_gcal:"📅 Add to Google Calendar",
+    btn_ics:"📥 Download .ics",
+    btn_another:"🌸 Plan another gathering",
+    not_found:"Request <b>{ref}</b> was not found. Please double check your reference code.",
+    net_err:"Network error — please try again"
+  },
+  no:{
+    brand_sub:"Foredragsforespørsler",
+    btn_new_req:"🌸 Ny forespørsel",
+    track_h1:"Spor din foredragsforespørsel",
+    track_p:"Skriv inn referansekoden du mottok da du sendte inn skjemaet.",
+    track_ph:"f.eks. NQ-261101-ABCD",
+    track_btn:"Sjekk status →",
+    txt_checking:"Sjekker…",
+    ft_more_info:"For mer info, ring",
+    status_approved_b:"Alhamdulillah! Din foredragsforespørsel er GODKJENT. 🌸",
+    status_approved_p:"Læreren og teamet er satt i kalenderen. Vennligst sørg for at lokale og lyd er klargjort.",
+    status_declined_b:"Oppdatering på din forespørsel:",
+    status_declined_p:"Dessverre har vi ikke kapasitet på denne datoen. Ta gjerne kontakt med kontoret eller send inn en alternativ dato.",
+    status_pending_b:"Forespørselen din er TIL VURDERING ⏳",
+    status_pending_p:"NurulQuran-kontoret koordinerer lærerens kalender og tar snarlig kontakt via WhatsApp / telefon, in shā’ Allāh.",
+    lbl_host:"Vertens navn",
+    lbl_city_venue:"By og lokale",
+    lbl_date:"Dato",
+    lbl_time:"Starttidspunkt",
+    lbl_occasion:"Anledning",
+    lbl_guests:"Forventede gjester",
+    lbl_teacher:"Tildelt lærer",
+    btn_gcal:"📅 Legg til i Google Kalender",
+    btn_ics:"📥 Last ned .ics",
+    btn_another:"🌸 Planlegg en ny samling",
+    not_found:"Forespørsel <b>{ref}</b> ble ikke funnet. Vennligst kontroller referansekoden.",
+    net_err:"Nettverksfeil – vennligst prøv igjen"
+  },
+  ur:{
+    brand_sub:"درس کی درخواستیں",
+    btn_new_req:"🌸 نئی درخواست",
+    track_h1:"اپنے درس کی درخواست ٹریک کریں",
+    track_p:"وہ ریفرنس کوڈ درج کریں جو آپ کو پلانر فارم جمع کروانے پر ملا تھا۔",
+    track_ph:"مثلاً NQ-261101-ABCD",
+    track_btn:"اسٹیٹس دیکھیں ←",
+    txt_checking:"جانچ جاری ہے…",
+    ft_more_info:"مزید معلومات کے لیے رابطہ کریں",
+    status_approved_b:"الحمد لله! آپ کے درس کی درخواست منظور ہو گئی ہے۔ 🌸",
+    status_approved_p:"استادہ اور ٹیم کا شیڈول طے ہو چکا ہے۔ برائے مہربانی مقام اور ساؤنڈ کے انتظامات مکمل رکھیں۔",
+    status_declined_b:"درخواست سے متعلق اطلاع:",
+    status_declined_p:"معذرت کے ساتھ، اس تاریخ پر وقت نکالنا ممکن نہیں۔ برائے مہربانی دفتر سے رابطہ کریں یا متبادل تاریخ بھیجیں۔",
+    status_pending_b:"آپ کی درخواست زیرِ غور ہے ⏳",
+    status_pending_p:"نور القرآن انتظامیہ استادہ کے شیڈول کا جائزہ لے رہی ہے اور جلد ہی آپ سے واٹس ایپ یا فون پر رابطہ کرے گی، ان شاء اللہ۔",
+    lbl_host:"میزبان کا نام",
+    lbl_city_venue:"شہر اور مقام",
+    lbl_date:"تاریخ",
+    lbl_time:"وقت",
+    lbl_occasion:"تقریب",
+    lbl_guests:"متوقع مہمان",
+    lbl_teacher:"مقررہ استادہ / معلمہ",
+    btn_gcal:"📅 گوگل کیلنڈر میں شامل کریں",
+    btn_ics:"📥 .ics فائل ڈاؤن لوڈ کریں",
+    btn_another:"🌸 ایک اور پروگرام ترتیب دیں",
+    not_found:"درخواست <b>{ref}</b> نہیں ملی۔ برائے مہربانی ریفرنس کوڈ دوبارہ چیک کریں۔",
+    net_err:"نیٹ ورک کی خرابی — دوبارہ کوشش کریں"
+  }
+};
+
+let curLang='en';
+try{
+  const savedL=localStorage.getItem('nq_lang');
+  if(savedL&&LANGS.includes(savedL))curLang=savedL;
+}catch(_){}
+
+let lastFetchedData=null;
+
+function applyLang(lang,showToast=false){
+  if(!LANGS.includes(lang))lang='en';
+  curLang=lang;
+  const info=LANG_INFO[lang];
+  const langCur=$('#langCurrent');
+  if(langCur)langCur.textContent=info.label;
+  root.setAttribute('data-lang',lang);
+  root.setAttribute('lang',lang);
+  root.setAttribute('dir',lang==='ur'?'rtl':'ltr');
+  try{localStorage.setItem('nq_lang',lang);}catch(_){}
+
+  const dict=I18N[lang]||I18N.en;
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const k=el.dataset.i18n;
+    if(dict[k]!==undefined)el.innerHTML=dict[k];
+  });
+  document.querySelectorAll('[data-i18n-ph]').forEach(el=>{
+    const k=el.dataset.i18nPh;
+    if(dict[k]!==undefined)el.placeholder=dict[k];
+  });
+
+  const btn=$('#trackSubmitBtn');
+  if(btn&&!btn.disabled)btn.textContent=dict.track_btn;
+
+  if(lastFetchedData){
+    renderResult(lastFetchedData);
+  }
+
+  if(showToast)toast(info.toast);
+}
+
+const langBtn=$('#langBtn');
+if(langBtn){
+  langBtn.addEventListener('click',()=>{
+    const nextIdx=(LANGS.indexOf(curLang)+1)%LANGS.length;
+    applyLang(LANGS[nextIdx],true);
+  });
+}
+
 
 function makeGoogleCalUrl(req){
   const title=encodeURIComponent(`NurulQuran Lecture: ${req.occasion||'Dars'}`);
@@ -221,64 +374,75 @@ END:VCALENDAR`;
   document.body.append(a);a.click();a.remove();
 }
 
+function renderResult(d){
+  const box=$('#resultBox');
+  if(!d||!d.id){box.hidden=true;return;}
+  const dict=I18N[curLang]||I18N.en;
+  const gcal=makeGoogleCalUrl(d);
+  box.hidden=false;
+  box.innerHTML=`
+    <div class="res-card">
+      <div class="res-head">
+        <span class="res-ref">${esc(d.id)}</span>
+        <span class="badge ${esc(d.status)}">${esc(d.status)}</span>
+      </div>
+
+      <div class="banner ${esc(d.status)}">
+        ${d.status==='approved'
+          ? `<b>${esc(dict.status_approved_b)}</b><br>${esc(dict.status_approved_p)}`
+          : (d.status==='declined'
+            ? `<b>${esc(dict.status_declined_b)}</b><br>${esc(dict.status_declined_p)}`
+            : `<b>${esc(dict.status_pending_b)}</b><br>${esc(dict.status_pending_p)}`)
+        }
+      </div>
+
+      <dl class="res-grid" style="margin:0">
+        <div class="res-item"><dt>${esc(dict.lbl_host)}</dt><dd>${esc(d.hostName)}</dd></div>
+        <div class="res-item"><dt>${esc(dict.lbl_city_venue)}</dt><dd>${esc(d.city)} (${esc(d.venueType||'—')})</dd></div>
+        <div class="res-item"><dt>${esc(dict.lbl_date)}</dt><dd>📅 ${esc(fmtDate(d.preferredDate))}</dd></div>
+        <div class="res-item"><dt>${esc(dict.lbl_time)}</dt><dd>⏰ ${esc(fmtTime(d.startTime))} (${esc(d.duration||60)} min)</dd></div>
+        <div class="res-item"><dt>${esc(dict.lbl_occasion)}</dt><dd>${esc(d.occasion||'General dars')}</dd></div>
+        <div class="res-item"><dt>${esc(dict.lbl_guests)}</dt><dd>~${esc(d.guests||0)}</dd></div>
+        ${d.assignedTeacher?`<div class="res-item" style="grid-column:1/-1"><dt>${esc(dict.lbl_teacher)}</dt><dd style="color:var(--rose)">🌸 ${esc(d.assignedTeacher)}</dd></div>`:''}
+      </dl>
+
+      <div class="acts">
+        ${d.status==='approved'?`
+          <a class="btn btn-p btn-s" href="${esc(gcal)}" target="_blank" rel="noopener">${esc(dict.btn_gcal)}</a>
+          <button class="btn btn-g btn-s" type="button" id="icsBtn">${esc(dict.btn_ics)}</button>
+        `:''}
+        <a class="btn btn-g btn-s" href="/request.html">${esc(dict.btn_another)}</a>
+      </div>
+    </div>
+  `;
+  const icsBtn=$('#icsBtn');
+  if(icsBtn)icsBtn.onclick=()=>downloadIcs(d);
+}
+
 async function checkRef(rawRef){
   const ref=(rawRef||'').trim().toUpperCase();
   if(!ref)return;
   $('#refInput').value=ref;
+  const dict=I18N[curLang]||I18N.en;
   const btn=$('#trackSubmitBtn');
-  btn.disabled=true;btn.textContent='Checking…';
+  btn.disabled=true;btn.textContent=dict.txt_checking;
   const box=$('#resultBox');
   try{
     const r=await fetch(`/api/lecture-requests?ref=${encodeURIComponent(ref)}`);
     const d=await r.json();
     if(r.ok&&d.id){
-      const gcal=makeGoogleCalUrl(d);
-      box.hidden=false;
-      box.innerHTML=`
-        <div class="res-card">
-          <div class="res-head">
-            <span class="res-ref">${esc(d.id)}</span>
-            <span class="badge ${esc(d.status)}">${esc(d.status)}</span>
-          </div>
-
-          <div class="banner ${esc(d.status)}">
-            ${d.status==='approved'
-              ? '<b>Alhamdulillah! Your lecture request is APPROVED. 🌸</b><br>The Ustaza and team are scheduled. Please ensure all venue and audio arrangements are prepared.'
-              : (d.status==='declined'
-                ? '<b>Update on your request:</b><br>Unfortunately, our schedule cannot accommodate this date. Please contact the office or submit an alternate date.'
-                : '<b>Your request is currently UNDER REVIEW ⏳</b><br>The NurulQuran office is coordinating the Ustaza’s calendar and will contact you via WhatsApp / phone shortly, in shā’ Allāh.')
-            }
-          </div>
-
-          <dl class="res-grid" style="margin:0">
-            <div class="res-item"><dt>Host Name</dt><dd>${esc(d.hostName)}</dd></div>
-            <div class="res-item"><dt>City & Venue</dt><dd>${esc(d.city)} (${esc(d.venueType||'—')})</dd></div>
-            <div class="res-item"><dt>Event Date</dt><dd>📅 ${esc(fmtDate(d.preferredDate))}</dd></div>
-            <div class="res-item"><dt>Start Time</dt><dd>⏰ ${esc(fmtTime(d.startTime))} (${esc(d.duration||60)} min)</dd></div>
-            <div class="res-item"><dt>Occasion</dt><dd>${esc(d.occasion||'General dars')}</dd></div>
-            <div class="res-item"><dt>Expected Guests</dt><dd>~${esc(d.guests||0)} guests</dd></div>
-            ${d.assignedTeacher?`<div class="res-item" style="grid-column:1/-1"><dt>Assigned Ustaza / Teacher</dt><dd style="color:var(--rose)">🌸 ${esc(d.assignedTeacher)}</dd></div>`:''}
-          </dl>
-
-          <div class="acts">
-            ${d.status==='approved'?`
-              <a class="btn btn-p btn-s" href="${esc(gcal)}" target="_blank" rel="noopener">📅 Add to Google Calendar</a>
-              <button class="btn btn-g btn-s" type="button" id="icsBtn">📥 Download .ics</button>
-            `:''}
-            <a class="btn btn-g btn-s" href="/request.html">🌸 Plan another gathering</a>
-          </div>
-        </div>
-      `;
-      const icsBtn=$('#icsBtn');
-      if(icsBtn)icsBtn.onclick=()=>downloadIcs(d);
+      lastFetchedData=d;
+      renderResult(d);
     }else{
+      lastFetchedData=null;
       box.hidden=false;
-      box.innerHTML=`<div class="banner declined" style="margin-top:20px;text-align:center">🌱 Request <b>${esc(ref)}</b> was not found. Please double check your reference code.</div>`;
+      const notFoundTpl=dict.not_found.replace('{ref}',esc(ref));
+      box.innerHTML=`<div class="banner declined" style="margin-top:20px;text-align:center">🌱 ${notFoundTpl}</div>`;
     }
   }catch(_){
-    toast('Network error — please try again');
+    toast(dict.net_err);
   }finally{
-    btn.disabled=false;btn.textContent='Check Status →';
+    btn.disabled=false;btn.textContent=dict.track_btn;
   }
 }
 
@@ -286,6 +450,8 @@ $('#trackForm').addEventListener('submit',e=>{
   e.preventDefault();
   checkRef($('#refInput').value);
 });
+
+applyLang(curLang,false);
 
 /* Audio Recitation Player (Circular Progress Ring) */
 let activeAudio=null,activeBtn=null,activeRing=null;
