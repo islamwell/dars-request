@@ -768,12 +768,13 @@ footer .ar{font-family:var(--fa);font-size:1.6rem;color:var(--text);direction:rt
               <div class="ico"><span class="i">💭</span><input class="inp" id="topicCustom" name="topicCustom" placeholder="e.g. Gratitude in difficult times"></div>
             </div>
             <div class="field" data-err="Please choose a language.">
-              <span class="lbl">Preferred language <span class="req">*</span></span>
+              <span class="lbl" data-i18n="lbl_pref_lang">Preferred language <span class="req">*</span></span>
               <div class="chips">
-                <label class="chip"><input type="radio" name="lang" value="urdu" required><span class="t">Urdu</span></label>
-                <label class="chip"><input type="radio" name="lang" value="english"><span class="t">English</span></label>
-                <label class="chip"><input type="radio" name="lang" value="mixed"><span class="t">Urdu + English</span></label>
-                <label class="chip"><input type="radio" name="lang" value="any"><span class="t">Either is fine</span></label>
+                <label class="chip"><input type="radio" name="lang" value="urdu" required><span class="t" data-i18n="lang_urdu">Urdu</span></label>
+                <label class="chip"><input type="radio" name="lang" value="english"><span class="t" data-i18n="lang_english">English</span></label>
+                <label class="chip"><input type="radio" name="lang" value="punjabi"><span class="t" data-i18n="lang_punjabi">Punjabi</span></label>
+                <label class="chip"><input type="radio" name="lang" value="mixed"><span class="t" data-i18n="lang_mixed">Urdu + English</span></label>
+                <label class="chip"><input type="radio" name="lang" value="any"><span class="t" data-i18n="lang_any">Either is fine</span></label>
               </div>
             </div>
             <div class="row c2">
@@ -1200,7 +1201,7 @@ footer .ar{font-family:var(--fa);font-size:1.6rem;color:var(--text);direction:rt
   <p><i>“Verily, in the remembrance of Allah do hearts find rest.”</i> — Ar-Ra’d 13:28</p>
   <p style="margin:8px 0 4px"><span data-i18n="ft_more_info">For more info, call</span> <a href="tel:+4799106785" style="color:var(--rose);font-weight:700;text-decoration:none">+47 991 06 785</a></p>
   <p>© <span id="yr"></span> NurulQuran · Lecture Requests</p>
-  <p id="appVersion" style="margin:8px 0 0;font-size:.72rem;opacity:.75">v1.0.6 (updated 2026-11-02 04:38)</p>
+  <p id="appVersion" style="margin:8px 0 0;font-size:.72rem;opacity:.75">v1.0.7 (updated 2026-11-02 04:42)</p>
 </footer>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -1320,6 +1321,12 @@ const I18N={
     seat_podium:"Podium / lectern",
     seat_podium_d:"Standing presentation",
     pill_recommended:"Recommended",
+    lbl_pref_lang:"Preferred language",
+    lang_urdu:"Urdu",
+    lang_english:"English",
+    lang_punjabi:"Punjabi",
+    lang_mixed:"Urdu + English",
+    lang_any:"Either is fine",
     btn_back:"Back",
     btn_next:"Continue",
     btn_submit:"Send request",
@@ -1371,6 +1378,12 @@ const I18N={
     seat_podium:"Talerstol / podium",
     seat_podium_d:"Stående presentasjon",
     pill_recommended:"Anbefalt",
+    lbl_pref_lang:"Foretrukket språk",
+    lang_urdu:"Urdu",
+    lang_english:"Engelsk",
+    lang_punjabi:"Punjabi",
+    lang_mixed:"Urdu + engelsk",
+    lang_any:"Begge deler passer",
     btn_back:"Tilbake",
     btn_next:"Fortsett",
     btn_submit:"Send inn forespørsel",
@@ -1422,6 +1435,12 @@ const I18N={
     seat_podium:"ڈائس / پوڈیم",
     seat_podium_d:"کھڑے ہو کر بیان کے لیے",
     pill_recommended:"تجویز کردہ",
+    lbl_pref_lang:"بیان کی زبان",
+    lang_urdu:"اردو",
+    lang_english:"انگریزی",
+    lang_punjabi:"پنجابی",
+    lang_mixed:"اردو + انگریزی",
+    lang_any:"کوئی بھی چلے گی",
     btn_back:"پیچھے",
     btn_next:"آگے بڑھیں",
     btn_submit:"درخواست جمع کروائیں",

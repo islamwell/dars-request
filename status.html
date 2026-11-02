@@ -161,7 +161,7 @@ footer .ar{font-family:var(--fa);font-size:1.4rem;color:var(--text);margin:0}
   <p><i>“Verily, in the remembrance of Allah do hearts find rest.”</i> — Ar-Ra’d 13:28</p>
   <p style="margin:8px 0 4px"><span data-i18n="ft_more_info">For more info, call</span> <a href="tel:+4799106785" style="color:var(--rose);font-weight:700;text-decoration:none">+47 991 06 785</a></p>
   <p>© <span id="yr"></span> NurulQuran · Lecture Requests</p>
-  <p id="appVersion" style="margin:6px 0 0;font-size:.72rem;opacity:.75">v1.0.6 (updated 2026-11-02 04:38)</p>
+  <p id="appVersion" style="margin:6px 0 0;font-size:.72rem;opacity:.75">v1.0.7 (updated 2026-11-02 04:42)</p>
 </footer>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -216,6 +216,7 @@ const I18N={
     lbl_time:"Start Time",
     lbl_occasion:"Occasion",
     lbl_guests:"Expected Guests",
+    lbl_language:"Lecture Language",
     lbl_teacher:"Assigned Ustaza / Teacher",
     btn_gcal:"📅 Add to Google Calendar",
     btn_ics:"📥 Download .ics",
@@ -244,6 +245,7 @@ const I18N={
     lbl_time:"Starttidspunkt",
     lbl_occasion:"Anledning",
     lbl_guests:"Forventede gjester",
+    lbl_language:"Foredragsspråk",
     lbl_teacher:"Tildelt lærer",
     btn_gcal:"📅 Legg til i Google Kalender",
     btn_ics:"📥 Last ned .ics",
@@ -272,6 +274,7 @@ const I18N={
     lbl_time:"وقت",
     lbl_occasion:"تقریب",
     lbl_guests:"متوقع مہمان",
+    lbl_language:"بیان کی زبان",
     lbl_teacher:"مقررہ استادہ / معلمہ",
     btn_gcal:"📅 گوگل کیلنڈر میں شامل کریں",
     btn_ics:"📥 .ics فائل ڈاؤن لوڈ کریں",
@@ -374,6 +377,8 @@ END:VCALENDAR`;
   document.body.append(a);a.click();a.remove();
 }
 
+const LANG_MAP={urdu:'Urdu',english:'English',punjabi:'Punjabi',mixed:'Urdu + English',any:'Either is fine'};
+
 function renderResult(d){
   const box=$('#resultBox');
   if(!d||!d.id){box.hidden=true;return;}
@@ -403,6 +408,7 @@ function renderResult(d){
         <div class="res-item"><dt>${esc(dict.lbl_time)}</dt><dd>⏰ ${esc(fmtTime(d.startTime))} (${esc(d.duration||60)} min)</dd></div>
         <div class="res-item"><dt>${esc(dict.lbl_occasion)}</dt><dd>${esc(d.occasion||'General dars')}</dd></div>
         <div class="res-item"><dt>${esc(dict.lbl_guests)}</dt><dd>~${esc(d.guests||0)}</dd></div>
+        ${d.lang?`<div class="res-item"><dt>${esc(dict.lbl_language||'Language')}</dt><dd>🗣️ ${esc(LANG_MAP[d.lang]||d.lang)}</dd></div>`:''}
         ${d.assignedTeacher?`<div class="res-item" style="grid-column:1/-1"><dt>${esc(dict.lbl_teacher)}</dt><dd style="color:var(--rose)">🌸 ${esc(d.assignedTeacher)}</dd></div>`:''}
       </dl>
 

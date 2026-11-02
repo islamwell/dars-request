@@ -486,6 +486,7 @@ footer .ar{font-family:var(--fa);font-size:1.35rem;color:var(--text);margin:0}
           <option value="">All Languages</option>
           <option value="urdu">Urdu</option>
           <option value="english">English</option>
+          <option value="punjabi">Punjabi</option>
           <option value="mixed">Urdu + English</option>
           <option value="any">Either is fine</option>
         </select>
@@ -843,7 +844,7 @@ footer .ar{font-family:var(--fa);font-size:1.35rem;color:var(--text);margin:0}
   <p><i>“Verily, in the remembrance of Allah do hearts find rest.”</i> — Ar-Ra’d 13:28</p>
   <p style="margin:8px 0 4px">For more info, call <a href="tel:+4799106785" style="color:var(--rose);font-weight:700;text-decoration:none">+47 991 06 785</a></p>
   <p>© <span id="yr"></span> NurulQuran · Lecture Requests Admin Portal</p>
-  <p id="appVersion" style="margin:6px 0 0;font-size:.72rem;opacity:.75">v1.0.6 (updated 2026-11-02 04:38)</p>
+  <p id="appVersion" style="margin:6px 0 0;font-size:.72rem;opacity:.75">v1.0.7 (updated 2026-11-02 04:42)</p>
 </footer>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -1250,7 +1251,7 @@ function updateStats(){
 }
 
 const VENUE_LABELS={home:'🏡 Home',hall:'🏛️ Hall',masjid:'🕌 Masjid',school:'🎓 School',other:'🌳 Other'};
-const LANG_LABELS={urdu:'Urdu',english:'English',mixed:'Urdu + English',any:'Either'};
+const LANG_LABELS={urdu:'Urdu',english:'English',punjabi:'Punjabi',mixed:'Urdu + English',any:'Either'};
 
 function getFilteredRequests(){
   const q=$('#searchInp').value.trim().toLowerCase();
