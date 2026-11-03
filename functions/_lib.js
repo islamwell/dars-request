@@ -76,6 +76,16 @@ export async function ensureSchema(db) {
       value_json TEXT NOT NULL,
       updated_at TEXT NOT NULL
     )`),
+    db.prepare(`CREATE TABLE IF NOT EXISTS reminders_log (
+      request_id TEXT NOT NULL,
+      reminder_type TEXT NOT NULL,
+      sent_at TEXT NOT NULL,
+      recipient TEXT,
+      channel TEXT,
+      status TEXT,
+      PRIMARY KEY (request_id, reminder_type)
+    )`),
+    db.prepare(`CREATE INDEX IF NOT EXISTS idx_reminders_req ON reminders_log(request_id)`),
   ]);
   schemaReady = true;
 }

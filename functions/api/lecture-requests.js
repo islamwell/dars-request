@@ -14,18 +14,22 @@ export async function onRequestGet(context) {
 
   if (ref) {
     const row = await db
-      .prepare('SELECT id, status, submitted_at, updated_at, decided_at, readiness, host_name, city, venue_type, occasion, preferred_date, start_time, duration, guests, assigned_teacher FROM lecture_requests WHERE UPPER(id) = UPPER(?)')
+      .prepare('SELECT id, status, submitted_at, updated_at, decided_at, readiness, host_name, phone, email, city, venue_type, occasion, preferred_date, start_time, duration, guests, lang, assigned_teacher, data_json FROM lecture_requests WHERE UPPER(id) = UPPER(?)')
       .bind(ref)
       .first();
     if (!row) return json({ error: 'Request not found' }, 404);
+    let data = {};
+    try { data = JSON.parse(row.data_json || '{}'); } catch (_) {}
     return json({
       id: row.id,
       status: row.status,
       submittedAt: row.submitted_at,
       updatedAt: row.updated_at,
       decidedAt: row.decided_at,
-      readiness: row.readiness,
+      readiness: Number(row.readiness || 0),
       hostName: row.host_name,
+      phone: row.phone,
+      email: row.email || '',
       city: row.city,
       venueType: row.venue_type,
       occasion: row.occasion,
@@ -33,7 +37,12 @@ export async function onRequestGet(context) {
       startTime: row.start_time,
       duration: row.duration,
       guests: row.guests,
+      lang: row.lang,
       assignedTeacher: row.assigned_teacher || '',
+      ready: Array.isArray(data.ready) ? data.ready : [],
+      venueName: data.venueName || '',
+      address: data.address || '',
+      teacherSeat: data.teacherSeat || '',
     });
   }
 

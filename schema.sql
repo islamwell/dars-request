@@ -32,3 +32,15 @@ CREATE TABLE IF NOT EXISTS admin_settings (
   value_json TEXT NOT NULL,
   updated_at TEXT NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS reminders_log (
+  request_id TEXT NOT NULL,
+  reminder_type TEXT NOT NULL,
+  sent_at TEXT NOT NULL,
+  recipient TEXT,
+  channel TEXT,
+  status TEXT,
+  PRIMARY KEY (request_id, reminder_type)
+);
+
+CREATE INDEX IF NOT EXISTS idx_reminders_req ON reminders_log(request_id);

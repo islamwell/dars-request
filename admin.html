@@ -239,7 +239,7 @@ tbody tr:hover th{
 .empty-state .emo{font-size:2.6rem;display:block;margin-bottom:8px}
 
 /* DIALOG MODAL (Modern Web Guidance light-dismiss dialog) */
-dialog#detailDialog,dialog#notifyDialog,dialog#itineraryDialog,dialog#passwordDialog{
+dialog#detailDialog,dialog#notifyDialog,dialog#itineraryDialog,dialog#passwordDialog,dialog#remindersDialog{
   width:min(860px,calc(100vw - 24px));
   max-height:90dvh;
   margin:auto;
@@ -251,11 +251,11 @@ dialog#detailDialog,dialog#notifyDialog,dialog#itineraryDialog,dialog#passwordDi
   box-shadow:0 30px 80px -20px rgba(0,0,0,.55);
   overflow:hidden;
 }
-dialog#detailDialog[open],dialog#notifyDialog[open],dialog#itineraryDialog[open],dialog#passwordDialog[open]{
+dialog#detailDialog[open],dialog#notifyDialog[open],dialog#itineraryDialog[open],dialog#passwordDialog[open],dialog#remindersDialog[open]{
   display:flex;
   flex-direction:column;
 }
-dialog#detailDialog::backdrop,dialog#notifyDialog::backdrop,dialog#itineraryDialog::backdrop,dialog#passwordDialog::backdrop{
+dialog#detailDialog::backdrop,dialog#notifyDialog::backdrop,dialog#itineraryDialog::backdrop,dialog#passwordDialog::backdrop,dialog#remindersDialog::backdrop{
   background-color:rgba(20,10,28,.52);
   backdrop-filter:blur(6px);
   -webkit-backdrop-filter:blur(6px);
@@ -471,6 +471,7 @@ footer .ar{font-family:var(--fa);font-size:1.35rem;color:var(--text);margin:0}
   </button>
   <button class="btn btn-g btn-s" id="chimeBtn" type="button" hidden title="Toggle audio chime when new requests arrive">🔔 Chime: ON</button>
   <button class="btn btn-g btn-s" id="notifyBtn" type="button" hidden>🔔 Notifications <span id="notifyActiveBadge" class="badge approved" style="padding:1px 6px;font-size:.68rem" hidden>ON</span></button>
+  <button class="btn btn-g btn-s" id="remindersBtn" type="button" hidden>⏰ Reminders <span id="remindersDueBadge" class="badge declined" style="padding:1px 6px;font-size:.68rem" hidden>0 Due</span></button>
   <button class="btn btn-g btn-s" id="changePwdBtn" type="button" hidden>🔑 Password</button>
   <button class="btn btn-g btn-s" id="syncLocalBtn" type="button" hidden title="Import requests saved in this browser">📥 Sync Browser Requests</button>
   <button class="btn btn-g btn-s" id="exportCsvBtn" type="button" hidden>⬇️ Export CSV</button>
@@ -687,6 +688,34 @@ footer .ar{font-family:var(--fa);font-size:1.35rem;color:var(--text);margin:0}
           <button class="btn btn-g btn-s" id="dlgIcsBtn" type="button">📥 .ics</button>
           <a class="btn btn-g btn-s" id="dlgWaBtn" target="_blank" rel="noopener">💬 WhatsApp</a>
           <button type="button" class="btn btn-g btn-s" id="dlgDeleteBtn" style="color:#d93860">🗑️ Delete</button>
+        </div>
+      </div>
+
+      <!-- 2-Day & 1-Day Reminders row in Detail Modal -->
+      <div id="dlgRemindersCard" style="margin-top:14px;padding:12px 14px;background:var(--input-bg);border-radius:18px;border:1.5px solid var(--input-border)" hidden>
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:10px">
+          <strong style="font-size:.9rem;color:var(--text)">⏰ 2-Day & 1-Day Automated Reminders</strong>
+          <span id="dlgRemindersCountdown" class="badge approved" style="font-size:.76rem"></span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr;gap:8px">
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding:8px 12px;background:var(--surface);border-radius:12px;border:1px solid var(--border)">
+            <div>
+              <b style="font-size:.82rem">2-Day Reminder:</b> <span id="dlg2dStatus" style="font-size:.8rem;color:var(--muted)">Checking…</span>
+            </div>
+            <div style="display:flex;gap:6px">
+              <button type="button" class="btn btn-p btn-s" id="dlgSend2dBtn">📧 Send 2-Day</button>
+              <a class="btn btn-g btn-s" id="dlgWa2dBtn" target="_blank" rel="noopener">💬 WhatsApp</a>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding:8px 12px;background:var(--surface);border-radius:12px;border:1px solid var(--border)">
+            <div>
+              <b style="font-size:.82rem">1-Day Reminder:</b> <span id="dlg1dStatus" style="font-size:.8rem;color:var(--muted)">Checking…</span>
+            </div>
+            <div style="display:flex;gap:6px">
+              <button type="button" class="btn btn-p btn-s" id="dlgSend1dBtn">📧 Send 1-Day</button>
+              <a class="btn btn-g btn-s" id="dlgWa1dBtn" target="_blank" rel="noopener">💬 WhatsApp</a>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -945,6 +974,32 @@ footer .ar{font-family:var(--fa);font-size:1.35rem;color:var(--text);margin:0}
   </form>
 </dialog>
 
+<!-- 2-DAY & 1-DAY REMINDERS DIALOG -->
+<dialog id="remindersDialog" closedby="any" aria-labelledby="remindersDlgTitle">
+  <div class="dlg-head">
+    <div>
+      <span class="ref-code">AUTOMATED SCHEDULE ALERTS</span>
+      <h2 id="remindersDlgTitle">⏰ 2-Day & 1-Day Lecture Reminders</h2>
+    </div>
+    <button type="button" class="dlg-close" id="remindersCloseBtn" aria-label="Close reminders dialog">✕</button>
+  </div>
+  <div class="dlg-body" style="padding:22px;gap:14px">
+    <p style="margin:0;color:var(--muted);font-size:.86rem">Automated reminders for confirmed gatherings: a 2-day reminder and a final 1-day reminder before the lecture. Reminders notify both the host and team via email and WhatsApp.</p>
+    
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;padding:12px 16px;background:var(--input-bg);border-radius:18px;border:1.5px solid var(--input-border)">
+      <div>
+        <div style="font-size:.88rem;font-weight:700">Today: <span id="remindersTodayLabel">…</span></div>
+        <div style="font-size:.8rem;color:var(--muted)"><b id="remindersDueCountLabel" style="color:var(--rose)">0</b> event(s) due for reminders today</div>
+      </div>
+      <button type="button" class="btn btn-p btn-s" id="runAutoRemindersBtn">⚡ Send All Due Reminders Now</button>
+    </div>
+
+    <div id="remindersListWrap" style="display:grid;gap:10px;max-height:55vh;overflow-y:auto;padding-right:4px">
+      <div id="remindersEmptyMsg" style="text-align:center;padding:24px;color:var(--muted);font-size:.9rem">Loading upcoming lecture reminders…</div>
+    </div>
+  </div>
+</dialog>
+
 <footer>
   <div class="ar-wrap" dir="rtl">
     <p class="ar" lang="ar">أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ</p>
@@ -967,7 +1022,7 @@ footer .ar{font-family:var(--fa);font-size:1.35rem;color:var(--text);margin:0}
   <p><i>“Verily, in the remembrance of Allah do hearts find rest.”</i> — Ar-Ra’d 13:28</p>
   <p style="margin:8px 0 4px">For more info, call <a href="tel:+4799106785" style="color:var(--rose);font-weight:700;text-decoration:none">+47 991 06 785</a></p>
   <p>© <span id="yr"></span> NurulQuran · Lecture Requests Admin Portal</p>
-  <p id="appVersion" style="margin:6px 0 0;font-size:.72rem;opacity:.75">v1.0.9 (updated 2026-11-02 06:17)</p>
+  <p id="appVersion" style="margin:6px 0 0;font-size:.72rem;opacity:.75">v1.0.10 (updated 2026-11-03 15:55)</p>
 </footer>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -1017,8 +1072,9 @@ const dialog=$('#detailDialog');
 const notifyDialog=$('#notifyDialog');
 const itineraryDialog=$('#itineraryDialog');
 const passwordDialog=$('#passwordDialog');
+const remindersDialog=$('#remindersDialog');
 if(!('closedBy' in HTMLDialogElement.prototype)){
-  [dialog,notifyDialog,itineraryDialog,passwordDialog].forEach(dlg=>{
+  [dialog,notifyDialog,itineraryDialog,passwordDialog,remindersDialog].forEach(dlg=>{
     if(!dlg)return;
     dlg.addEventListener('click',event=>{
       if(event.target!==dlg)return;
@@ -1041,6 +1097,7 @@ $('#itineraryCloseBtn').addEventListener('click',()=>itineraryDialog.close());
 $('#itineraryDoneBtn').addEventListener('click',()=>itineraryDialog.close());
 $('#pwdCloseBtn').addEventListener('click',()=>passwordDialog.close());
 $('#pwdCancelBtn').addEventListener('click',()=>passwordDialog.close());
+$('#remindersCloseBtn').addEventListener('click',()=>remindersDialog.close());
 
 /* State */
 let adminPwd=sessionStorage.getItem(PWD_KEY)||'';
@@ -1182,6 +1239,7 @@ async function pollNewRequests(){
     incoming.forEach(x=>knownRequestIds.add(x.id));
     allRequests=incoming;
     updateStats();
+    refreshReminders();
     if(currentView==='calendar')renderCalendar();
     else renderTable();
   }catch(_){}
@@ -1237,6 +1295,7 @@ function doLogout(){
   $('#logoutBtn').hidden=true;
   $('#exportCsvBtn').hidden=true;
   $('#notifyBtn').hidden=true;
+  $('#remindersBtn').hidden=true;
   $('#changePwdBtn').hidden=true;
   $('#syncLocalBtn').hidden=true;
   $('#liveAlertBtn').hidden=true;
@@ -1279,6 +1338,7 @@ function showDashboard(){
   $('#logoutBtn').hidden=false;
   $('#exportCsvBtn').hidden=false;
   $('#notifyBtn').hidden=false;
+  $('#remindersBtn').hidden=false;
   $('#changePwdBtn').hidden=false;
   $('#liveAlertBtn').hidden=false;
   $('#chimeBtn').hidden=false;
@@ -1287,6 +1347,7 @@ function showDashboard(){
   checkLocalUnsynced();
   loadRequests();
   loadNotificationSettings();
+  refreshReminders();
   if(!pollTimer){
     pollTimer=setInterval(pollNewRequests,25000);
   }
@@ -1494,6 +1555,204 @@ $$('[data-test-channel]').forEach(btn=>{
 });
 $('#notifyTestAllBtn').addEventListener('click',e=>runChannelTest('all',e.currentTarget));
 
+/* ---------------- 2-Day & 1-Day Schedule Reminders ---------------- */
+let remindersData=null;
+
+function buildReminderWhatsAppText(req, reminderType='2d'){
+  const is2d=reminderType==='2d';
+  const baseUrl=location.origin;
+  const statusUrl=`${baseUrl}/status.html?ref=${encodeURIComponent(req.id)}`;
+  const dateStr=fmtDate(req.preferredDate);
+  const timeStr=fmtTime(req.startTime);
+  const teacher=req.assignedTeacher||'NurulQuran Ustaza';
+
+  if(is2d){
+    return [
+      `Assalamu alaikum wa rahmatullah, dear ${req.hostName} 🌸`,
+      ``,
+      `⏰ *2-DAY REMINDER: NURULQURAN LECTURE*`,
+      `Your gathering is in *2 days* on *${dateStr}* at *${timeStr}*.`,
+      ``,
+      `• Ref: *${req.id}*`,
+      `• Teacher: ${teacher}`,
+      `• Venue: ${req.city} (${req.venueType||'Private gathering'})`,
+      ``,
+      `📋 *Preparation Checklist:*`,
+      `Please ensure sound system, seating, and pickup arrangements are finalized. You can update your readiness checklist online anytime here:`,
+      `${statusUrl}`,
+      ``,
+      `May Allah bless your home and this gathering with barakah! 🌸`
+    ].join('\n');
+  }else{
+    return [
+      `Assalamu alaikum wa rahmatullah, dear ${req.hostName} 🌸`,
+      ``,
+      `🌸 *TOMORROW: NURULQURAN LECTURE!*`,
+      `This is a gentle final reminder that your lecture is scheduled for *tomorrow, ${dateStr}* at *${timeStr}*.`,
+      ``,
+      `• Ref: *${req.id}*`,
+      `• Assigned Teacher: ${teacher}`,
+      `• Venue: ${req.city}`,
+      ``,
+      `Please ensure the Ustaza's seat, water, and mic are in place. Live tracker & checklist:`,
+      `${statusUrl}`,
+      ``,
+      `If there are any last-minute route or timing adjustments, please call our coordinator at +47 991 06 785.`,
+      `JazakAllahu khayran! 🌿`
+    ].join('\n');
+  }
+}
+
+async function refreshReminders(){
+  if(!adminPwd)return;
+  try{
+    const r=await api('/api/reminders');
+    const d=await r.json();
+    if(r.ok&&d.ok){
+      remindersData=d;
+      const badge=$('#remindersDueBadge');
+      if(badge){
+        if(d.dueCount>0){
+          badge.textContent=`${d.dueCount} Due`;
+          badge.className='badge declined';
+          badge.hidden=false;
+        }else{
+          badge.textContent='0 Due';
+          badge.className='badge approved';
+          badge.hidden=false;
+        }
+      }
+    }
+  }catch(_){}
+}
+
+async function openRemindersModal(){
+  remindersDialog.showModal();
+  $('#remindersListWrap').innerHTML='<div style="text-align:center;padding:24px;color:var(--muted)">Loading upcoming lecture reminders…</div>';
+  await refreshReminders();
+  if(!remindersData)return;
+
+  $('#remindersTodayLabel').textContent=fmtDate(remindersData.today);
+  $('#remindersDueCountLabel').textContent=remindersData.dueCount;
+
+  const reqs=remindersData.requests||[];
+  if(!reqs.length){
+    $('#remindersListWrap').innerHTML='<div style="text-align:center;padding:28px;color:var(--muted)">No approved upcoming lectures scheduled yet.</div>';
+    return;
+  }
+
+  $('#remindersListWrap').innerHTML=reqs.map(r=>{
+    const days=r.daysUntil;
+    let daysBadge=`<span class="badge" style="background:var(--track);color:var(--text)">In ${days} days</span>`;
+    if(days===0)daysBadge=`<span class="badge approved">TODAY 🌸</span>`;
+    else if(days===1)daysBadge=`<span class="badge declined">TOMORROW ⚠️</span>`;
+    else if(days===2)daysBadge=`<span class="badge declined">IN 2 DAYS ⚠️</span>`;
+    else if(days<0)daysBadge=`<span class="badge" style="opacity:.6">Past (${Math.abs(days)}d ago)</span>`;
+
+    const wa2d=`https://wa.me/${String(r.phone||'').replace(/[^\d]/g,'')}?text=${encodeURIComponent(buildReminderWhatsAppText(r,'2d'))}`;
+    const wa1d=`https://wa.me/${String(r.phone||'').replace(/[^\d]/g,'')}?text=${encodeURIComponent(buildReminderWhatsAppText(r,'1d'))}`;
+
+    const sent2dText=r.sent2d?`<span style="color:var(--leaf);font-weight:700">✓ Sent ${new Date(r.sent2d.sent_at).toLocaleDateString([],{month:'short',day:'numeric'})}</span>`:(r.due2d?`<span class="badge declined" style="font-size:.7rem">DUE TODAY</span>`:`<span style="color:var(--muted);font-size:.78rem">Not due</span>`);
+    const sent1dText=r.sent1d?`<span style="color:var(--leaf);font-weight:700">✓ Sent ${new Date(r.sent1d.sent_at).toLocaleDateString([],{month:'short',day:'numeric'})}</span>`:(r.due1d?`<span class="badge declined" style="font-size:.7rem">DUE TODAY</span>`:`<span style="color:var(--muted);font-size:.78rem">Not due</span>`);
+
+    return `
+      <div style="padding:14px 16px;background:var(--surface);border-radius:18px;border:1px solid var(--border);display:grid;gap:10px">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:8px">
+          <div>
+            <div style="display:flex;align-items:center;gap:8px">
+              <span class="ref-code">${esc(r.id)}</span>
+              ${daysBadge}
+            </div>
+            <h4 style="margin:4px 0 0;font-size:1.05rem;color:var(--text)">${esc(r.hostName)} · ${esc(r.city)}</h4>
+            <div style="font-size:.8rem;color:var(--muted)">📅 ${fmtDate(r.preferredDate)} at ${fmtTime(r.startTime)} · 📞 ${esc(r.phone)}</div>
+          </div>
+          <button type="button" class="btn btn-g btn-s" onclick="openDetailModalFromRef('${esc(r.id)}')">View Details ↗</button>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));gap:8px;padding-top:8px;border-top:1px solid var(--border)">
+          <div style="padding:8px 10px;background:var(--input-bg);border-radius:12px;border:1px solid var(--input-border);display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap">
+            <div>
+              <div style="font-size:.76rem;font-weight:800;text-transform:uppercase;color:var(--muted)">2-Day Reminder</div>
+              <div>${sent2dText}</div>
+            </div>
+            <div style="display:flex;gap:4px">
+              <button type="button" class="btn btn-p btn-s" onclick="triggerManualReminder('${esc(r.id)}','2d',this)">📧 Send</button>
+              <a class="btn btn-g btn-s" href="${esc(wa2d)}" target="_blank" rel="noopener">💬 WA</a>
+            </div>
+          </div>
+
+          <div style="padding:8px 10px;background:var(--input-bg);border-radius:12px;border:1px solid var(--input-border);display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap">
+            <div>
+              <div style="font-size:.76rem;font-weight:800;text-transform:uppercase;color:var(--muted)">1-Day Reminder</div>
+              <div>${sent1dText}</div>
+            </div>
+            <div style="display:flex;gap:4px">
+              <button type="button" class="btn btn-p btn-s" onclick="triggerManualReminder('${esc(r.id)}','1d',this)">📧 Send</button>
+              <a class="btn btn-g btn-s" href="${esc(wa1d)}" target="_blank" rel="noopener">💬 WA</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+window.openDetailModalFromRef=function(ref){
+  const found=allRequests.find(x=>x.id===ref);
+  if(found){
+    remindersDialog.close();
+    openDetailModal(found);
+  }
+};
+
+window.triggerManualReminder=async function(id,reminderType,btn){
+  if(btn){btn.disabled=true;btn.textContent='Sending…';}
+  try{
+    const r=await api('/api/reminders',{
+      method:'POST',
+      body:JSON.stringify({action:'send_single',id,reminderType})
+    });
+    const res=await r.json();
+    if(r.ok&&res.ok){
+      toast(`Sent ${reminderType.toUpperCase()} reminder for ${id} 🌸`);
+      await openRemindersModal();
+    }else{
+      toast(res.error||'Failed to send reminder');
+      if(btn){btn.disabled=false;btn.textContent='📧 Send';}
+    }
+  }catch(_){
+    toast('Error sending reminder');
+    if(btn){btn.disabled=false;btn.textContent='📧 Send';}
+  }
+};
+
+async function runAutoReminders(){
+  const btn=$('#runAutoRemindersBtn');
+  btn.disabled=true;
+  btn.textContent='Sending Due Reminders… ⏳';
+  try{
+    const r=await api('/api/reminders',{
+      method:'POST',
+      body:JSON.stringify({action:'run_auto'})
+    });
+    const res=await r.json();
+    if(r.ok&&res.ok){
+      toast(`Alhamdulillah! Dispatched ${res.dispatchedCount} due reminder(s) 🌸`);
+      await openRemindersModal();
+    }else{
+      toast(res.error||'Failed to run reminders');
+    }
+  }catch(_){
+    toast('Error running reminders');
+  }finally{
+    btn.disabled=false;
+    btn.textContent='⚡ Send All Due Reminders Now';
+  }
+}
+
+$('#remindersBtn').addEventListener('click',openRemindersModal);
+$('#runAutoRemindersBtn').addEventListener('click',runAutoReminders);
+
 /* Load & Render Requests */
 async function loadRequests(){
   const btn=$('#refreshBtn');
@@ -1503,6 +1762,7 @@ async function loadRequests(){
     const d=await r.json();
     allRequests=Array.isArray(d.requests)?d.requests:[];
     updateStats();
+    refreshReminders();
     if(currentView==='calendar')renderCalendar();
     else renderTable();
   }catch(e){
@@ -1927,6 +2187,71 @@ function openDetailModal(req,keepOpen){
       </dl>
     </div>
   `;
+
+  // 2-Day and 1-Day Reminders Card in Detail Dialog
+  const rCard=$('#dlgRemindersCard');
+  if(rCard){
+    if(req.status==='approved'&&req.preferredDate){
+      rCard.hidden=false;
+      const today=new Date().toISOString().slice(0,10);
+      const d1=new Date(req.preferredDate+'T00:00:00Z');
+      const d0=new Date(today+'T00:00:00Z');
+      const daysUntil=Math.round((d1.getTime()-d0.getTime())/86400000);
+      const countBadge=$('#dlgRemindersCountdown');
+      if(daysUntil===0)countBadge.textContent='Happening Today! 🌸';
+      else if(daysUntil===1)countBadge.textContent='Tomorrow! ⚠️';
+      else if(daysUntil===2)countBadge.textContent='In 2 days ⚠️';
+      else if(daysUntil>2)countBadge.textContent=`In ${daysUntil} days`;
+      else countBadge.textContent=`Past event (${Math.abs(daysUntil)}d ago)`;
+
+      const cleanPhone=String(req.phone||'').replace(/[^\d]/g,'');
+      $('#dlgWa2dBtn').href=`https://wa.me/${cleanPhone}?text=${encodeURIComponent(buildReminderWhatsAppText(req,'2d'))}`;
+      $('#dlgWa1dBtn').href=`https://wa.me/${cleanPhone}?text=${encodeURIComponent(buildReminderWhatsAppText(req,'1d'))}`;
+
+      let reqReminders=null;
+      if(remindersData&&Array.isArray(remindersData.requests)){
+        reqReminders=remindersData.requests.find(x=>x.id===req.id);
+      }
+      const s2=reqReminders?.sent2d;
+      const s1=reqReminders?.sent1d;
+      $('#dlg2dStatus').innerHTML=s2?`<span style="color:var(--leaf);font-weight:700">✓ Sent (${new Date(s2.sent_at).toLocaleDateString([],{month:'short',day:'numeric'})})</span>`:(daysUntil===2?`<span class="badge declined">DUE TODAY</span>`:`<span style="color:var(--muted)">Not sent yet</span>`);
+      $('#dlg1dStatus').innerHTML=s1?`<span style="color:var(--leaf);font-weight:700">✓ Sent (${new Date(s1.sent_at).toLocaleDateString([],{month:'short',day:'numeric'})})</span>`:(daysUntil===1?`<span class="badge declined">DUE TODAY</span>`:`<span style="color:var(--muted)">Not sent yet</span>`);
+
+      $('#dlgSend2dBtn').onclick=async(e)=>{
+        const b=e.currentTarget;b.disabled=true;b.textContent='Sending…';
+        try{
+          const r=await api('/api/reminders',{method:'POST',body:JSON.stringify({action:'send_single',id:req.id,reminderType:'2d'})});
+          const res=await r.json();
+          if(r.ok&&res.ok){
+            toast('2-day reminder sent! 🌸');
+            await refreshReminders();
+            openDetailModal(req,true);
+          }else{
+            toast(res.error||'Failed to send');
+          }
+        }catch(_){toast('Failed to send');}
+        finally{b.disabled=false;b.textContent='📧 Send 2-Day';}
+      };
+
+      $('#dlgSend1dBtn').onclick=async(e)=>{
+        const b=e.currentTarget;b.disabled=true;b.textContent='Sending…';
+        try{
+          const r=await api('/api/reminders',{method:'POST',body:JSON.stringify({action:'send_single',id:req.id,reminderType:'1d'})});
+          const res=await r.json();
+          if(r.ok&&res.ok){
+            toast('1-day reminder sent! 🌸');
+            await refreshReminders();
+            openDetailModal(req,true);
+          }else{
+            toast(res.error||'Failed to send');
+          }
+        }catch(_){toast('Failed to send');}
+        finally{b.disabled=false;b.textContent='📧 Send 1-Day';}
+      };
+    }else{
+      rCard.hidden=true;
+    }
+  }
 
   if(!keepOpen&&!dialog.open){
     dialog.showModal();

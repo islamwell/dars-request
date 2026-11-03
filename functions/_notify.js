@@ -417,3 +417,131 @@ export async function notifyAdminNewRequest(env, req, baseUrl) {
     return { error: e.message };
   }
 }
+
+export function formatReminderMessage(req, reminderType = '2d', baseUrl = 'https://dars-request.pages.dev') {
+  const is2d = reminderType === '2d';
+  const statusUrl = `${baseUrl}/status.html?ref=${encodeURIComponent(req.id)}`;
+  const cleanPhone = String(req.phone || '').replace(/[^\d]/g, '');
+
+  const timeHeadline = is2d ? 'In 2 Days' : 'Tomorrow!';
+  const subject = is2d
+    ? `⏰ 2-Day Reminder: NurulQuran Lecture · ${req.occasion || 'Gathering'} (${req.hostName})`
+    : `🌸 Tomorrow! Final Reminder: NurulQuran Lecture · ${req.occasion || 'Gathering'} (${req.hostName})`;
+
+  const plainText = is2d
+    ? [
+        `Assalamu alaikum ${req.hostName} 🌸`,
+        ``,
+        `This is a friendly reminder that your NurulQuran lecture gathering is in 2 days!`,
+        `• Ref: ${req.id}`,
+        `• Date: ${req.preferredDate || '—'} at ${req.startTime || '—'} (${req.duration || 60} min)`,
+        `• City & Venue: ${req.city} (${req.venueType || '—'})`,
+        `• Assigned Ustaza: ${req.assignedTeacher || 'NurulQuran Team'}`,
+        ``,
+        `📋 Please check your preparation checklist (venue, sound, water, seating):`,
+        statusUrl,
+        ``,
+        `May Allah bless your home and your gathering with barakah!`,
+      ].join('\n')
+    : [
+        `Assalamu alaikum ${req.hostName} 🌸`,
+        ``,
+        `Tomorrow is the blessed day of your NurulQuran lecture gathering!`,
+        `• Ref: ${req.id}`,
+        `• Date: ${req.preferredDate || '—'} at ${req.startTime || '—'} (${req.duration || 60} min)`,
+        `• Address: ${req.data?.address || req.city}`,
+        `• Ustaza Seating: ${req.data?.teacherSeat || 'Chair + table'}`,
+        `• Assigned Ustaza: ${req.assignedTeacher || 'NurulQuran Team'}`,
+        ``,
+        `✨ Final Checklist Reminder (Sound system, mic batteries, water & prayer space):`,
+        statusUrl,
+        ``,
+        `We look forward to an inspiring session, in shā’ Allāh!`,
+      ].join('\n');
+
+  const emailHtml = `
+  <div style="font-family:'Plus Jakarta Sans',system-ui,sans-serif;max-width:600px;margin:0 auto;padding:24px;background:#fff8f3;border:1px solid #f1dfe5;border-radius:20px;color:#2c2233">
+    <div style="text-align:center;margin-bottom:16px">
+      <span style="font-size:36px">${is2d ? '⏰' : '🌸'}</span>
+      <h2 style="margin:8px 0 4px;color:#e8577a">${is2d ? '2-Day Lecture Reminder' : 'Tomorrow! Final Lecture Reminder'}</h2>
+      <p style="margin:0;color:#75687c;font-size:14px">NurulQuran Gathering Ref: <b>${escHtml(req.id)}</b></p>
+    </div>
+
+    <div style="background:#ffffff;padding:18px;border-radius:16px;border:1.5px solid #f1dfe5;margin-bottom:18px">
+      <p style="margin:0 0 10px;font-size:15px;line-height:1.5">
+        Assalamu alaikum <b>${escHtml(req.hostName)}</b> 🌸<br>
+        ${is2d
+          ? 'Your upcoming lecture gathering is just <b>2 days away</b>! In shā’ Allāh, we look forward to the gathering.'
+          : 'Alhamdulillah, <b>tomorrow</b> is the day of your lecture gathering! We pray it will be a source of barakah and light.'}
+      </p>
+      <table style="width:100%;border-collapse:collapse;font-size:14px;margin-top:12px">
+        <tbody>
+          <tr><td style="padding:6px 0;font-weight:700;color:#75687c;width:40%">📅 Event Date</td><td style="padding:6px 0"><b>${escHtml(req.preferredDate || '—')}</b></td></tr>
+          <tr><td style="padding:6px 0;font-weight:700;color:#75687c">⏰ Start Time</td><td style="padding:6px 0"><b>${escHtml(req.startTime || '—')}</b> (${escHtml(req.duration || 60)} min)</td></tr>
+          <tr><td style="padding:6px 0;font-weight:700;color:#75687c">📍 Location</td><td style="padding:6px 0">${escHtml(req.city)} ${req.data?.address ? '· ' + escHtml(req.data.address) : ''}</td></tr>
+          <tr><td style="padding:6px 0;font-weight:700;color:#75687c">👩‍🏫 Assigned Ustaza</td><td style="padding:6px 0;color:#e8577a;font-weight:700">${escHtml(req.assignedTeacher || 'NurulQuran Team')}</td></tr>
+          <tr><td style="padding:6px 0;font-weight:700;color:#75687c">🌸 Current Readiness</td><td style="padding:6px 0"><b>${escHtml(req.readiness || 0)}%</b> ready</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="background:#fff0f4;padding:16px;border-radius:16px;border:1.5px solid #fecdd3;margin-bottom:20px;text-align:center">
+      <h3 style="margin:0 0 6px;font-size:15px;color:#c02648">📋 Review & Update Your Checklist</h3>
+      <p style="margin:0 0 12px;font-size:13px;color:#75687c">Please verify your sound system, seating, water arrangement, and parking.</p>
+      <a href="${escHtml(statusUrl)}" style="display:inline-block;padding:10px 22px;background:#e8577a;color:#ffffff;text-decoration:none;border-radius:999px;font-weight:700;font-size:14px">Update Preparation Checklist →</a>
+    </div>
+
+    <p style="margin:0;font-size:12px;color:#75687c;text-align:center">
+      NurulQuran Lecture Requests · If you have questions, call <a href="tel:+4799106785" style="color:#e8577a;font-weight:700">+47 991 06 785</a>
+    </p>
+  </div>`;
+
+  return {
+    subject,
+    plainText,
+    emailHtml,
+    statusUrl,
+    timeHeadline,
+  };
+}
+
+export async function sendReminderNotification(env, req, reminderType, baseUrl = 'https://dars-request.pages.dev') {
+  const msg = formatReminderMessage(req, reminderType, baseUrl);
+  const settings = await getNotificationSettings(env);
+
+  const recipientEmails = [req.email, settings.email?.toEmail || 'it@nrq.no']
+    .filter(Boolean)
+    .join(', ');
+
+  const emailCfg = {
+    ...settings.email,
+    toEmail: recipientEmails,
+  };
+
+  const results = { email: null, sentAt: new Date().toISOString() };
+
+  if (settings.email?.enabled) {
+    results.email = await sendEmailNotification(emailCfg, msg);
+  }
+
+  // Record in reminders_log
+  if (env && env.DB) {
+    try {
+      await env.DB
+        .prepare(`INSERT OR REPLACE INTO reminders_log (
+          request_id, reminder_type, sent_at, recipient, channel, status
+        ) VALUES (?, ?, ?, ?, ?, ?)`)
+        .bind(
+          req.id,
+          reminderType,
+          results.sentAt,
+          recipientEmails,
+          'email',
+          results.email?.ok ? 'sent' : (results.email?.error || 'attempted')
+        )
+        .run();
+    } catch (_) {}
+  }
+
+  return { ok: true, reminderType, results, msg };
+}

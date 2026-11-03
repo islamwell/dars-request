@@ -105,6 +105,30 @@ footer .ar{font-family:var(--fa);font-size:1.4rem;color:var(--text);margin:0}
 [dir="rtl"] .hdr{flex-direction:row}
 .toast{position:fixed;left:50%;bottom:24px;z-index:100;transform:translate(-50%,24px);opacity:0;pointer-events:none;background:var(--text);color:var(--bg);padding:11px 18px;border-radius:999px;font-weight:700;font-size:.85rem;transition:.3s}
 .toast.show{transform:translate(-50%,0);opacity:1}
+
+/* CHECKLIST STYLES IN STATUS */
+.ck-card{border-radius:24px;background:var(--surface-solid);border:1.5px solid var(--border);padding:22px 18px;text-align:left;display:grid;gap:14px;margin-top:16px}
+.ck-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.ck-head h3{font-family:var(--fd);font-size:1.25rem;margin:0;color:var(--text)}
+.ck-meter{background:var(--input-bg);border:1.5px solid var(--input-border);border-radius:18px;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:14px}
+.ck-pbar{flex:1;height:10px;background:var(--track);border-radius:99px;overflow:hidden}
+.ck-pbar i{display:block;height:100%;background:var(--grad);border-radius:inherit;transition:width .3s ease}
+.ck-stage{font-weight:800;font-size:.82rem;color:var(--rose);white-space:nowrap}
+.ck-group{border:1px solid var(--input-border);border-radius:16px;padding:12px 14px;background:var(--input-bg);display:grid;gap:8px}
+.ck-gh{display:flex;justify-content:space-between;font-size:.76rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-bottom:2px}
+.ck-item{display:flex;align-items:flex-start;gap:10px;cursor:pointer;font-size:.86rem;font-weight:600;color:var(--text);user-select:none;transition:color .15s}
+.ck-item:hover{color:var(--rose)}
+.ck-item input{width:18px;height:18px;accent-color:var(--leaf);margin-top:2px;cursor:pointer;flex-shrink:0}
+.ck-item.done{color:var(--muted)}
+.ck-acts{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;padding-top:10px;border-top:1px solid var(--border)}
+
+/* CHROME NOTIFICATION CARD */
+.notif-card{border-radius:24px;background:var(--grad-soft);border:1.5px solid var(--border);padding:20px 18px;text-align:left;display:grid;gap:12px;margin-top:16px}
+.notif-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.notif-head b{font-size:.98rem;color:var(--text);display:flex;align-items:center;gap:8px}
+.notif-pill{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:999px;font-size:.74rem;font-weight:800}
+.notif-pill.on{background:var(--st-approved-bg);color:var(--st-approved-fg);border:1px solid var(--st-approved-bd)}
+.notif-pill.off{background:var(--input-bg);color:var(--muted);border:1px solid var(--input-border)}
 </style>
 </head>
 <body>
@@ -161,7 +185,7 @@ footer .ar{font-family:var(--fa);font-size:1.4rem;color:var(--text);margin:0}
   <p><i>“Verily, in the remembrance of Allah do hearts find rest.”</i> — Ar-Ra’d 13:28</p>
   <p style="margin:8px 0 4px"><span data-i18n="ft_more_info">For more info, call</span> <a href="tel:+4799106785" style="color:var(--rose);font-weight:700;text-decoration:none">+47 991 06 785</a></p>
   <p>© <span id="yr"></span> NurulQuran · Lecture Requests</p>
-  <p id="appVersion" style="margin:6px 0 0;font-size:.72rem;opacity:.75">v1.0.9 (updated 2026-11-02 06:17)</p>
+  <p id="appVersion" style="margin:6px 0 0;font-size:.72rem;opacity:.75">v1.0.10 (updated 2026-11-03 15:55)</p>
 </footer>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -222,7 +246,19 @@ const I18N={
     btn_ics:"📥 Download .ics",
     btn_another:"🌸 Plan another gathering",
     not_found:"Request <b>{ref}</b> was not found. Please double check your reference code.",
-    net_err:"Network error — please try again"
+    net_err:"Network error — please try again",
+    ck_title:"📋 Event Preparation Checklist",
+    ck_sub:"Tick off items as you prepare. Keep the Ustaza and NurulQuran team updated on your event readiness.",
+    ck_save_btn:"💾 Save Checklist Updates",
+    ck_saving:"Saving checklist… ⏳",
+    ck_saved:"Alhamdulillah! Checklist updated successfully 🌸",
+    notif_title:"🔔 Desktop & Browser Notifications",
+    notif_sub:"Get instant computer alerts when this request is confirmed, and 2-day / 1-day reminders before the lecture.",
+    notif_btn_enable:"🔔 Enable Chrome Notifications",
+    notif_btn_test:"🔔 Send Test Alert",
+    notif_active:"● Active on this browser",
+    notif_inactive:"○ Inactive",
+    notif_blocked:"✕ Blocked in Browser Settings"
   },
   no:{
     brand_sub:"Foredragsforespørsler",
@@ -251,7 +287,19 @@ const I18N={
     btn_ics:"📥 Last ned .ics",
     btn_another:"🌸 Planlegg en ny samling",
     not_found:"Forespørsel <b>{ref}</b> ble ikke funnet. Vennligst kontroller referansekoden.",
-    net_err:"Nettverksfeil – vennligst prøv igjen"
+    net_err:"Nettverksfeil – vennligst prøv igjen",
+    ck_title:"📋 Sjekkliste for forberedelser",
+    ck_sub:"Huk av punktene etter hvert som du ordner dem. Hold lærer og teamet oppdatert på arrangementets status.",
+    ck_save_btn:"💾 Lagre oppdateringer",
+    ck_saving:"Lagrer sjekkliste… ⏳",
+    ck_saved:"Alhamdulillah! Sjekklisten er oppdatert 🌸",
+    notif_title:"🔔 Varsler på datamaskin / nettleser",
+    notif_sub:"Motta skrivebordsvarsler når forespørselen godkjennes, samt påminnelser 2 dager og 1 dag før foredraget.",
+    notif_btn_enable:"🔔 Aktiver skrivebordsvarsler",
+    notif_btn_test:"🔔 Test skrivebordsvarsel",
+    notif_active:"● Aktiv på denne enheten",
+    notif_inactive:"○ Ikke aktivert",
+    notif_blocked:"✕ Blokkert i nettleserinnstillinger"
   },
   ur:{
     brand_sub:"درس کی درخواستیں",
@@ -280,7 +328,19 @@ const I18N={
     btn_ics:"📥 .ics فائل ڈاؤن لوڈ کریں",
     btn_another:"🌸 ایک اور پروگرام ترتیب دیں",
     not_found:"درخواست <b>{ref}</b> نہیں ملی۔ برائے مہربانی ریفرنس کوڈ دوبارہ چیک کریں۔",
-    net_err:"نیٹ ورک کی خرابی — دوبارہ کوشش کریں"
+    net_err:"نیٹ ورک کی خرابی — دوبارہ کوشش کریں",
+    ck_title:"📋 پروگرام کی تیاری کی چیک لسٹ",
+    ck_sub:"جیسے جیسے تیاریاں مکمل ہوں، چیک لسٹ اپ ڈیٹ کرتے رہیں۔ اس سے ٹیم کو پروگرام کی تیاری سے باخبر رکھا جا سکتا ہے۔",
+    ck_save_btn:"💾 چیک لسٹ محفوظ کریں",
+    ck_saving:"محفوظ ہو رہا ہے… ⏳",
+    ck_saved:"الحمد للہ! چیک لسٹ کامیابی سے محفوظ ہو گئی 🌸",
+    notif_title:"🔔 کمپیوٹر اور براؤزر نوٹیفکیشنز",
+    notif_sub:"درخواست منظور ہونے پر اور درس سے دو دن اور ایک دن پہلے فوری ڈیسک ٹاپ الرٹس حاصل کریں۔",
+    notif_btn_enable:"🔔 ڈیسک ٹاپ نوٹیفکیشن آن کریں",
+    notif_btn_test:"🔔 ٹیسٹ الرٹ بھیجیں",
+    notif_active:"● اس کمپیوٹر پر آن ہے",
+    notif_inactive:"○ آف ہے",
+    notif_blocked:"✕ براؤزر میں بلاک ہے"
   }
 };
 
@@ -379,12 +439,205 @@ END:VCALENDAR`;
 
 const LANG_MAP={urdu:'Urdu',english:'English',punjabi:'Punjabi',mixed:'Urdu + English',any:'Either is fine'};
 
+const CHECKLIST_GROUPS = [
+  {
+    id: 'venue',
+    emoji: '🏡',
+    title: { en: 'Venue & Space', no: 'Lokale og plass', ur: 'مقام اور جگہ' },
+    items: [
+      { id: 'venue-booked', label: { en: 'Venue booked & confirmed for the date and time', no: 'Lokale bestilt og bekreftet for dato og klokkeslett', ur: 'مقام تاریخ اور وقت کے لیے بک اور کنفرم ہے' } },
+      { id: 'seating-ready', label: { en: 'Seating arranged at least 1 hour before', no: 'Sitteplasser ordnet minst 1 time før', ur: 'کم از کم 1 گھنٹہ پہلے بیٹھنے کا انتظام مکمل ہو' } },
+      { id: 'privacy', label: { en: 'Separate entrance / partition ready (if needed)', no: 'Egen inngang / skillevegg klar (ved behov)', ur: 'علیحدہ راستہ یا پردے کا انتظام (اگر ضرورت ہو)' } },
+      { id: 'kids-area', label: { en: 'Children’s area with a supervisor (if children attend)', no: 'Barnekrok med tilsyn (dersom barn deltar)', ur: 'بچوں کے لیے علیحدہ جگہ اور نگران (اگر بچے ہوں)' } },
+      { id: 'comfort', label: { en: 'AC / fans and lighting checked', no: 'Ventilasjon/oppvarming og belysning sjekket', ur: 'اے سی / پنکھے، ہیٹنگ اور روشنی کی تسلی' } }
+    ]
+  },
+  {
+    id: 'sound',
+    emoji: '🔊',
+    title: { en: 'Sound & Mic', no: 'Lyd og mikrofon', ur: 'آواز اور مائیک' },
+    items: [
+      { id: 'pa-tested', label: { en: 'PA system tested on the day', no: 'Lydanlegg testet på arrangementsdagen', ur: 'پروگرام والے دن ساؤنڈ سسٹم چیک کر لیا گیا' } },
+      { id: 'batteries', label: { en: 'Mic batteries charged + spares ready', no: 'Mikrofonbatterier ladet + ekstra batterier klare', ur: 'مائیک کی بیٹریاں چارج اور فالتو بیٹریاں تیار ہیں' } },
+      { id: 'volume', label: { en: 'Volume checked from the back row', no: 'Lydvolum sjekket fra bakerste rad', ur: 'آخری قطار تک آواز صاف سنائی دے رہی ہے' } }
+    ]
+  },
+  {
+    id: 'travel',
+    emoji: '🚗',
+    title: { en: 'Travel & Transport', no: 'Transport og reise', ur: 'سواری اور آمد و رفت' },
+    items: [
+      { id: 'driver-briefed', label: { en: 'Driver briefed on time, route & etiquette', no: 'Sjåfør orientert om tid, rute og detaljer', ur: 'ڈرائیور کو وقت، راستہ اور ضروری آداب بتا دیے گئے' } },
+      { id: 'parking', label: { en: 'Parking spot kept free near the entrance', no: 'Parkeringsplass holdt av nær inngangen', ur: 'دروازے کے قریب پارکنگ مخصوص کر دی گئی ہے' } },
+      { id: 'poc', label: { en: 'Point of contact reachable by phone all day', no: 'Kontaktperson tilgjengelig på telefon hele dagen', ur: 'رابطہ کار سارا دن فون پر دستیاب رہے گا' } }
+    ]
+  },
+  {
+    id: 'guests',
+    emoji: '🌸',
+    title: { en: 'Guests & Etiquette', no: 'Gjester og orden', ur: 'مہمان اور آداب' },
+    items: [
+      { id: 'guests-informed', label: { en: 'Guests asked to arrive 15 minutes early', no: 'Gjester bedt om å møte 15 minutter før', ur: 'مہمانوں کو 15 منٹ پہلے پہنچنے کی تاکید کر دی گئی' } },
+      { id: 'phones', label: { en: '“Phones on silent” reminder planned', no: 'Påminnelse om lydløs telefon planlagt', ur: 'فون سائلنٹ پر رکھنے کی یاد دہانی کا انتظام' } },
+      { id: 'photo-policy', label: { en: 'Photography policy shared with guests', no: 'Retningslinjer for fotografering delt med gjester', ur: 'تصویر اور ویڈیو پالیسی مہمانوں سے شیئر کر دی گئی' } }
+    ]
+  },
+  {
+    id: 'care',
+    emoji: '🍃',
+    title: { en: 'Hospitality for Ustaza', no: 'Omsorg for læreren', ur: 'استادہ کی مہمان نوازی اور آرام' },
+    items: [
+      { id: 'water', label: { en: 'Water placed at the Ustaza’s seat', no: 'Vann satt frem ved lærerens plass', ur: 'استادہ کی نشست پر پانی موجود ہے' } },
+      { id: 'prayer', label: { en: 'Prayer space & Qibla direction ready', no: 'Bønneplass og Qibla-retning klargjort', ur: 'نماز کی صاف جگہ اور قبلہ رخ کا تعین' } },
+      { id: 'clock', label: { en: 'A clock visible to her for timing', no: 'Synlig klokke for tidsstyring', ur: 'سامنے نظر آنے والی گھڑی کا انتظام' } }
+    ]
+  }
+];
+const TOTAL_CHECKLIST_ITEMS = 17;
+
+function getReadinessStage(pct, lang='en'){
+  if(pct>=100)return {en:'Full Bloom 🌸 (All 17 items ready!)',no:'Full blomstring 🌸 (Alle 17 punkter klare!)',ur:'مکمل تیاری 🌸 (تمام 17 نکات تیار ہیں!)'}[lang]||'Full Bloom 🌸';
+  if(pct>=70)return {en:'Blossoming 🌷 (Almost ready)',no:'I blomst 🌷 (Nesten klar)',ur:'کھلتا پھول 🌷 (تقریباً مکمل)'}[lang]||'Blossoming 🌷';
+  if(pct>=40)return {en:'Sprout 🌿 (Good progress)',no:'Spire 🌿 (God fremgang)',ur:'کونپل 🌿 (اچھی پیش رفت)'}[lang]||'Sprout 🌿';
+  return {en:'Seedling 🌱 (Initial setup)',no:'Spireplante 🌱 (Innledende fase)',ur:'پودا 🌱 (ابتدائی تیاری)'}[lang]||'Seedling 🌱';
+}
+
+function playChime(){
+  try{
+    const AudioCtx=window.AudioContext||window.webkitAudioContext;
+    if(!AudioCtx)return;
+    const ctx=new AudioCtx();
+    const now=ctx.currentTime;
+    const osc1=ctx.createOscillator();
+    const g1=ctx.createGain();
+    osc1.type='sine';
+    osc1.frequency.setValueAtTime(587.33,now);
+    g1.gain.setValueAtTime(0.14,now);
+    g1.gain.exponentialRampToValueAtTime(0.001,now+0.45);
+    osc1.connect(g1);
+    g1.connect(ctx.destination);
+    osc1.start(now);
+    osc1.stop(now+0.45);
+
+    const osc2=ctx.createOscillator();
+    const g2=ctx.createGain();
+    osc2.type='sine';
+    osc2.frequency.setValueAtTime(880,now+0.12);
+    g2.gain.setValueAtTime(0.18,now+0.12);
+    g2.gain.exponentialRampToValueAtTime(0.001,now+0.7);
+    osc2.connect(g2);
+    g2.connect(ctx.destination);
+    osc2.start(now+0.12);
+    osc2.stop(now+0.7);
+  }catch(_){}
+}
+
+async function requestUserNotifPermission(){
+  if(!('Notification' in window)){
+    toast('Notifications are not supported in this browser.');
+    return false;
+  }
+  try{
+    const res=await Notification.requestPermission();
+    if(res==='granted'){
+      playChime();
+      try{
+        new Notification('🌸 NurulQuran Notifications Enabled!',{
+          body:'You will receive desktop alerts on status changes and 2-day / 1-day reminders.',
+          icon:'/favicon.ico'
+        });
+      }catch(_){}
+      toast('Desktop notifications enabled! 🌸');
+      return true;
+    }else if(res==='denied'){
+      toast('Notifications blocked in browser settings.');
+      return false;
+    }
+  }catch(_){
+    toast('Could not request notification permission.');
+  }
+  return false;
+}
+
+function sendDesktopAlert(title,body){
+  if(!('Notification' in window)||Notification.permission!=='granted')return;
+  playChime();
+  try{
+    const n=new Notification(title,{
+      body,
+      icon:'/favicon.ico',
+      tag:'nq-'+Date.now()
+    });
+    n.onclick=()=>{window.focus();n.close();};
+  }catch(_){}
+}
+
+function checkLocalReminders(data){
+  if(!data||!data.id||!data.preferredDate)return;
+  const today=new Date().toISOString().slice(0,10);
+  const d1=new Date(data.preferredDate+'T00:00:00Z');
+  const d0=new Date(today+'T00:00:00Z');
+  if(Number.isNaN(d1.getTime())||Number.isNaN(d0.getTime()))return;
+  const daysUntil=Math.round((d1.getTime()-d0.getTime())/86400000);
+
+  if(daysUntil===2){
+    const k=`nq_reminded_2d_${data.id}`;
+    if(!localStorage.getItem(k)){
+      sendDesktopAlert(
+        '⏰ 2-Day Reminder: NurulQuran Lecture',
+        `Your lecture (${data.occasion||'Gathering'}) is in 2 days on ${fmtDate(data.preferredDate)}. Please review your checklist!`
+      );
+      localStorage.setItem(k,new Date().toISOString());
+    }
+  }else if(daysUntil===1){
+    const k=`nq_reminded_1d_${data.id}`;
+    if(!localStorage.getItem(k)){
+      sendDesktopAlert(
+        '🌸 Tomorrow! Final Reminder: NurulQuran Lecture',
+        `Your lecture is tomorrow on ${fmtDate(data.preferredDate)}! The Ustaza and team are looking forward to the gathering.`
+      );
+      localStorage.setItem(k,new Date().toISOString());
+    }
+  }
+}
+
 function renderResult(d){
   const box=$('#resultBox');
   if(!d||!d.id){box.hidden=true;return;}
   const dict=I18N[curLang]||I18N.en;
   const gcal=makeGoogleCalUrl(d);
   box.hidden=false;
+
+  const notifPerm=('Notification' in window)?Notification.permission:'unsupported';
+  const checkedSet=new Set(Array.isArray(d.ready)?d.ready:[]);
+  const currentPct=Math.round((checkedSet.size/TOTAL_CHECKLIST_ITEMS)*100);
+  const stageName=getReadinessStage(currentPct,curLang);
+
+  const groupsHtml=CHECKLIST_GROUPS.map(grp=>{
+    const title=grp.title[curLang]||grp.title.en;
+    const itemsDone=grp.items.filter(it=>checkedSet.has(it.id)).length;
+    const itemsHtml=grp.items.map(it=>{
+      const isChecked=checkedSet.has(it.id);
+      const label=it.label[curLang]||it.label.en;
+      return `
+        <label class="ck-item ${isChecked?'done':''}">
+          <input type="checkbox" data-group="${esc(grp.id)}" value="${esc(it.id)}" ${isChecked?'checked':''}>
+          <span>${esc(label)}</span>
+        </label>
+      `;
+    }).join('');
+
+    return `
+      <div class="ck-group" data-group="${esc(grp.id)}">
+        <div class="ck-gh">
+          <span>${grp.emoji} ${esc(title)}</span>
+          <span class="ck-count" id="count_${esc(grp.id)}">${itemsDone}/${grp.items.length}</span>
+        </div>
+        ${itemsHtml}
+      </div>
+    `;
+  }).join('');
+
   box.innerHTML=`
     <div class="res-card">
       <div class="res-head">
@@ -420,10 +673,167 @@ function renderResult(d){
         <a class="btn btn-g btn-s" href="/request.html">${esc(dict.btn_another)}</a>
       </div>
     </div>
+
+    <!-- NOTIFICATION CARD -->
+    <div class="notif-card" id="notifCard">
+      <div class="notif-head">
+        <b>🔔 ${esc(dict.notif_title)}</b>
+        ${notifPerm==='granted'
+          ? `<span class="notif-pill on">${esc(dict.notif_active)}</span>`
+          : (notifPerm==='denied'
+            ? `<span class="notif-pill off">${esc(dict.notif_blocked)}</span>`
+            : `<span class="notif-pill off">${esc(dict.notif_inactive)}</span>`)
+        }
+      </div>
+      <p style="margin:0;font-size:.84rem;color:var(--muted)">${esc(dict.notif_sub)}</p>
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+        ${notifPerm!=='granted'?`
+          <button type="button" class="btn btn-p btn-s" id="enableUserNotifBtn">${esc(dict.notif_btn_enable)}</button>
+        `:`
+          <button type="button" class="btn btn-g btn-s" id="testUserNotifBtn">${esc(dict.notif_btn_test)}</button>
+        `}
+      </div>
+    </div>
+
+    <!-- INTERACTIVE CHECKLIST CARD -->
+    <div class="ck-card" id="checklistCard">
+      <div class="ck-head">
+        <div>
+          <h3>${esc(dict.ck_title)}</h3>
+          <p style="margin:4px 0 0;font-size:.82rem;color:var(--muted)">${esc(dict.ck_sub)}</p>
+        </div>
+      </div>
+
+      <div class="ck-meter">
+        <div style="font-size:1.15rem;font-weight:800;color:var(--text)" id="ckPctLabel">${currentPct}%</div>
+        <div class="ck-pbar"><i id="ckPbarFill" style="width:${currentPct}%"></i></div>
+        <div class="ck-stage" id="ckStageLabel">${esc(stageName)}</div>
+      </div>
+
+      <div style="display:grid;gap:10px">
+        ${groupsHtml}
+      </div>
+
+      <div class="ck-acts">
+        <span style="font-size:.78rem;color:var(--muted)" id="ckSaveStatus">Reference: <b>${esc(d.id)}</b></span>
+        <button type="button" class="btn btn-p btn-s" id="saveChecklistBtn">${esc(dict.ck_save_btn)}</button>
+      </div>
+    </div>
   `;
+
   const icsBtn=$('#icsBtn');
   if(icsBtn)icsBtn.onclick=()=>downloadIcs(d);
+
+  // Checkbox listeners
+  const ckInputs=box.querySelectorAll('.ck-item input[type="checkbox"]');
+  ckInputs.forEach(inp=>{
+    inp.addEventListener('change',()=>{
+      const parentLabel=inp.closest('.ck-item');
+      if(parentLabel)parentLabel.classList.toggle('done',inp.checked);
+
+      const allChecked=Array.from(box.querySelectorAll('.ck-item input[type="checkbox"]:checked')).map(i=>i.value);
+      const newPct=Math.round((allChecked.length/TOTAL_CHECKLIST_ITEMS)*100);
+      const pctLabel=$('#ckPctLabel',box);
+      const pbarFill=$('#ckPbarFill',box);
+      const stageLabel=$('#ckStageLabel',box);
+      if(pctLabel)pctLabel.textContent=`${newPct}%`;
+      if(pbarFill)pbarFill.style.width=`${newPct}%`;
+      if(stageLabel)stageLabel.textContent=getReadinessStage(newPct,curLang);
+
+      CHECKLIST_GROUPS.forEach(grp=>{
+        const grpInputs=box.querySelectorAll(`.ck-group[data-group="${grp.id}"] input[type="checkbox"]`);
+        const grpChecked=box.querySelectorAll(`.ck-group[data-group="${grp.id}"] input[type="checkbox"]:checked`);
+        const countEl=$(`#count_${grp.id}`,box);
+        if(countEl)countEl.textContent=`${grpChecked.length}/${grpInputs.length}`;
+      });
+
+      const saveBtn=$('#saveChecklistBtn',box);
+      if(saveBtn){
+        saveBtn.disabled=false;
+        saveBtn.textContent=dict.ck_save_btn;
+      }
+      const st=$('#ckSaveStatus',box);
+      if(st)st.innerHTML='<span style="color:var(--rose);font-weight:700">● Unsaved checklist changes</span>';
+    });
+  });
+
+  // Save checklist button listener
+  const saveBtn=$('#saveChecklistBtn',box);
+  if(saveBtn){
+    saveBtn.addEventListener('click',async()=>{
+      saveBtn.disabled=true;
+      saveBtn.textContent=dict.ck_saving;
+      const allChecked=Array.from(box.querySelectorAll('.ck-item input[type="checkbox"]:checked')).map(i=>i.value);
+      try{
+        const r=await fetch('/api/checklist',{
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body:JSON.stringify({ref:d.id,ready:allChecked})
+        });
+        const res=await r.json();
+        if(r.ok&&res.ok){
+          d.ready=res.ready;
+          d.readiness=res.readiness;
+          toast(dict.ck_saved);
+          saveBtn.textContent='Saved ✓';
+          const st=$('#ckSaveStatus',box);
+          if(st)st.innerHTML=`<span style="color:var(--leaf);font-weight:700">✓ Saved (${res.readiness}% ready)</span>`;
+          setTimeout(()=>{
+            if(saveBtn)saveBtn.textContent=dict.ck_save_btn;
+          },3000);
+        }else{
+          toast(res.error||'Failed to update checklist');
+          saveBtn.disabled=false;
+          saveBtn.textContent=dict.ck_save_btn;
+        }
+      }catch(_){
+        toast(dict.net_err);
+        saveBtn.disabled=false;
+        saveBtn.textContent=dict.ck_save_btn;
+      }
+    });
+  }
+
+  // Notification button listeners
+  const notifBtn=$('#enableUserNotifBtn',box);
+  if(notifBtn){
+    notifBtn.addEventListener('click',async()=>{
+      const ok=await requestUserNotifPermission();
+      if(ok&&lastFetchedData){
+        renderResult(lastFetchedData);
+      }
+    });
+  }
+
+  const testBtn=$('#testUserNotifBtn',box);
+  if(testBtn){
+    testBtn.addEventListener('click',()=>{
+      sendDesktopAlert('🌸 NurulQuran Alert Test',`Desktop notifications are working for reference ${d.id}!`);
+      toast('Test notification sent! 🌸');
+    });
+  }
+
+  checkLocalReminders(d);
 }
+
+// Background poller running every 45s while status page is open
+setInterval(async ()=>{
+  if(!lastFetchedData||!lastFetchedData.id)return;
+  try{
+    const r=await fetch(`/api/lecture-requests?ref=${encodeURIComponent(lastFetchedData.id)}`);
+    const fresh=await r.json();
+    if(r.ok&&fresh.id){
+      if(fresh.status!==lastFetchedData.status){
+        if(fresh.status==='approved'){
+          sendDesktopAlert('🌸 Lecture Request Approved!',`Alhamdulillah! Your lecture request for ${fmtDate(fresh.preferredDate)} is approved.`);
+        }
+        lastFetchedData=fresh;
+        renderResult(fresh);
+      }
+      checkLocalReminders(fresh);
+    }
+  }catch(_){}
+},45000);
 
 async function checkRef(rawRef){
   const ref=(rawRef||'').trim().toUpperCase();

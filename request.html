@@ -1218,7 +1218,7 @@ footer .ar{font-family:var(--fa);font-size:1.6rem;color:var(--text);direction:rt
   <p><i>“Verily, in the remembrance of Allah do hearts find rest.”</i> — Ar-Ra’d 13:28</p>
   <p style="margin:8px 0 4px"><span data-i18n="ft_more_info">For more info, call</span> <a href="tel:+4799106785" style="color:var(--rose);font-weight:700;text-decoration:none">+47 991 06 785</a></p>
   <p>© <span id="yr"></span> NurulQuran · Lecture Requests</p>
-  <p id="appVersion" style="margin:8px 0 0;font-size:.72rem;opacity:.75">v1.0.9 (updated 2026-11-02 06:17)</p>
+  <p id="appVersion" style="margin:8px 0 0;font-size:.72rem;opacity:.75">v1.0.10 (updated 2026-11-03 15:55)</p>
 </footer>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -1241,6 +1241,7 @@ footer .ar{font-family:var(--fa);font-size:1.6rem;color:var(--text);direction:rt
         <a class="btn btn-g" id="sCal" target="_blank" rel="noopener">📅 Calendar</a>
         <a class="btn btn-g" id="sTrack">🔍 Track live</a>
       </div>
+      <button class="btn btn-g" type="button" id="sNotifBtn" style="grid-column:1/-1;display:flex;align-items:center;justify-content:center;gap:8px">🔔 Enable Chrome / PC Notifications</button>
       <button class="btn btn-p" type="button" id="sNew"><span class="bt">Plan another gathering</span><span class="arr">🌱</span></button>
     </div>
   </div>
@@ -1853,6 +1854,40 @@ function showSuccess(p){
     const calLoc=encodeURIComponent(d.city||'');
     const calDet=encodeURIComponent(`NurulQuran Lecture Request\nReference: ${p.id}\nHost: ${d.hostName||''}`);
     $('#sCal').href=`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${calTitle}&dates=${calD}T${calT}/${calEnd}&location=${calLoc}&details=${calDet}`;
+  }
+  const sNotifBtn=$('#sNotifBtn');
+  if(sNotifBtn){
+    if('Notification' in window && Notification.permission==='granted'){
+      sNotifBtn.innerHTML='✅ Desktop Notifications Active';
+      sNotifBtn.disabled=true;
+    }else{
+      sNotifBtn.innerHTML='🔔 Enable Chrome / PC Notifications';
+      sNotifBtn.disabled=false;
+      sNotifBtn.onclick=async()=>{
+        if(!('Notification' in window)){
+          toast('Notifications not supported in this browser');
+          return;
+        }
+        try{
+          const perm=await Notification.requestPermission();
+          if(perm==='granted'){
+            sNotifBtn.innerHTML='✅ Desktop Notifications Active';
+            sNotifBtn.disabled=true;
+            toast('Desktop notifications enabled! 🌸');
+            try{
+              new Notification('🌸 NurulQuran Request Submitted!',{
+                body:`We’ll alert you on this computer when request ${p.id} is confirmed.`,
+                icon:'/favicon.ico'
+              });
+            }catch(_){}
+          }else{
+            toast('Notifications not enabled');
+          }
+        }catch(_){
+          toast('Could not request notification permission');
+        }
+      };
+    }
   }
   success.classList.remove('show');void success.offsetWidth;success.classList.add('show');
   $$('.bp').forEach(b=>{b.classList.add('on');b.classList.remove('cur');});
